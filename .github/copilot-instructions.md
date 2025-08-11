@@ -29,7 +29,7 @@ This repository manages GitHub Enterprise Cloud (GHEC) teams and Backstage templ
    terraform init
    ```
 
-2. **Format and validate** (takes <1 second each, NEVER CANCEL - set timeout 30+ minutes):
+2. **Format and validate** (takes <1 second each, NEVER CANCEL - set timeout 1 minute):
    ```bash
    terraform fmt
    terraform validate
