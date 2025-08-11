@@ -1,0 +1,63 @@
+# Example Terraform variables file
+# Copy this file to terraform.tfvars and fill in the values
+
+# GitHub Organization
+github_organization = "your-github-org"
+
+# GitHub App Authentication
+# Create a GitHub App and get these values from the app settings
+github_app_id              = "123456"
+github_app_installation_id = "123456789"
+github_app_pem_file        = "path/to/your/github-app-private-key.pem"
+
+# Parent Team Configuration
+parent_team_name = "canary-trips"
+
+# Platform Team Members (GitHub usernames)
+platform_team_maintainers = [
+  "platform-lead",
+  "infra-admin"
+]
+
+platform_team_members = [
+  "platform-engineer-1",
+  "platform-engineer-2"
+]
+
+# Template Approvers Team Members
+template_approvers_members = [
+  "template-reviewer-1",
+  "template-reviewer-2",
+  "senior-developer"
+]
+
+# Security Team Members
+security_team_members = [
+  "security-engineer-1",
+  "security-lead"
+]
+
+# Read-only Team Members
+read_only_team_members = [
+  "auditor-1",
+  "stakeholder-1"
+]
+
+# Branch Protection Settings
+required_status_checks = [
+  "ci-template",
+  "lint", 
+  "docs-build",
+  "codeql"
+]
+
+required_pull_request_reviews = 1
+
+# Template Repositories Configuration
+# You can customize this if you need different repositories or settings
+# template_repositories = {
+#   "backstage-template-custom-service" = {
+#     description = "Custom Backstage template for special services"
+#     topics      = ["backstage", "template", "custom", "service"]
+#   }
+# }
