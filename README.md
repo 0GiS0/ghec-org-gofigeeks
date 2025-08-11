@@ -33,6 +33,25 @@ canary-trips (parent)
 
 ## 🚀 Getting Started
 
+### Option 1: Dev Container (Recommended)
+
+The easiest way to get started is using the Dev Container configuration which provides a pre-configured environment with all necessary tools.
+
+**Prerequisites:**
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+**Steps:**
+1. Clone this repository and open it in VS Code
+2. When prompted, click "Reopen in Container" or use Command Palette → "Dev Containers: Reopen in Container"
+3. Wait for the container to build (includes Terraform 1.7.5, GitHub CLI, and VS Code extensions)
+4. Start working immediately - no local installation required!
+
+See [`.devcontainer/README.md`](.devcontainer/README.md) for detailed instructions.
+
+### Option 2: Local Installation
+
 ### Prerequisites
 
 1. **Terraform CLI** ≥ 1.6:
