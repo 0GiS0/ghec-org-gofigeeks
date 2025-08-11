@@ -40,7 +40,11 @@ This repository manages GitHub Enterprise Cloud (GHEC) teams and Backstage templ
    terraform plan -out=tfplan
    ```
 
-4. **Apply changes** (timing varies by resource count, NEVER CANCEL - set timeout 90+ minutes):
+**NEVER CANCEL** any of these operations. Set timeouts of 5-10 minutes for safety:
+
+1. **Initialize project** (takes ~3 seconds, NEVER CANCEL - set timeout 5 minutes):
+   ```bash
+   terraform init
    ```bash
    terraform apply tfplan
    ```
