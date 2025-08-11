@@ -103,6 +103,21 @@ variable "template_repositories" {
   }
 }
 
+# Backstage IDP Repository Configuration
+variable "backstage_repository" {
+  description = "Configuration for the main Backstage IDP repository"
+  type = object({
+    name        = string
+    description = string
+    topics      = list(string)
+  })
+  default = {
+    name        = "backstage"
+    description = "Organization's Internal Developer Platform (IDP) powered by Backstage"
+    topics      = ["backstage", "idp", "developer-platform", "portal"]
+  }
+}
+
 # Branch Protection Variables
 variable "required_status_checks" {
   description = "List of required status checks for branch protection"
