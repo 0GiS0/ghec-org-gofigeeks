@@ -61,3 +61,11 @@ required_pull_request_reviews = 1
 #     topics      = ["backstage", "template", "custom", "service"]
 #   }
 # }
+
+# Backstage IDP Repository Configuration
+# You can customize the main Backstage repository settings
+# backstage_repository = {
+#   name        = "backstage"
+#   description = "Organization's Internal Developer Platform (IDP) powered by Backstage"
+#   topics      = ["backstage", "idp", "developer-platform", "portal"]
+# }

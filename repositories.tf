@@ -1,5 +1,5 @@
-# Template Repository Definitions
-# This file contains all template repository configurations for Backstage
+# Repository Definitions
+# This file contains all repository configurations for Backstage (templates and main IDP)
 
 # Template repositories
 resource "github_repository" "templates" {
@@ -15,6 +15,42 @@ resource "github_repository" "templates" {
 
   # Template repository settings
   is_template            = true
+  allow_merge_commit     = false
+  allow_squash_merge     = true
+  allow_rebase_merge     = false
+  delete_branch_on_merge = true
+  has_issues             = true
+  has_projects           = false
+  has_wiki               = false
+  has_downloads          = false
+  vulnerability_alerts   = true
+
+  # Security settings
+  security_and_analysis {
+    secret_scanning {
+      status = "enabled"
+    }
+    secret_scanning_push_protection {
+      status = "enabled"
+    }
+    advanced_security {
+      status = "enabled"
+    }
+  }
+}
+
+# Main Backstage IDP Repository
+resource "github_repository" "backstage" {
+  name        = var.backstage_repository.name
+  description = var.backstage_repository.description
+  visibility  = "private"
+  auto_init   = true
+
+  # Repository topics
+  topics = concat(var.backstage_repository.topics, local.common_topics)
+
+  # Regular repository settings (NOT a template)
+  is_template            = false
   allow_merge_commit     = false
   allow_squash_merge     = true
   allow_rebase_merge     = false
@@ -72,11 +108,62 @@ resource "github_team_repository" "read_only_pull" {
   permission = local.repository_permissions.read_only
 }
 
+# Backstage IDP Repository - Team permissions
+resource "github_team_repository" "backstage_platform_admin" {
+  team_id    = github_team.platform.id
+  repository = github_repository.backstage.name
+  permission = local.repository_permissions.platform_team
+}
+
+resource "github_team_repository" "backstage_template_approvers_maintain" {
+  team_id    = github_team.template_approvers.id
+  repository = github_repository.backstage.name
+  permission = local.repository_permissions.template_approvers
+}
+
+resource "github_team_repository" "backstage_security_pull" {
+  team_id    = github_team.security.id
+  repository = github_repository.backstage.name
+  permission = local.repository_permissions.security
+}
+
+resource "github_team_repository" "backstage_read_only_pull" {
+  team_id    = github_team.read_only.id
+  repository = github_repository.backstage.name
+  permission = local.repository_permissions.read_only
+}
+
 # Branch protection rules for main branch
 resource "github_branch_protection" "main" {
   for_each = var.template_repositories
 
   repository_id  = github_repository.templates[each.key].name
+  pattern        = "main"
+  enforce_admins = false
+
+  required_status_checks {
+    strict   = true
+    contexts = var.required_status_checks
+  }
+
+  required_pull_request_reviews {
+    required_approving_review_count = var.required_pull_request_reviews
+    dismiss_stale_reviews           = true
+    restrict_dismissals             = true
+    dismissal_restrictions = [
+      github_team.platform.slug,
+      github_team.template_approvers.slug
+    ]
+  }
+
+  # Block force pushes
+  allows_force_pushes = false
+  allows_deletions    = false
+}
+
+# Branch protection rules for Backstage repository main branch
+resource "github_branch_protection" "backstage_main" {
+  repository_id  = github_repository.backstage.name
   pattern        = "main"
   enforce_admins = false
 
@@ -117,6 +204,39 @@ resource "github_repository_file" "codeowners" {
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
+}
+
+# CODEOWNERS file for Backstage repository
+resource "github_repository_file" "backstage_codeowners" {
+  repository = github_repository.backstage.name
+  branch     = "main"
+  file       = ".github/CODEOWNERS"
+  content = templatefile("${path.module}/templates/CODEOWNERS-backstage.tpl", {
+    platform_team      = "@${var.github_organization}/${github_team.platform.slug}"
+    template_approvers = "@${var.github_organization}/${github_team.template_approvers.slug}"
+  })
+  commit_message      = "Add CODEOWNERS file for Backstage repository protection"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.backstage]
+}
+
+# README file for Backstage repository with setup instructions
+resource "github_repository_file" "backstage_readme" {
+  repository = github_repository.backstage.name
+  branch     = "main"
+  file       = "README.md"
+  content = templatefile("${path.module}/templates/backstage-README.md.tpl", {
+    organization = var.github_organization
+  })
+  commit_message      = "Add README with Backstage setup instructions"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.backstage]
 }
 
 # GitHub Actions workflow for CI/CD in template repositories
