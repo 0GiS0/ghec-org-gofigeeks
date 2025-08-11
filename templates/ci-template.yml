@@ -1,0 +1,120 @@
+name: Template CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  pull-requests: read
+  security-events: write
+
+jobs:
+  ci-template:
+    name: Template Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Validate template.yaml
+      run: |
+        if [ -f "template.yaml" ]; then
+          echo "✅ template.yaml found"
+          # Add YAML validation here
+          python -c "import yaml; yaml.safe_load(open('template.yaml'))" || exit 1
+        else
+          echo "❌ template.yaml not found"
+          exit 1
+        fi
+
+    - name: Check skeleton directory
+      run: |
+        if [ -d "skeleton" ]; then
+          echo "✅ skeleton/ directory found"
+          echo "Contents:"
+          find skeleton -type f | head -10
+        else
+          echo "❌ skeleton/ directory not found"
+          exit 1
+        fi
+
+    - name: Validate catalog-info.yaml
+      run: |
+        if [ -f "catalog-info.yaml" ]; then
+          echo "✅ catalog-info.yaml found"
+          python -c "import yaml; yaml.safe_load(open('catalog-info.yaml'))" || exit 1
+        else
+          echo "⚠️ catalog-info.yaml not found (recommended)"
+        fi
+
+  lint:
+    name: Lint Template Files
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        pip install yamllint
+
+    - name: Lint YAML files
+      run: |
+        find . -name "*.yaml" -o -name "*.yml" | xargs yamllint -d relaxed
+
+  docs-build:
+    name: Build Documentation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Check documentation
+      run: |
+        if [ -f "README.md" ]; then
+          echo "✅ README.md found"
+          wc -l README.md
+        else
+          echo "⚠️ README.md not found (recommended)"
+        fi
+        
+        if [ -d "docs" ]; then
+          echo "✅ docs/ directory found"
+          find docs -name "*.md" | wc -l
+        else
+          echo "ℹ️ docs/ directory not found"
+        fi
+
+  codeql:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: javascript, python
+        queries: security-and-quality
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+      with:
+        category: "/language:multi"
