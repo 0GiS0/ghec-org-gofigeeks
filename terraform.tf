@@ -6,25 +6,20 @@ terraform {
       source  = "integrations/github"
       version = ">= 6.0"
     }
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = ">= 3.0"
+    }
   }
 
   # Backend configuration for remote state
   # This should be configured based on your infrastructure
-  # Example for Terraform Cloud:
-  # cloud {
-  #   organization = "your-org"
-  #   workspaces {
-  #     name = "ghec-org-as-code"
-  #   }
-  # }
-
-  # Example for S3 backend:
-  # backend "s3" {
-  #   bucket         = "your-terraform-state-bucket"
-  #   key            = "ghec-org-as-code/terraform.tfstate"
-  #   region         = "us-east-1"
-  #   dynamodb_table = "terraform-locks"
-  #   encrypt        = true
+  # Example for Azure Storage backend:
+  # backend "azurerm" {
+  #   resource_group_name  = "your-terraform-rg"
+  #   storage_account_name = "yourtfstatestorage"
+  #   container_name       = "tfstate"
+  #   key                  = "ghec-org-as-code.terraform.tfstate"
   # }
 }
 

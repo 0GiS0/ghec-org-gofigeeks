@@ -54,6 +54,11 @@ canary-trips (parent)
    - Organization permissions: Members (read), Administration (write)
    - Account permissions: Team discussions (write)
 
+4. **Azure Storage Account** (for remote state backend):
+   - Azure subscription with an existing resource group
+   - Storage account with a blob container for Terraform state
+   - Appropriate Azure authentication configured (Azure CLI, service principal, or managed identity)
+
 ### Configuration
 
 1. **Copy the example variables file**:
@@ -76,24 +81,15 @@ canary-trips (parent)
 
 3. **Configure backend** (recommended for production):
    
-   Edit `terraform.tf` and uncomment the appropriate backend configuration:
+   Edit `terraform.tf` and uncomment the Azure Storage backend configuration:
    
    ```hcl
-   # For Terraform Cloud
-   cloud {
-     organization = "your-org"
-     workspaces {
-       name = "ghec-org-as-code"
-     }
-   }
-   
-   # OR for S3 backend
-   backend "s3" {
-     bucket         = "your-terraform-state-bucket"
-     key            = "ghec-org-as-code/terraform.tfstate"
-     region         = "us-east-1"
-     dynamodb_table = "terraform-locks"
-     encrypt        = true
+   # For Azure Storage backend
+   backend "azurerm" {
+     resource_group_name  = "your-terraform-rg"
+     storage_account_name = "yourtfstatestorage"
+     container_name       = "tfstate"
+     key                  = "ghec-org-as-code.terraform.tfstate"
    }
    ```
 
@@ -164,6 +160,12 @@ Configure these secrets in your repository settings:
 - `GITHUB_APP_INSTALLATION_ID` - Installation ID for your organization
 - `GITHUB_APP_PEM_FILE` - Private key content (PEM format)
 - `GITHUB_ORGANIZATION` - Your GitHub organization name
+
+**For Azure Storage backend, also configure:**
+- `ARM_CLIENT_ID` - Azure service principal client ID (if using service principal authentication)
+- `ARM_CLIENT_SECRET` - Azure service principal client secret (if using service principal authentication)
+- `ARM_SUBSCRIPTION_ID` - Azure subscription ID
+- `ARM_TENANT_ID` - Azure tenant ID
 
 ## 🛡️ Security Features
 
