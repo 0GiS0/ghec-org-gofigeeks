@@ -1,275 +1,106 @@
-# 🏢 GHEC Organization as Code
+## 🚀 Quickstart: GHEC Org as Code
 
-This repository manages GitHub Enterprise Cloud (GHEC) teams and Backstage template repositories through Infrastructure as Code using Terraform.
+Configura tu organización de GitHub Enterprise Cloud con Terraform en minutos. Este repo crea equipos, repositorios plantilla y protecciones de rama.
 
-## 🎯 Overview
+---
 
-This project automates the creation and management of:
-- **Teams** with proper hierarchy and permissions
-- **Template repositories** for Backstage with security and quality controls
-- **Branch protection rules** and required status checks
-- **Team permissions** for repository access
+## ✅ Requisitos
 
-## 🏗️ Architecture
+- Terraform CLI ≥ 1.6
+- Una GitHub App instalada en tu organización (con la clave privada .pem)
 
-### Team Hierarchy
-```
-canary-trips (parent)
-├── platform-team (maintainers of infrastructure)
-├── template-approvers (review template changes)
-├── security (security reviews)
-└── read-only (auditing access)
-```
+### 🔐 Permisos de la GitHub App (imprescindibles)
 
-### Template Repositories
-- `backstage-template-node-service` - Node.js services
-- `backstage-template-fastapi-service` - FastAPI/Python services
-- `backstage-template-dotnet-service` - .NET services
-- `backstage-template-gateway` - API Gateway
-- `backstage-template-ai-assistant` - AI Assistant services
-- `backstage-template-astro-frontend` - Astro frontend applications
-- `backstage-template-helm-base` - Helm charts
-- `backstage-template-env-live` - Environment configurations
+Para autenticación, este repo usa exclusivamente la GitHub App (sin PAT ni GITHUB_TOKEN). Asegúrate de otorgar como mínimo:
 
-## 🚀 Getting Started
+- Organización:
+   - Administration: Read and write
+   - Members: Read
+   - Codespaces: Read and write (necesario para gestionar el acceso de Codespaces de la organización)
+   - Codespaces secrets: Read and write (recomendado si más adelante se gestionan secretos de Codespaces)
+- Repositorio:
+   - Administration: Read and write
+   - Contents: Read and write
+   - Metadata: Read
+- Actions: Read and write (si gestionas workflows/templates de CI)
+- Acceso a repositorios: All repositories
 
-### Option 1: Dev Container (Recommended)
+Sugeridos (opcionales): Pull requests: Read, Checks: Read.
 
-The easiest way to get started is using the Dev Container configuration which provides a pre-configured environment with all necessary tools.
+Nota: La App debe estar instalada en la organización objetivo y el `installation_id` debe corresponder a esa instalación.
 
-**Prerequisites:**
-- [Visual Studio Code](https://code.visualstudio.com/)
-- [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+---
 
-**Steps:**
-1. Clone this repository and open it in VS Code
-2. When prompted, click "Reopen in Container" or use Command Palette → "Dev Containers: Reopen in Container"
-3. Wait for the container to build (includes Terraform 1.7.5, GitHub CLI, and VS Code extensions)
-4. Start working immediately - no local installation required!
+## ⚙️ Configuración
 
-See [`.devcontainer/README.md`](.devcontainer/README.md) for detailed instructions.
+1) Copia el archivo de variables y edítalo:
 
-### Option 2: Local Installation
-
-### Prerequisites
-
-1. **Terraform CLI** ≥ 1.6:
-   ```bash
-   wget https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_amd64.zip
-   unzip terraform_1.7.5_linux_amd64.zip
-   sudo mv terraform /usr/local/bin/
-   terraform version
-   ```
-
-2. **GitHub App** with organization admin permissions:
-   - Create a GitHub App in your organization settings
-   - Generate a private key (PEM file)
-   - Install the app in your organization
-   - Note the App ID and Installation ID
-
-3. **Required GitHub App Permissions**:
-   - Repository permissions: Admin
-   - Organization permissions: Members (read), Administration (write)
-   - Account permissions: Team discussions (write)
-
-4. **Azure Storage Account** (for remote state backend):
-   - Azure subscription with an existing resource group
-   - Storage account with a blob container for Terraform state
-   - Appropriate Azure authentication configured (Azure CLI, service principal, or managed identity)
-
-### Configuration
-
-1. **Copy the example variables file**:
-   ```bash
-   cp terraform.tfvars.example terraform.tfvars
-   ```
-
-2. **Edit `terraform.tfvars`** with your organization details:
-   ```hcl
-   github_organization = "your-github-org"
-   github_app_id = "123456"
-   github_app_installation_id = "123456789"
-   github_app_pem_file = "path/to/your/github-app-private-key.pem"
-   
-   # Configure team members
-   platform_team_maintainers = ["platform-lead"]
-   platform_team_members = ["engineer1", "engineer2"]
-   # ... other team configurations
-   ```
-
-3. **Configure backend** (recommended for production):
-   
-   Edit `terraform.tf` and uncomment the Azure Storage backend configuration:
-   
-   ```hcl
-   # For Azure Storage backend
-   backend "azurerm" {
-     resource_group_name  = "your-terraform-rg"
-     storage_account_name = "yourtfstatestorage"
-     container_name       = "tfstate"
-     key                  = "ghec-org-as-code.terraform.tfstate"
-   }
-   ```
-
-### Deployment
-
-1. **Initialize Terraform**:
-   ```bash
-   terraform init
-   ```
-
-2. **Format and validate**:
-   ```bash
-   terraform fmt
-   terraform validate
-   ```
-
-3. **Plan changes**:
-   ```bash
-   terraform plan
-   ```
-
-4. **Apply changes**:
-   ```bash
-   terraform apply
-   ```
-
-## 🔧 Usage
-
-### Adding a New Team
-
-1. Edit `teams.tf`
-2. Add the new team resource
-3. Configure team memberships
-4. Run `terraform plan` and `terraform apply`
-
-### Adding a New Template Repository
-
-1. Edit `variables.tf` to add the repository to `template_repositories`
-2. Or override in `terraform.tfvars`:
-   ```hcl
-   template_repositories = {
-     "backstage-template-custom-service" = {
-       description = "Custom service template"
-       topics      = ["backstage", "template", "custom"]
-     }
-   }
-   ```
-
-### Modifying Team Members
-
-1. Update the relevant variables in `terraform.tfvars`
-2. Run `terraform plan` to review changes
-3. Run `terraform apply` to update memberships
-
-## 🔄 CI/CD Pipeline
-
-The repository includes a GitHub Actions workflow that:
-
-- **On Pull Request**: Runs `terraform fmt`, `validate`, and `plan`
-- **On Main Branch**: Runs `terraform apply` in production environment
-- **Security Scanning**: Runs `tfsec` for security analysis
-
-### Required Secrets
-
-Configure these secrets in your repository settings:
-
-- `GITHUB_APP_ID` - Your GitHub App ID
-- `GITHUB_APP_INSTALLATION_ID` - Installation ID for your organization
-- `GITHUB_APP_PEM_FILE` - Private key content (PEM format)
-- `GITHUB_ORGANIZATION` - Your GitHub organization name
-
-**For Azure Storage backend, also configure:**
-- `ARM_CLIENT_ID` - Azure service principal client ID (if using service principal authentication)
-- `ARM_CLIENT_SECRET` - Azure service principal client secret (if using service principal authentication)
-- `ARM_SUBSCRIPTION_ID` - Azure subscription ID
-- `ARM_TENANT_ID` - Azure tenant ID
-
-## 🛡️ Security Features
-
-### Repository Security
-- Private repositories by default
-- Secret scanning enabled
-- Advanced security features
-- Vulnerability alerts
-
-### Branch Protection
-- Required pull request reviews (≥1)
-- Required status checks: `ci-template`, `lint`, `docs-build`, `codeql`
-- Dismiss stale reviews
-- Restrict force pushes
-- CODEOWNERS enforcement
-
-### Team Permissions
-- **platform-team**: Admin access to all repositories
-- **template-approvers**: Maintain access for template reviews
-- **security**: Pull access for security reviews
-- **read-only**: Pull access for auditing
-
-## 🔍 Monitoring and Maintenance
-
-### Drift Detection
-Run `terraform plan` regularly to detect manual changes:
 ```bash
-terraform plan -detailed-exitcode
+cp terraform.tfvars.example terraform.tfvars
 ```
 
-### State Management
-- Use remote state backend for production
-- Enable state locking
-- Regular state backups
+2) Rellena `terraform.tfvars` con tu organización y la App:
 
-### Dependency Updates
-- Dependabot automatically updates Terraform providers
-- GitHub Actions versions are updated weekly
-- Review and approve dependency updates
+```hcl
+github_organization        = "GofiGeeksOrg"
+github_app_id              = "<APP_ID>"
+github_app_installation_id = "<INSTALLATION_ID>"
+github_app_pem_file        = "/workspaces/ghec-org-as-code/GofiGeeksOrg.pem" # usa ruta absoluta
 
-## 🆘 Troubleshooting
+# Equipos (opcional)
+platform_team_maintainers = ["platform-lead", "infra-admin"]
+platform_team_members     = ["engineer1", "engineer2"]
+```
 
-### Common Issues
+3) Asegúrate de que el PEM exista y sea legible:
 
-1. **Authentication Error**:
-   - Verify GitHub App permissions
-   - Check PEM file path and format
-   - Ensure App is installed in organization
-
-2. **State Lock**:
-   ```bash
-   terraform force-unlock <lock-id>
-   ```
-
-3. **Resource Already Exists**:
-   ```bash
-   terraform import github_team.example team-name
-   ```
-
-### Debug Mode
 ```bash
-TF_LOG=DEBUG terraform plan
+ls -l /workspaces/ghec-org-as-code/GofiGeeksOrg.pem
+chmod 600 /workspaces/ghec-org-as-code/GofiGeeksOrg.pem
 ```
 
-## 📚 Resources
+### 👥 Importante: miembros de la organización
 
-- [Terraform GitHub Provider Documentation](https://registry.terraform.io/providers/integrations/github/latest/docs)
-- [GitHub App Authentication](https://registry.terraform.io/providers/integrations/github/latest/docs#github-app-installation)
-- [Terraform Best Practices](https://developer.hashicorp.com/terraform/plugin/best-practices)
+- Antes de listar usuarios en `platform_team_members`, `template_approvers_members`, `security_team_members` o `read_only_team_members`, asegúrate de que esos usuarios YA aparecen en la sección People de la organización.
+- No es necesario asignarlos manualmente a ningún team, solo que sean miembros de la org.
+- En organizaciones EMU (Enterprise Managed Users), la pertenencia a la org se gestiona vía IdP/SCIM y Terraform/ la GitHub App NO pueden invitarlos. Si el usuario no está en People, el `apply` fallará con un 422 (EMU must be part of the organization).
 
-## 🤝 Contributing
+---
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run `terraform fmt` and `terraform validate`
-5. Test your changes
-6. Submit a pull request
+## ▶️ Ejecución
 
-## 📄 License
+Ejecuta desde la raíz del repo y no canceles los comandos:
 
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+```bash
+terraform init
+terraform fmt -check
+terraform validate
+terraform plan
+terraform apply
+```
 
-## 🔗 Related Projects
+Durante el `apply`, se realiza una llamada a la API de GitHub para configurar el acceso a Codespaces de la organización usando un token de instalación de la App. Los logs de diagnóstico se escriben en `/tmp/codespaces-org-access.log`.
 
-- [Backstage](https://backstage.io/) - Developer portal platform
-- [Terraform](https://terraform.io/) - Infrastructure as Code
-- [GitHub Enterprise Cloud](https://github.com/enterprise) - Enterprise GitHub platform
+> Consejo: si usas backend remoto (Azure, S3, etc.), configura el bloque `backend` en `terraform.tf` antes de `init`.
+
+---
+
+## 🧩 Solución de problemas
+
+- Resource not accessible by integration:
+   - Verifica que la App esté instalada en la org correcta y con “All repositories”.
+   - Habilita en Organización → Members: Read (requerido), Administration: Read and write y Codespaces: Read and write.
+   - Confirma que `github_app_installation_id` corresponde a esa instalación.
+
+- Error al configurar Codespaces (HTTP 4xx/5xx):
+   - Revisa `/tmp/codespaces-org-access.log`.
+   - Confirma que la App tiene el permiso Organization → Codespaces: Read and write.
+
+- No se encuentra el PEM:
+   - Usa ruta absoluta en `terraform.tfvars` y que el archivo exista con permisos 600.
+
+---
+
+## 🎉 Listo
+
+Al aplicar, se crearán equipos bajo el parent `canary-trips`, repositorios plantilla y protecciones de rama con checks requeridos.

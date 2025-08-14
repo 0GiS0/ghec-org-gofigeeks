@@ -141,6 +141,12 @@ resource "github_branch_protection" "main" {
   pattern        = "main"
   enforce_admins = false
 
+  # Ensure required files/workflows exist before enforcing protection
+  depends_on = [
+    github_repository_file.codeowners,
+    github_repository_file.template_ci
+  ]
+
   required_status_checks {
     strict   = true
     contexts = var.required_status_checks
@@ -150,9 +156,10 @@ resource "github_branch_protection" "main" {
     required_approving_review_count = var.required_pull_request_reviews
     dismiss_stale_reviews           = true
     restrict_dismissals             = true
+    # Use node_id per provider docs to satisfy GraphQL API
     dismissal_restrictions = [
-      github_team.platform.slug,
-      github_team.template_approvers.slug
+      github_team.platform.node_id,
+      github_team.template_approvers.node_id
     ]
   }
 
@@ -167,6 +174,12 @@ resource "github_branch_protection" "backstage_main" {
   pattern        = "main"
   enforce_admins = false
 
+  # Ensure CODEOWNERS/README are created before protection
+  depends_on = [
+    github_repository_file.backstage_codeowners,
+    github_repository_file.backstage_readme
+  ]
+
   required_status_checks {
     strict   = true
     contexts = var.required_status_checks
@@ -177,8 +190,8 @@ resource "github_branch_protection" "backstage_main" {
     dismiss_stale_reviews           = true
     restrict_dismissals             = true
     dismissal_restrictions = [
-      github_team.platform.slug,
-      github_team.template_approvers.slug
+      github_team.platform.node_id,
+      github_team.template_approvers.node_id
     ]
   }
 
@@ -241,7 +254,7 @@ resource "github_repository_file" "backstage_readme" {
 
 # GitHub Actions workflow for CI/CD in template repositories
 resource "github_repository_file" "template_ci" {
-  for_each = var.template_repositories
+  for_each = var.manage_workflow_files ? var.template_repositories : {}
 
   repository          = github_repository.templates[each.key].name
   branch              = "main"

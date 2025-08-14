@@ -10,6 +10,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = ">= 3.0"
     }
+    null = {
+      source  = "hashicorp/null"
+      version = ">= 3.2.0"
+    }
   }
 
   # Backend configuration for remote state
@@ -29,7 +33,7 @@ provider "github" {
   app_auth {
     id              = var.github_app_id
     installation_id = var.github_app_installation_id
-    pem_file        = var.github_app_pem_file
+    pem_file        = file(var.github_app_pem_file)
   }
 
   # Organization to manage

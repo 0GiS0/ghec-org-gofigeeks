@@ -21,6 +21,11 @@ variable "github_app_pem_file" {
   description = "Path to the GitHub App private key PEM file"
   type        = string
   sensitive   = true
+
+  validation {
+    condition     = fileexists(abspath(var.github_app_pem_file))
+    error_message = "The GitHub App PEM file path is invalid or not readable."
+  }
 }
 
 # Team Configuration Variables
@@ -129,4 +134,40 @@ variable "required_pull_request_reviews" {
   description = "Number of required pull request reviews"
   type        = number
   default     = 1
+}
+
+# Feature toggle: manage workflow files (.github/workflows)
+variable "manage_workflow_files" {
+  description = "Whether to manage CI workflow files in template repositories. Set false if the GitHub App lacks Actions: Read & write temporarily."
+  type        = bool
+  default     = true
+}
+
+# Optional: Organization Codespaces access control
+variable "enable_codespaces_org_access" {
+  description = "Enable managing organization-wide Codespaces access via GitHub REST API (requires appropriate token permissions)."
+  type        = bool
+  default     = false
+}
+
+variable "codespaces_visibility" {
+  description = "Who can access Codespaces in the organization. One of: disabled, selected_members, all_members, all_members_and_outside_collaborators"
+  type        = string
+  default     = "all_members"
+
+  validation {
+    condition = contains([
+      "disabled",
+      "selected_members",
+      "all_members",
+      "all_members_and_outside_collaborators"
+    ], var.codespaces_visibility)
+    error_message = "codespaces_visibility must be one of: disabled, selected_members, all_members, all_members_and_outside_collaborators."
+  }
+}
+
+variable "codespaces_selected_usernames" {
+  description = "Usernames to grant Codespaces access when visibility = selected_members. Ignored otherwise."
+  type        = list(string)
+  default     = []
 }

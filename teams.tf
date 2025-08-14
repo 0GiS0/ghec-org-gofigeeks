@@ -47,39 +47,39 @@ resource "github_team" "read_only" {
 
 # Team memberships for platform team
 resource "github_team_membership" "platform_maintainers" {
-  count    = length(var.platform_team_maintainers)
+  for_each = toset(var.platform_team_maintainers)
   team_id  = github_team.platform.id
-  username = var.platform_team_maintainers[count.index]
+  username = each.value
   role     = "maintainer"
 }
 
 resource "github_team_membership" "platform_members" {
-  count    = length(var.platform_team_members)
+  for_each = toset(var.platform_team_members)
   team_id  = github_team.platform.id
-  username = var.platform_team_members[count.index]
+  username = each.value
   role     = "member"
 }
 
 # Team memberships for template approvers
 resource "github_team_membership" "template_approvers_members" {
-  count    = length(var.template_approvers_members)
+  for_each = toset(var.template_approvers_members)
   team_id  = github_team.template_approvers.id
-  username = var.template_approvers_members[count.index]
+  username = each.value
   role     = "member"
 }
 
 # Team memberships for security team
 resource "github_team_membership" "security_members" {
-  count    = length(var.security_team_members)
+  for_each = toset(var.security_team_members)
   team_id  = github_team.security.id
-  username = var.security_team_members[count.index]
+  username = each.value
   role     = "member"
 }
 
 # Team memberships for read-only team
 resource "github_team_membership" "read_only_members" {
-  count    = length(var.read_only_team_members)
+  for_each = toset(var.read_only_team_members)
   team_id  = github_team.read_only.id
-  username = var.read_only_team_members[count.index]
+  username = each.value
   role     = "member"
 }

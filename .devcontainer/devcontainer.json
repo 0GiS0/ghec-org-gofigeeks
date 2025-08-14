@@ -1,17 +1,27 @@
 {
   "name": "GHEC Org as Code - Terraform",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
-  
   "features": {
-    "ghcr.io/devcontainers/features/terraform:1": {
-      "version": "1.7.5"
-    },
+    "ghcr.io/devcontainers/features/terraform:1": {},
     "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/devcontainers/features/git:1": {}
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
-
   "customizations": {
     "vscode": {
+      "servers": {
+        "terraform": {
+          "type": "stdio",
+          "command": "docker",
+          "args": [
+            "run",
+            "-i",
+            "--rm",
+            "hashicorp/terraform-mcp-server"
+          ],
+          "env": {}
+        }
+      },
       "extensions": [
         "hashicorp.terraform",
         "ms-vscode.vscode-json",
@@ -30,11 +40,8 @@
       }
     }
   },
-
   "postCreateCommand": "terraform version && git --version && gh --version",
-  
   "remoteUser": "vscode",
-
   "containerEnv": {
     "TF_IN_AUTOMATION": "1"
   }
