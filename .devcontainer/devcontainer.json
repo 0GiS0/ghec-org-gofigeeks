@@ -34,10 +34,6 @@
   "postCreateCommand": "terraform version && git --version && gh --version",
   
   "remoteUser": "vscode",
-  
-  "mounts": [
-    "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
-  ],
 
   "containerEnv": {
     "TF_IN_AUTOMATION": "1"
