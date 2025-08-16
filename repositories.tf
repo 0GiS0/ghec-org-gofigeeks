@@ -144,7 +144,8 @@ resource "github_branch_protection" "main" {
   # Ensure required files/workflows exist before enforcing protection
   depends_on = [
     github_repository_file.codeowners,
-    github_repository_file.template_ci
+    github_repository_file.template_ci,
+    github_repository_file.catalog_info
   ]
 
   required_status_checks {
@@ -261,6 +262,29 @@ resource "github_repository_file" "template_ci" {
   file                = ".github/workflows/ci-template.yml"
   content             = file("${path.module}/templates/ci-template.yml")
   commit_message      = "Add CI/CD workflow for template validation"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Catalog info file for each template repository
+resource "github_repository_file" "catalog_info" {
+  for_each = var.template_repositories
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "catalog-info.yaml"
+  content = templatefile("${path.module}/templates/catalog-info.yaml.tpl", {
+    template_name        = local.template_name_mapping[each.key]
+    template_title       = local.template_title_mapping[each.key]
+    template_description = each.value.description
+    template_tags        = each.value.topics
+    template_type        = local.template_type_mapping[each.key]
+    organization         = var.github_organization
+  })
+  commit_message      = "Add Backstage catalog-info.yaml for template registration"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
   overwrite_on_create = true
