@@ -85,15 +85,6 @@ spec:
         gitCommitMessage: Create scaffold from template
         topics: ["backstage-include", "${organization}"]
         defaultBranch: main
-    - id: github:ghas:configure
-      name: Configure GitHub Advanced Security
-      action: github:ghas:configure
-      input:
-        repoUrl: $${{ parameters.repoUrl }}
-        code_scanning: enabled
-        secret_scanning: enabled
-        push_secret_protection: enabled
-        dependabot: enabled
     - id: register
       name: Register
       action: catalog:register
