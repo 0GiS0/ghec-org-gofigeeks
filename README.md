@@ -23,6 +23,7 @@ Para autenticación, este repo usa exclusivamente la GitHub App (sin PAT ni GITH
    - Contents: Read and write
    - Metadata: Read
 - Actions: Read and write (si gestionas workflows/templates de CI)
+- Workflows: Read and write (para poder añadir workflows/templates de CI)
 - Acceso a repositorios: All repositories
 
 Sugeridos (opcionales): Pull requests: Read, Checks: Read.
