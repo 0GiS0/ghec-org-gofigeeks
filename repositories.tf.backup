@@ -306,7 +306,14 @@ resource "github_repository_file" "node_service_skeleton" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "skeleton/package.json"
-  content    = file("${path.module}/templates/skeletons/node-service/package.json.tpl")
+  content = templatefile("${path.module}/templates/skeletons/node-service/package.json.tpl", {
+    parameters = {
+      name        = "{{ parameters.name }}"
+      description = "{{ parameters.description }}"
+      repoUrl     = "{{ parameters.repoUrl }}"
+      owner       = "{{ parameters.owner }}"
+    }
+  })
   commit_message      = "Add Node.js service skeleton package.json"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -342,7 +349,10 @@ resource "github_repository_file" "node_service_devcontainer" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "skeleton/.devcontainer/devcontainer.json"
-  content    = file("${path.module}/templates/skeletons/PLACEHOLDER")
+  content = templatefile("${path.module}/templates/skeletons/node-service/.devcontainer/devcontainer.json.tpl", {
+    parameters = {
+      name = "{{ parameters.name }}"
+    }
   })
   commit_message      = "Add Node.js service devcontainer configuration"
   commit_author       = "Terraform"
@@ -361,7 +371,11 @@ resource "github_repository_file" "node_service_readme" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "skeleton/README.md"
-  content    = file("${path.module}/templates/skeletons/PLACEHOLDER")
+  content = templatefile("${path.module}/templates/skeletons/node-service/README.md.tpl", {
+    parameters = {
+      name        = "{{ parameters.name }}"
+      description = "{{ parameters.description }}"
+    }
   })
   commit_message      = "Add Node.js service skeleton README"
   commit_author       = "Terraform"
@@ -398,7 +412,10 @@ resource "github_repository_file" "node_service_test" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "skeleton/tests/api.test.js"
-  content    = file("${path.module}/templates/skeletons/PLACEHOLDER")
+  content = templatefile("${path.module}/templates/skeletons/node-service/tests/api.test.js.tpl", {
+    parameters = {
+      name = "{{ parameters.name }}"
+    }
   })
   commit_message      = "Add Node.js service skeleton tests"
   commit_author       = "Terraform"
@@ -436,7 +453,11 @@ resource "github_repository_file" "fastapi_service_main" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "skeleton/app/main.py"
-  content    = file("${path.module}/templates/skeletons/PLACEHOLDER")
+  content = templatefile("${path.module}/templates/skeletons/fastapi-service/app/main.py.tpl", {
+    parameters = {
+      name        = "{{ parameters.name }}"
+      description = "{{ parameters.description }}"
+    }
   })
   commit_message      = "Add FastAPI service skeleton main file"
   commit_author       = "Terraform"
@@ -455,7 +476,10 @@ resource "github_repository_file" "fastapi_service_devcontainer" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "skeleton/.devcontainer/devcontainer.json"
-  content    = file("${path.module}/templates/skeletons/PLACEHOLDER")
+  content = templatefile("${path.module}/templates/skeletons/fastapi-service/.devcontainer/devcontainer.json.tpl", {
+    parameters = {
+      name = "{{ parameters.name }}"
+    }
   })
   commit_message      = "Add FastAPI service devcontainer configuration"
   commit_author       = "Terraform"
@@ -474,7 +498,11 @@ resource "github_repository_file" "fastapi_service_readme" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "skeleton/README.md"
-  content    = file("${path.module}/templates/skeletons/PLACEHOLDER")
+  content = templatefile("${path.module}/templates/skeletons/fastapi-service/README.md.tpl", {
+    parameters = {
+      name        = "{{ parameters.name }}"
+      description = "{{ parameters.description }}"
+    }
   })
   commit_message      = "Add FastAPI service skeleton README"
   commit_author       = "Terraform"
@@ -493,7 +521,10 @@ resource "github_repository_file" "fastapi_service_tests" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "skeleton/tests/test_api.py"
-  content    = file("${path.module}/templates/skeletons/PLACEHOLDER")
+  content = templatefile("${path.module}/templates/skeletons/fastapi-service/tests/test_api.py.tpl", {
+    parameters = {
+      name = "{{ parameters.name }}"
+    }
   })
   commit_message      = "Add FastAPI service skeleton tests"
   commit_author       = "Terraform"
@@ -513,7 +544,10 @@ resource "github_repository_file" "dotnet_service_csproj" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "skeleton/src/ProjectName.csproj"
-  content    = file("${path.module}/templates/skeletons/PLACEHOLDER")
+  content = templatefile("${path.module}/templates/skeletons/dotnet-service/src/$${parameters.name}.csproj.tpl", {
+    parameters = {
+      name = "{{ parameters.name }}"
+    }
   })
   commit_message      = "Add .NET service skeleton project file"
   commit_author       = "Terraform"
@@ -532,7 +566,11 @@ resource "github_repository_file" "dotnet_service_program" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "skeleton/src/Program.cs"
-  content    = file("${path.module}/templates/skeletons/PLACEHOLDER")
+  content = templatefile("${path.module}/templates/skeletons/dotnet-service/src/Program.cs.tpl", {
+    parameters = {
+      name        = "{{ parameters.name }}"
+      description = "{{ parameters.description }}"
+    }
   })
   commit_message      = "Add .NET service skeleton Program.cs"
   commit_author       = "Terraform"
@@ -551,7 +589,10 @@ resource "github_repository_file" "dotnet_service_devcontainer" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "skeleton/.devcontainer/devcontainer.json"
-  content    = file("${path.module}/templates/skeletons/PLACEHOLDER")
+  content = templatefile("${path.module}/templates/skeletons/dotnet-service/.devcontainer/devcontainer.json.tpl", {
+    parameters = {
+      name = "{{ parameters.name }}"
+    }
   })
   commit_message      = "Add .NET service devcontainer configuration"
   commit_author       = "Terraform"
@@ -571,7 +612,10 @@ resource "github_repository_file" "astro_frontend_package" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "skeleton/package.json"
-  content    = file("${path.module}/templates/skeletons/PLACEHOLDER")
+  content = templatefile("${path.module}/templates/skeletons/astro-frontend/package.json.tpl", {
+    parameters = {
+      name = "{{ parameters.name }}"
+    }
   })
   commit_message      = "Add Astro frontend skeleton package.json"
   commit_author       = "Terraform"
@@ -608,7 +652,11 @@ resource "github_repository_file" "astro_frontend_index" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "skeleton/src/pages/index.astro"
-  content    = file("${path.module}/templates/skeletons/PLACEHOLDER")
+  content = templatefile("${path.module}/templates/skeletons/astro-frontend/src/pages/index.astro.tpl", {
+    parameters = {
+      name        = "{{ parameters.name }}"
+      description = "{{ parameters.description }}"
+    }
   })
   commit_message      = "Add Astro frontend skeleton index page"
   commit_author       = "Terraform"
@@ -628,7 +676,11 @@ resource "github_repository_file" "gateway_readme" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "skeleton/README.md"
-  content    = file("${path.module}/templates/skeletons/PLACEHOLDER")
+  content = templatefile("${path.module}/templates/skeletons/gateway/README.md.tpl", {
+    parameters = {
+      name        = "{{ parameters.name }}"
+      description = "{{ parameters.description }}"
+    }
   })
   commit_message      = "Add gateway skeleton README"
   commit_author       = "Terraform"
@@ -666,7 +718,11 @@ resource "github_repository_file" "ai_assistant_main" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "skeleton/src/main.py"
-  content    = file("${path.module}/templates/skeletons/PLACEHOLDER")
+  content = templatefile("${path.module}/templates/skeletons/ai-assistant/src/main.py.tpl", {
+    parameters = {
+      name        = "{{ parameters.name }}"
+      description = "{{ parameters.description }}"
+    }
   })
   commit_message      = "Add AI assistant skeleton main file"
   commit_author       = "Terraform"
@@ -704,7 +760,13 @@ resource "github_repository_file" "helm_base_chart" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "skeleton/Chart.yaml"
-  content    = file("${path.module}/templates/skeletons/PLACEHOLDER")
+  content = templatefile("${path.module}/templates/skeletons/helm-base/Chart.yaml.tpl", {
+    parameters = {
+      name        = "{{ parameters.name }}"
+      description = "{{ parameters.description }}"
+      repoUrl     = "{{ parameters.repoUrl }}"
+      owner       = "{{ parameters.owner }}"
+    }
   })
   commit_message      = "Add Helm base skeleton Chart.yaml"
   commit_author       = "Terraform"
@@ -723,7 +785,10 @@ resource "github_repository_file" "helm_base_values" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "skeleton/values.yaml"
-  content    = file("${path.module}/templates/skeletons/PLACEHOLDER")
+  content = templatefile("${path.module}/templates/skeletons/helm-base/values.yaml.tpl", {
+    parameters = {
+      name = "{{ parameters.name }}"
+    }
   })
   commit_message      = "Add Helm base skeleton values.yaml"
   commit_author       = "Terraform"
@@ -743,7 +808,11 @@ resource "github_repository_file" "env_live_readme" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "skeleton/README.md"
-  content    = file("${path.module}/templates/skeletons/PLACEHOLDER")
+  content = templatefile("${path.module}/templates/skeletons/env-live/README.md.tpl", {
+    parameters = {
+      name        = "{{ parameters.name }}"
+      description = "{{ parameters.description }}"
+    }
   })
   commit_message      = "Add environment live skeleton README"
   commit_author       = "Terraform"
@@ -762,7 +831,10 @@ resource "github_repository_file" "env_live_dev_config" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "skeleton/environments/dev/config.yaml"
-  content    = file("${path.module}/templates/skeletons/PLACEHOLDER")
+  content = templatefile("${path.module}/templates/skeletons/env-live/environments/dev/config.yaml.tpl", {
+    parameters = {
+      name = "{{ parameters.name }}"
+    }
   })
   commit_message      = "Add environment live skeleton dev config"
   commit_author       = "Terraform"
