@@ -68,6 +68,14 @@ resource "github_team_membership" "template_approvers_members" {
   role     = "member"
 }
 
+# Team maintainers for template approvers
+resource "github_team_membership" "template_approvers_maintainers" {
+  for_each = toset(var.template_approvers_maintainers)
+  team_id  = github_team.template_approvers.id
+  username = each.value
+  role     = "maintainer"
+}
+
 # Team memberships for security team
 resource "github_team_membership" "security_members" {
   for_each = toset(var.security_team_members)

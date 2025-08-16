@@ -78,11 +78,12 @@ output "repository_urls" {
 output "team_memberships_summary" {
   description = "Summary of team memberships"
   value = {
-    platform_maintainers = var.platform_team_maintainers
-    platform_members     = var.platform_team_members
-    template_approvers   = var.template_approvers_members
-    security_members     = var.security_team_members
-    read_only_members    = var.read_only_team_members
+    platform_maintainers           = var.platform_team_maintainers
+    platform_members               = var.platform_team_members
+    template_approvers_maintainers = var.template_approvers_maintainers
+    template_approvers             = var.template_approvers_members
+    security_members               = var.security_team_members
+    read_only_members              = var.read_only_team_members
   }
 }
 

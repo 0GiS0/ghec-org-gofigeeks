@@ -53,6 +53,13 @@ variable "template_approvers_members" {
   default     = []
 }
 
+# New: Template approvers maintainers (users with elevated rights on the team)
+variable "template_approvers_maintainers" {
+  description = "List of template approvers team maintainers (GitHub usernames)"
+  type        = list(string)
+  default     = []
+}
+
 variable "security_team_members" {
   description = "List of security team members (GitHub usernames)"
   type        = list(string)

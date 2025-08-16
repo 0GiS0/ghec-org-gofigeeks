@@ -25,10 +25,14 @@ platform_team_members = [
 ]
 
 # Template Approvers Team Members
+template_approvers_maintainers = [
+  "template-approver-lead",
+  "senior-developer"
+]
+
 template_approvers_members = [
   "template-reviewer-1",
-  "template-reviewer-2",
-  "senior-developer"
+  "template-reviewer-2"
 ]
 
 # Security Team Members
