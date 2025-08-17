@@ -297,16 +297,23 @@ resource "github_repository_file" "catalog_info" {
 # =============================================================================
 
 # Node.js Service Skeleton Files
-resource "github_repository_file" "node_service_package" {
+resource "github_repository_file" "node_service_skeleton" {
   for_each = {
     for key, value in var.template_repositories : key => value
     if key == "backstage-template-node-service"
   }
 
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/package.json"
-  content             = file("${path.module}/templates/skeletons/node-service/package.json.tpl")
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "skeleton/package.json"
+  content = templatefile("${path.module}/templates/skeletons/node-service/package.json.tpl", {
+    parameters = {
+      name        = "{{ parameters.name }}"
+      description = "{{ parameters.description }}"
+      repoUrl     = "{{ parameters.repoUrl }}"
+      owner       = "{{ parameters.owner }}"
+    }
+  })
   commit_message      = "Add Node.js service skeleton package.json"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -321,10 +328,10 @@ resource "github_repository_file" "node_service_main" {
     if key == "backstage-template-node-service"
   }
 
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/src/index.js"
-  content             = file("${path.module}/templates/skeletons/node-service/src/index.js.tpl")
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "skeleton/src/index.js"
+  content    = file("${path.module}/templates/skeletons/node-service/src/index.js.tpl")
   commit_message      = "Add Node.js service skeleton main file"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -339,10 +346,14 @@ resource "github_repository_file" "node_service_devcontainer" {
     if key == "backstage-template-node-service"
   }
 
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/.devcontainer/devcontainer.json"
-  content             = file("${path.module}/templates/skeletons/node-service/.devcontainer/devcontainer.json.tpl")
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "skeleton/.devcontainer/devcontainer.json"
+  content = templatefile("${path.module}/templates/skeletons/node-service/.devcontainer/devcontainer.json.tpl", {
+    parameters = {
+      name = "{{ parameters.name }}"
+    }
+  })
   commit_message      = "Add Node.js service devcontainer configuration"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -351,18 +362,22 @@ resource "github_repository_file" "node_service_devcontainer" {
   depends_on = [github_repository.templates]
 }
 
-# FastAPI Service Skeleton Files  
-resource "github_repository_file" "fastapi_service_main" {
+resource "github_repository_file" "node_service_readme" {
   for_each = {
     for key, value in var.template_repositories : key => value
-    if key == "backstage-template-fastapi-service"
+    if key == "backstage-template-node-service"
   }
 
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/app/main.py"
-  content             = file("${path.module}/templates/skeletons/fastapi-service/app/main.py.tpl")
-  commit_message      = "Add FastAPI service skeleton main file"
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "skeleton/README.md"
+  content = templatefile("${path.module}/templates/skeletons/node-service/README.md.tpl", {
+    parameters = {
+      name        = "{{ parameters.name }}"
+      description = "{{ parameters.description }}"
+    }
+  })
+  commit_message      = "Add Node.js service skeleton README"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
   overwrite_on_create = true
@@ -370,6 +385,47 @@ resource "github_repository_file" "fastapi_service_main" {
   depends_on = [github_repository.templates]
 }
 
+resource "github_repository_file" "node_service_env_example" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-node-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.env.example"
+  content             = file("${path.module}/templates/skeletons/node-service/.env.example.tpl")
+  commit_message      = "Add Node.js service environment example"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "node_service_test" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-node-service"
+  }
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "skeleton/tests/api.test.js"
+  content = templatefile("${path.module}/templates/skeletons/node-service/tests/api.test.js.tpl", {
+    parameters = {
+      name = "{{ parameters.name }}"
+    }
+  })
+  commit_message      = "Add Node.js service skeleton tests"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# FastAPI Service Skeleton Files
 resource "github_repository_file" "fastapi_service_requirements" {
   for_each = {
     for key, value in var.template_repositories : key => value
@@ -388,18 +444,157 @@ resource "github_repository_file" "fastapi_service_requirements" {
   depends_on = [github_repository.templates]
 }
 
+resource "github_repository_file" "fastapi_service_main" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "skeleton/app/main.py"
+  content = templatefile("${path.module}/templates/skeletons/fastapi-service/app/main.py.tpl", {
+    parameters = {
+      name        = "{{ parameters.name }}"
+      description = "{{ parameters.description }}"
+    }
+  })
+  commit_message      = "Add FastAPI service skeleton main file"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_devcontainer" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "skeleton/.devcontainer/devcontainer.json"
+  content = templatefile("${path.module}/templates/skeletons/fastapi-service/.devcontainer/devcontainer.json.tpl", {
+    parameters = {
+      name = "{{ parameters.name }}"
+    }
+  })
+  commit_message      = "Add FastAPI service devcontainer configuration"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_readme" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "skeleton/README.md"
+  content = templatefile("${path.module}/templates/skeletons/fastapi-service/README.md.tpl", {
+    parameters = {
+      name        = "{{ parameters.name }}"
+      description = "{{ parameters.description }}"
+    }
+  })
+  commit_message      = "Add FastAPI service skeleton README"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_tests" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "skeleton/tests/test_api.py"
+  content = templatefile("${path.module}/templates/skeletons/fastapi-service/tests/test_api.py.tpl", {
+    parameters = {
+      name = "{{ parameters.name }}"
+    }
+  })
+  commit_message      = "Add FastAPI service skeleton tests"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
 # .NET Service Skeleton Files
+resource "github_repository_file" "dotnet_service_csproj" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-dotnet-service"
+  }
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "skeleton/src/ProjectName.csproj"
+  content = templatefile("${path.module}/templates/skeletons/dotnet-service/src/$${parameters.name}.csproj.tpl", {
+    parameters = {
+      name = "{{ parameters.name }}"
+    }
+  })
+  commit_message      = "Add .NET service skeleton project file"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
 resource "github_repository_file" "dotnet_service_program" {
   for_each = {
     for key, value in var.template_repositories : key => value
     if key == "backstage-template-dotnet-service"
   }
 
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/src/Program.cs"
-  content             = file("${path.module}/templates/skeletons/dotnet-service/src/Program.cs.tpl")
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "skeleton/src/Program.cs"
+  content = templatefile("${path.module}/templates/skeletons/dotnet-service/src/Program.cs.tpl", {
+    parameters = {
+      name        = "{{ parameters.name }}"
+      description = "{{ parameters.description }}"
+    }
+  })
   commit_message      = "Add .NET service skeleton Program.cs"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "dotnet_service_devcontainer" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-dotnet-service"
+  }
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "skeleton/.devcontainer/devcontainer.json"
+  content = templatefile("${path.module}/templates/skeletons/dotnet-service/.devcontainer/devcontainer.json.tpl", {
+    parameters = {
+      name = "{{ parameters.name }}"
+    }
+  })
+  commit_message      = "Add .NET service devcontainer configuration"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
   overwrite_on_create = true
@@ -414,10 +609,14 @@ resource "github_repository_file" "astro_frontend_package" {
     if key == "backstage-template-astro-frontend"
   }
 
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/package.json"
-  content             = file("${path.module}/templates/skeletons/astro-frontend/package.json.tpl")
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "skeleton/package.json"
+  content = templatefile("${path.module}/templates/skeletons/astro-frontend/package.json.tpl", {
+    parameters = {
+      name = "{{ parameters.name }}"
+    }
+  })
   commit_message      = "Add Astro frontend skeleton package.json"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -426,18 +625,40 @@ resource "github_repository_file" "astro_frontend_package" {
   depends_on = [github_repository.templates]
 }
 
-# Helm Base Skeleton Files
-resource "github_repository_file" "helm_base_chart" {
+resource "github_repository_file" "astro_frontend_config" {
   for_each = {
     for key, value in var.template_repositories : key => value
-    if key == "backstage-template-helm-base"
+    if key == "backstage-template-astro-frontend"
   }
 
   repository          = github_repository.templates[each.key].name
   branch              = "main"
-  file                = "skeleton/Chart.yaml"
-  content             = file("${path.module}/templates/skeletons/helm-base/Chart.yaml.tpl")
-  commit_message      = "Add Helm base skeleton Chart.yaml"
+  file                = "skeleton/astro.config.mjs"
+  content             = file("${path.module}/templates/skeletons/astro-frontend/astro.config.mjs.tpl")
+  commit_message      = "Add Astro frontend skeleton config"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "astro_frontend_index" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-astro-frontend"
+  }
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "skeleton/src/pages/index.astro"
+  content = templatefile("${path.module}/templates/skeletons/astro-frontend/src/pages/index.astro.tpl", {
+    parameters = {
+      name        = "{{ parameters.name }}"
+      description = "{{ parameters.description }}"
+    }
+  })
+  commit_message      = "Add Astro frontend skeleton index page"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
   overwrite_on_create = true
@@ -446,6 +667,29 @@ resource "github_repository_file" "helm_base_chart" {
 }
 
 # Gateway Skeleton Files
+resource "github_repository_file" "gateway_readme" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-gateway"
+  }
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "skeleton/README.md"
+  content = templatefile("${path.module}/templates/skeletons/gateway/README.md.tpl", {
+    parameters = {
+      name        = "{{ parameters.name }}"
+      description = "{{ parameters.description }}"
+    }
+  })
+  commit_message      = "Add gateway skeleton README"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
 resource "github_repository_file" "gateway_kong_config" {
   for_each = {
     for key, value in var.template_repositories : key => value
@@ -471,10 +715,15 @@ resource "github_repository_file" "ai_assistant_main" {
     if key == "backstage-template-ai-assistant"
   }
 
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/src/main.py"
-  content             = file("${path.module}/templates/skeletons/ai-assistant/src/main.py.tpl")
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "skeleton/src/main.py"
+  content = templatefile("${path.module}/templates/skeletons/ai-assistant/src/main.py.tpl", {
+    parameters = {
+      name        = "{{ parameters.name }}"
+      description = "{{ parameters.description }}"
+    }
+  })
   commit_message      = "Add AI assistant skeleton main file"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -483,8 +732,119 @@ resource "github_repository_file" "ai_assistant_main" {
   depends_on = [github_repository.templates]
 }
 
+resource "github_repository_file" "ai_assistant_requirements" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-ai-assistant"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/requirements.txt"
+  content             = file("${path.module}/templates/skeletons/ai-assistant/requirements.txt.tpl")
+  commit_message      = "Add AI assistant skeleton requirements"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Helm Base Skeleton Files
+resource "github_repository_file" "helm_base_chart" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-helm-base"
+  }
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "skeleton/Chart.yaml"
+  content = templatefile("${path.module}/templates/skeletons/helm-base/Chart.yaml.tpl", {
+    parameters = {
+      name        = "{{ parameters.name }}"
+      description = "{{ parameters.description }}"
+      repoUrl     = "{{ parameters.repoUrl }}"
+      owner       = "{{ parameters.owner }}"
+    }
+  })
+  commit_message      = "Add Helm base skeleton Chart.yaml"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "helm_base_values" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-helm-base"
+  }
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "skeleton/values.yaml"
+  content = templatefile("${path.module}/templates/skeletons/helm-base/values.yaml.tpl", {
+    parameters = {
+      name = "{{ parameters.name }}"
+    }
+  })
+  commit_message      = "Add Helm base skeleton values.yaml"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
 # Environment Live Skeleton Files
+resource "github_repository_file" "env_live_readme" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-env-live"
+  }
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "skeleton/README.md"
+  content = templatefile("${path.module}/templates/skeletons/env-live/README.md.tpl", {
+    parameters = {
+      name        = "{{ parameters.name }}"
+      description = "{{ parameters.description }}"
+    }
+  })
+  commit_message      = "Add environment live skeleton README"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
 resource "github_repository_file" "env_live_dev_config" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-env-live"
+  }
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "skeleton/environments/dev/config.yaml"
+  content = templatefile("${path.module}/templates/skeletons/env-live/environments/dev/config.yaml.tpl", {
+    parameters = {
+      name = "{{ parameters.name }}"
+    }
+  })
+  commit_message      = "Add environment live skeleton dev config"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "env_live_validator" {
   for_each = {
     for key, value in var.template_repositories : key => value
     if key == "backstage-template-env-live"
@@ -492,9 +852,9 @@ resource "github_repository_file" "env_live_dev_config" {
 
   repository          = github_repository.templates[each.key].name
   branch              = "main"
-  file                = "skeleton/environments/dev/config.yaml"
-  content             = file("${path.module}/templates/skeletons/env-live/environments/dev/config.yaml.tpl")
-  commit_message      = "Add environment live skeleton dev config"
+  file                = "skeleton/validate_config.py"
+  content             = file("${path.module}/templates/skeletons/env-live/validate_config.py.tpl")
+  commit_message      = "Add environment live skeleton validator"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
   overwrite_on_create = true
