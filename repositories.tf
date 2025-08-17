@@ -501,3 +501,112 @@ resource "github_repository_file" "env_live_dev_config" {
 
   depends_on = [github_repository.templates]
 }
+
+# =============================================================================
+# DEPENDABOT CONFIGURATION FILES FOR TEMPLATE REPOSITORIES
+# =============================================================================
+
+# Dependabot configuration for Node.js templates (node-service, astro-frontend)
+resource "github_repository_file" "dependabot_npm" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if contains(["backstage-template-node-service", "backstage-template-astro-frontend"], key)
+  }
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = ".github/dependabot.yml"
+  content = templatefile("${path.module}/templates/dependabot/npm.yml.tpl", {
+    template_approvers = "@${var.github_organization}/template-approvers"
+  })
+  commit_message      = "Add Dependabot configuration for npm dependencies"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Dependabot configuration for Python templates (fastapi-service, ai-assistant)
+resource "github_repository_file" "dependabot_pip" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if contains(["backstage-template-fastapi-service", "backstage-template-ai-assistant"], key)
+  }
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = ".github/dependabot.yml"
+  content = templatefile("${path.module}/templates/dependabot/pip.yml.tpl", {
+    template_approvers = "@${var.github_organization}/template-approvers"
+  })
+  commit_message      = "Add Dependabot configuration for pip dependencies"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Dependabot configuration for .NET template (dotnet-service)
+resource "github_repository_file" "dependabot_nuget" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-dotnet-service"
+  }
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = ".github/dependabot.yml"
+  content = templatefile("${path.module}/templates/dependabot/nuget.yml.tpl", {
+    template_approvers = "@${var.github_organization}/template-approvers"
+  })
+  commit_message      = "Add Dependabot configuration for NuGet dependencies"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Dependabot configuration for Gateway template (docker dependencies)
+resource "github_repository_file" "dependabot_docker" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-gateway"
+  }
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = ".github/dependabot.yml"
+  content = templatefile("${path.module}/templates/dependabot/docker.yml.tpl", {
+    template_approvers = "@${var.github_organization}/template-approvers"
+  })
+  commit_message      = "Add Dependabot configuration for Docker dependencies"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Dependabot configuration for basic templates (helm-base, env-live)
+resource "github_repository_file" "dependabot_basic" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if contains(["backstage-template-helm-base", "backstage-template-env-live"], key)
+  }
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = ".github/dependabot.yml"
+  content = templatefile("${path.module}/templates/dependabot/basic.yml.tpl", {
+    template_approvers = "@${var.github_organization}/template-approvers"
+  })
+  commit_message      = "Add Dependabot configuration for GitHub Actions dependencies"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}

@@ -1,0 +1,42 @@
+version: 2
+
+updates:
+  # Docker dependencies
+  - package-ecosystem: "docker"
+    directory: "/skeleton"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "${template_approvers}"
+    assignees:
+      - "${template_approvers}"
+    commit-message:
+      prefix: "docker"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "docker"
+      - "template"
+
+  # GitHub Actions dependencies
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "${template_approvers}"
+    assignees:
+      - "${template_approvers}"
+    commit-message:
+      prefix: "github-actions"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "template"
