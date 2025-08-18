@@ -48,13 +48,13 @@ locals {
 
   # Helper function to create template titles
   template_title_mapping = {
-    "backstage-template-node-service"    = "Node.js Service"
-    "backstage-template-fastapi-service" = "FastAPI Service"
-    "backstage-template-dotnet-service"  = ".NET Service"
-    "backstage-template-gateway"         = "API Gateway"
-    "backstage-template-ai-assistant"    = "AI Assistant Service"
-    "backstage-template-astro-frontend"  = "Astro Frontend"
-    "backstage-template-helm-base"       = "Helm Chart"
-    "backstage-template-env-live"        = "Environment Configuration"
+    "backstage-template-node-service"    = "🟢 Node.js Service"
+    "backstage-template-fastapi-service" = "⚡ FastAPI Service"
+    "backstage-template-dotnet-service"  = "🟣 .NET Service"
+    "backstage-template-gateway"         = "🚦 API Gateway"
+    "backstage-template-ai-assistant"    = "🤖 AI Assistant Service"
+    "backstage-template-astro-frontend"  = "☄️ Astro Frontend"
+    "backstage-template-helm-base"       = "⚓ Helm Chart"
+    "backstage-template-env-live"        = "🌍 Environment Configuration"
   }
 }
