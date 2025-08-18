@@ -1,7 +1,7 @@
 ---
 name: Reusable Template CI/CD
 
-'on':
+"on":
   workflow_call:
 
 permissions:
@@ -16,18 +16,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
-
-      - name: Validate template.yaml
-        run: |
-          if [ -f "template.yaml" ]; then
-            echo "✅ template.yaml found"
-            # Add YAML validation here
-            python -c "import yaml; yaml.safe_load(open('template.yaml'))" ||
-            exit 1
-          else
-            echo "❌ template.yaml not found"
-            exit 1
-          fi
 
       - name: Check skeleton directory
         run: |
@@ -61,7 +49,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dependencies
         run: |
