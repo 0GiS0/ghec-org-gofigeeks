@@ -658,6 +658,27 @@ resource "github_repository_file" "template_docs_index" {
   depends_on = [github_repository.templates]
 }
 
+# Template repository usage documentation
+resource "github_repository_file" "template_docs_usage" {
+  for_each = var.template_repositories
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "docs/template-usage.md"
+  content = templatefile("${path.module}/templates/template-docs/docs/template-usage.md.tpl", {
+    template_name        = each.key
+    template_description = each.value.description
+    template_type        = each.value.type
+    github_organization  = var.github_organization
+  })
+  commit_message      = "Add template usage documentation"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
 # =============================================================================
 # TECHDOCS SKELETON FILES FOR GENERATED PROJECTS
 # =============================================================================
