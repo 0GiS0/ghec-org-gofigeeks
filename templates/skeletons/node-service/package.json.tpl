@@ -21,7 +21,7 @@
     "nodemon": "^3.1.0",
     "jest": "^30.0.5",
     "eslint": "^9.33.0",
-    "supertest": "^6.3.4"
+    "supertest": "^7.1.4"
   },
   "engines": {
     "node": ">=18.0.0"
