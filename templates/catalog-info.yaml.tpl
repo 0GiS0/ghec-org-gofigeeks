@@ -10,7 +10,7 @@ metadata:
     - ${tag}
 %{ endfor ~}
 spec:
-  owner: group:${organization}/platform-team
+  owner: platform-team
   type: ${template_type}
   # these are the steps which are rendered in the frontend with the form input
   # https://backstage.io/docs/features/software-templates/input-examples
