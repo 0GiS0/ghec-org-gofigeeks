@@ -78,39 +78,48 @@ variable "template_repositories" {
   type = map(object({
     description = string
     topics      = list(string)
+    type        = string
   }))
   default = {
     "backstage-template-node-service" = {
       description = "Backstage template for Node.js services"
       topics      = ["backstage", "template", "nodejs", "service"]
+      type        = "service"
     }
     "backstage-template-fastapi-service" = {
       description = "Backstage template for FastAPI services"
       topics      = ["backstage", "template", "fastapi", "python", "service"]
+      type        = "service"
     }
     "backstage-template-dotnet-service" = {
       description = "Backstage template for .NET services"
       topics      = ["backstage", "template", "dotnet", "csharp", "service"]
+      type        = "service"
     }
     "backstage-template-gateway" = {
       description = "Backstage template for API Gateway"
       topics      = ["backstage", "template", "gateway", "api"]
+      type        = "service"
     }
     "backstage-template-ai-assistant" = {
       description = "Backstage template for AI Assistant services"
       topics      = ["backstage", "template", "ai", "assistant", "service"]
+      type        = "service"
     }
     "backstage-template-astro-frontend" = {
       description = "Backstage template for Astro frontend applications"
       topics      = ["backstage", "template", "astro", "frontend"]
+      type        = "website"
     }
     "backstage-template-helm-base" = {
       description = "Backstage template for Helm charts"
       topics      = ["backstage", "template", "helm", "kubernetes"]
+      type        = "resource"
     }
     "backstage-template-env-live" = {
       description = "Backstage template for environment configurations"
       topics      = ["backstage", "template", "environment", "config"]
+      type        = "resource"
     }
   }
 }
