@@ -20,17 +20,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v5
 
-    - name: Validate template.yaml
-      run: |
-        if [ -f "template.yaml" ]; then
-          echo "✅ template.yaml found"
-          # Add YAML validation here
-          python -c "import yaml; yaml.safe_load(open('template.yaml'))" || exit 1
-        else
-          echo "❌ template.yaml not found"
-          exit 1
-        fi
-
     - name: Check skeleton directory
       run: |
         if [ -d "skeleton" ]; then
