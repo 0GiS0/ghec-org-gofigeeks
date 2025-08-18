@@ -163,6 +163,24 @@ canary-trips (parent)
 - `backstage-template-env-live`
 
 ### Required Repository Settings
+## Local template rendering and debugging
+
+When a Backstage template (catalog-info.yaml.tpl) fails due to YAML/indentation issues, you can validate the rendered output locally without pushing changes:
+
+1) Use the helper in `.local-validate/`:
+   - Run the script to render with a specific template type.
+     - `./render.sh service` (default)
+     - `./render.sh system`
+     - `./render.sh domain`
+   - The script writes `rendered.yaml` and prints a steps excerpt so you can verify indentation of `values:` and the `publish/register` steps.
+
+2) Adjust inputs via env vars if needed:
+   - `ORG`, `NAME`, `TITLE`, `DESC`, `TAGS` control the render inputs for quick tests.
+
+Notes:
+- `.local-validate/rendered.yaml` and state are ignored via `.gitignore`.
+- This flow uses Terraform `templatefile` to render the tpl exactly like the main configuration, so it closely matches what will be committed by Terraform.
+
 - **Visibility**: Private
 - **Auto-init**: true
 - **Branch Protection**: main branch with ≥1 review required
