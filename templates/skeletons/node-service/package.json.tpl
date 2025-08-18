@@ -12,15 +12,15 @@
     "lint:fix": "eslint src/**/*.js --fix"
   },
   "dependencies": {
-    "express": "^4.19.2",
+    "express": "^5.1.0",
     "cors": "^2.8.5",
-    "helmet": "^7.1.0",
+    "helmet": "^8.1.0",
     "dotenv": "^16.4.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.0",
-    "jest": "^29.7.0",
-    "eslint": "^8.57.0",
+    "jest": "^30.0.5",
+    "eslint": "^9.33.0",
     "supertest": "^6.3.4"
   },
   "engines": {

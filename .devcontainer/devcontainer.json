@@ -8,28 +8,37 @@
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
     "ghcr.io/devcontainers/features/azure-cli:1": {}
   },
+  "remoteUser": "vscode",
+  "init": true,
+  "containerEnv": {
+    "TF_IN_AUTOMATION": "1",
+    "TF_INPUT": "0"
+  },
+  "mounts": [
+    "source=devcontainer-docker,target=/var/lib/docker,type=volume"
+  ],
+  "postCreateCommand": "terraform version && git --version && gh --version",
   "customizations": {
-    "extensions": [
-      "hashicorp.terraform",
-      "ms-vscode.vscode-json",
-      "redhat.vscode-yaml",
-      "github.vscode-pull-request-github",
-      "ms-vscode.vscode-github-issue-notebooks"
-    ],
-    "settings": {
-      "terraform.experimentalFeatures.validateOnSave": true,
-      "terraform.experimentalFeatures.prefillRequiredFields": true,
-      "files.associations": {
-        "*.tf": "terraform",
-        "*.tfvars": "terraform",
-        "*.tfvars.example": "terraform"
+    "vscode": {
+      "extensions": [
+        "hashicorp.terraform",
+        "ms-vscode.vscode-json",
+        "redhat.vscode-yaml",
+        "github.vscode-pull-request-github",
+        "ms-vscode.vscode-github-issue-notebooks",
+        "ms-azuretools.vscode-docker"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "terraform.experimentalFeatures.validateOnSave": true,
+        "terraform.experimentalFeatures.prefillRequiredFields": true,
+        "terraform.languageServer.enable": true,
+        "files.associations": {
+          "*.tf": "terraform",
+          "*.tfvars": "terraform",
+          "*.tfvars.example": "terraform"
+        }
       }
     }
   }
-},
-"postCreateCommand": "terraform version && git --version && gh --version",
-"remoteUser": "vscode",
-"containerEnv": {
-  "TF_IN_AUTOMATION": "1"
-}
 }

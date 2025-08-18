@@ -235,3 +235,58 @@ canary-trips (parent)
 - **Validate manually** after every change by checking GHEC organization
 - **Always run local validation** before creating PRs
 - **Test complete scenarios** not just individual commands
+
+## GitHub Well-Architected Framework 🔧
+
+All changes must align with the best practices in the GitHub Well-Architected Framework. Official reference: https://wellarchitected.github.com
+
+Pillars and expectations applicable to this organization and the Terraform-managed templates:
+
+- Identity and Access
+   - Enforce SSO/SAML (if applicable) and mandatory 2FA for members and outside collaborators
+   - Default repository visibility: Private; restrict repository creation to authorized teams/roles
+   - Use teams for permissions (least privilege); avoid direct collaborators where possible
+- Repositories and Branch Protection
+   - Protect the main branch: required PRs, ≥1 review, required checks (ci-template, lint, docs-build, codeql)
+   - Block force-push and deletion of protected branches; optional: linear history and commit message guidelines
+   - CODEOWNERS required for skeleton/ and template.yaml
+- Secure SDLC
+   - Enable Dependabot alerts and updates; Secret Scanning and Push Protection enabled
+   - Code Scanning with CodeQL by default in templates
+   - Require signed/verified commits when possible
+- GitHub Actions and Automation
+   - Restrict Actions to verified marketplace or pinned SHAs; policy for reusable workflows
+   - Runners: group by trust level; use OIDC for cloud secrets (avoid static credentials)
+   - Define artifact and retention policies
+- Governance and Compliance
+   - Audit log streaming (to SIEM/storage) at Enterprise/Org level
+   - Enterprise/Org policies to standardize defaults (visibility, forking, actions, members can create repos)
+   - Required PRs/reviews for sensitive changes; traceability via git and IaC
+- Operations and Reliability
+   - Remote state backend with locking; provider versions pinned (>.terraform.lock.hcl)
+   - Periodic drift detection (terraform plan); documented rollback processes
+
+Operational checklist (validate on every change/PR):
+
+1) Organization
+    - [ ] Default repo visibility: Private
+    - [ ] 2FA and (if applicable) SSO/SAML enforced
+    - [ ] Audit log streaming configured
+    - [ ] Actions and repository policies (creation/restrictions) defined
+2) Teams and Permissions
+    - [ ] Team structure matches target hierarchy; team-based permissions, not direct users
+    - [ ] Least privilege applied
+3) Templates and Repos
+    - [ ] Branch protection on main with required checks: ci-template, lint, docs-build, codeql
+    - [ ] CODEOWNERS present and validated for skeleton/ and template.yaml
+    - [ ] Secret scanning, push protection, Dependabot and CodeQL enabled
+    - [ ] Force-push blocked
+4) Actions
+    - [ ] Use verified/pinned actions; runners and secrets managed securely (OIDC)
+5) IaC/Terraform
+    - [ ] Remote state and locking enabled; providers versioned and pinned
+    - [ ] terraform fmt/validate/plan executed; drift reviewed
+6) Compliance
+    - [ ] PRs and reviews required; audit and retention per policy
+
+Note: When a recommendation doesn’t apply (due to policy or licensing), document the exception in the PR and apply the closest compensating control.
