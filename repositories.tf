@@ -110,6 +110,12 @@ resource "github_repository" "reusable_workflows" {
   }
 }
 
+# Enable organization-wide access for reusable workflows
+resource "github_actions_repository_access_level" "reusable_workflows" {
+  repository   = github_repository.reusable_workflows.name
+  access_level = "organization"
+}
+
 # Repository collaborators - Team permissions
 resource "github_team_repository" "platform_admin" {
   for_each = var.template_repositories
