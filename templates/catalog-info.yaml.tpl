@@ -125,7 +125,6 @@ spec:
       name: Publish
       action: publish:github
       input:
-        allowedHosts: ["github.com"]
         description: $${{ parameters.description || (parameters.name + ' component') }}
         repoUrl: $${{ parameters.repoUrl }}
         gitCommitMessage: Create scaffold from template
