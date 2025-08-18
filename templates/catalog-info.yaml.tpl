@@ -9,9 +9,13 @@ metadata:
   annotations:
     backstage.io/techdocs-ref: dir:.
   tags:
+%{ if length(template_tags) > 0 ~}
 %{ for tag in template_tags ~}
     - ${tag}
 %{ endfor ~}
+%{ else ~}
+    []
+%{ endif ~}
 spec:
   owner: platform-team
   type: ${template_type}
@@ -30,7 +34,7 @@ spec:
           title: Project Name
           description: The name of the project
           ui:autofocus: true
-          ui:field: ValidateKebabCase # Custom field extension
+          ui:field: ValidateKebabCase  # Custom field extension
         description:
           title: Description
           type: string
@@ -98,7 +102,8 @@ spec:
             allowedHosts:
               - github.com
   # here's the steps that are executed in series in the scaffolder backend
-  # You can see all actions you have registered here: http://localhost:3000/create/actions
+  # You can see all actions you have registered here:
+  # http://localhost:3000/create/actions
   steps:
     - id: fetch-base
       name: Fetch Template
@@ -127,8 +132,8 @@ spec:
       action: publish:github
       input:
         allowedHosts: ["github.com"]
-  description: $${{ parameters.description || (parameters.name + ' system') }}
-  repoUrl: $${{ parameters.repoUrl }}
+        description: $${{ parameters.description || (parameters.name + ' component') }}
+        repoUrl: $${{ parameters.repoUrl }}
         gitCommitMessage: Create scaffold from template
         topics: ["backstage-include", "${organization}"]
         defaultBranch: main
@@ -147,3 +152,4 @@ spec:
       - title: Open in catalog
         icon: catalog
         entityRef: $${{ steps['register'].output.entityRef }}
+
