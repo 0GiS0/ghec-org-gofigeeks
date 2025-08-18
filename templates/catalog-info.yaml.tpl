@@ -113,21 +113,21 @@ spec:
         copyWithoutTemplating:
           - .github/workflows/*
   values:
-%{ if template_type != "system" ~}
-    name: $${{ parameters.name }}
-    owner: $${{ parameters.owner }}
-    description: $${{ parameters.description }}
-    destination: $${{ parameters.repoUrl | parseRepoUrl }}
-    repoUrl: $${{ parameters.repoUrl }}
-    system: $${{ parameters.system }}
+%{ if template_type != "system" && template_type != "domain" ~}
+      name: $${{ parameters.name }}
+      owner: $${{ parameters.owner }}
+      description: $${{ parameters.description }}
+      destination: $${{ parameters.repoUrl | parseRepoUrl }}
+      repoUrl: $${{ parameters.repoUrl }}
+      system: $${{ parameters.system }}
 %{ else ~}
-    name: $${{ parameters.name }}
-    owner: $${{ parameters.owner }}
-    description: $${{ parameters.description }}
-    destination: $${{ parameters.repoUrl | parseRepoUrl }}
-    repoUrl: $${{ parameters.repoUrl }}
+      name: $${{ parameters.name }}
+      owner: $${{ parameters.owner }}
+      description: $${{ parameters.description }}
+      destination: $${{ parameters.repoUrl | parseRepoUrl }}
+      repoUrl: $${{ parameters.repoUrl }}
 %{ endif ~}
-    - id: publish
+  - id: publish
       name: Publish
       action: publish:github
       input:
@@ -141,8 +141,8 @@ spec:
       name: Register
       action: catalog:register
       input:
-  repoContentsUrl: $${{ steps['publish'].output.repoContentsUrl }}
-  catalogInfoPath: "/catalog-info.yaml"
+    repoContentsUrl: $${{ steps['publish'].output.repoContentsUrl }}
+    catalogInfoPath: "/catalog-info.yaml"
 
   # some outputs which are saved along with the job for use in the frontend
   output:

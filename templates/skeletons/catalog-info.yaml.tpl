@@ -31,9 +31,5 @@ spec:
   lifecycle: experimental
   owner: $${{ values.owner }}
   system: $${{ values.system }}
-<<<<<<< HEAD
 %{ endif ~}
 %{ endif ~}
-=======
-
->>>>>>> fecb9228e045f753dfb005fa4e3c68220a36d0c2
