@@ -32,8 +32,8 @@ jobs:
         run: |
           if [ -f "catalog-info.yaml" ]; then
             echo "✅ catalog-info.yaml found"
-            python -c "import yaml; yaml.safe_load(open('catalog-info.yaml'))"
-            || exit 1
+            python -c "import yaml; yaml.safe_load(open('catalog-info.yaml'))" \
+              || exit 1
           else
             echo "⚠️ catalog-info.yaml not found (recommended)"
           fi
