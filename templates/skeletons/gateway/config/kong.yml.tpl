@@ -1,3 +1,4 @@
+---
 _format_version: "3.0"
 _transform: true
 
@@ -11,7 +12,7 @@ services:
         methods:
           - GET
         strip_path: true
-        
+
   - name: example-service
     url: http://httpbin.org
     routes:
@@ -48,7 +49,7 @@ plugins:
         - X-Auth-Token
       credentials: true
       max_age: 3600
-      
+
   - name: rate-limiting
     config:
       minute: 100
