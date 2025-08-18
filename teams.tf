@@ -45,6 +45,15 @@ resource "github_team" "read_only" {
   create_default_maintainer = false
 }
 
+# Developers team - primary devs group
+resource "github_team" "developers" {
+  name                      = local.team_names.developers
+  description               = "Core developers team"
+  privacy                   = "closed"
+  parent_team_id            = github_team.parent.id
+  create_default_maintainer = false
+}
+
 # Team memberships for platform team
 resource "github_team_membership" "platform_maintainers" {
   for_each = toset(var.platform_team_maintainers)
@@ -91,3 +100,12 @@ resource "github_team_membership" "read_only_members" {
   username = each.value
   role     = "member"
 }
+
+# Developers team memberships
+resource "github_team_membership" "developers_maintainers" {
+  for_each = toset(var.developers_team_maintainers)
+  team_id  = github_team.developers.id
+  username = each.value
+  role     = "maintainer"
+}
+

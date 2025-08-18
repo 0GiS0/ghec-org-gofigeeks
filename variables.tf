@@ -72,6 +72,13 @@ variable "read_only_team_members" {
   default     = []
 }
 
+# Developers Team Variables
+variable "developers_team_maintainers" {
+  description = "List of developers team maintainers (GitHub usernames)"
+  type        = list(string)
+  default     = []
+}
+
 # Repository Configuration Variables
 variable "template_repositories" {
   description = "Map of template repositories to create"
@@ -81,6 +88,16 @@ variable "template_repositories" {
     type        = string
   }))
   default = {
+    "backstage-template-system" = {
+      description = "Backstage template for System entities"
+      topics      = ["backstage", "template", "catalog", "system"]
+      type        = "system"
+    }
+    "backstage-template-domain" = {
+      description = "Backstage template for Domain entities"
+      topics      = ["backstage", "template", "catalog", "domain"]
+      type        = "domain"
+    }
     "backstage-template-node-service" = {
       description = "Backstage template for Node.js services"
       topics      = ["backstage", "template", "nodejs", "service"]

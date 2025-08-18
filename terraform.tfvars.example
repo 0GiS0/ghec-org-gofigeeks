@@ -47,10 +47,21 @@ read_only_team_members = [
   "stakeholder-1"
 ]
 
+# Developers Team Members
+developers_team_maintainers = [
+  "dev-lead",
+  "tech-lead"
+]
+
+developers_team_members = [
+  "developer-1",
+  "developer-2"
+]
+
 # Branch Protection Settings
 required_status_checks = [
   "ci-template",
-  "lint", 
+  "lint",
   "docs-build",
   "codeql"
 ]

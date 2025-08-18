@@ -18,6 +18,7 @@ locals {
     template_approvers = "template-approvers"
     security           = "security"
     read_only          = "read-only"
+    developers         = "cosmic-devs"
   }
 
   # Repository permissions for teams
@@ -30,6 +31,8 @@ locals {
 
   # Template type mapping for catalog-info.yaml
   template_type_mapping = {
+    "backstage-template-system"          = "system"
+    "backstage-template-domain"          = "domain"
     "backstage-template-node-service"    = "service"
     "backstage-template-fastapi-service" = "service"
     "backstage-template-dotnet-service"  = "service"
@@ -48,6 +51,8 @@ locals {
 
   # Helper function to create template titles
   template_title_mapping = {
+    "backstage-template-system"          = "🧩 System"
+    "backstage-template-domain"          = "🏷️ Domain"
     "backstage-template-node-service"    = "🟢 Node.js Service"
     "backstage-template-fastapi-service" = "⚡ FastAPI Service"
     "backstage-template-dotnet-service"  = "🟣 .NET Service"

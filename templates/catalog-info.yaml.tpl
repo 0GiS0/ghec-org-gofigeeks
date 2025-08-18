@@ -18,6 +18,7 @@ spec:
   # these are the steps which are rendered in the frontend with the form input
   # https://backstage.io/docs/features/software-templates/input-examples
   parameters:
+%{ if template_type != "system" && template_type != "domain" ~}
     - title: Complete the form to create a new ${template_title}
       required:
         - name
@@ -47,6 +48,41 @@ spec:
           ui:options:
             catalogFilter:
               kind: System
+%{ else ~}
+    - title: Complete the form to create a new ${template_title}
+      required:
+        - name
+        - description
+      properties:
+        name:
+          type: string
+%{ if template_type == "system" ~}
+          title: System Name
+          description: The name of the system
+%{ else ~}
+          title: Domain Name
+          description: The name of the domain
+%{ endif ~}
+          ui:autofocus: true
+          ui:field: ValidateKebabCase # Custom field extension
+        description:
+          title: Description
+          type: string
+%{ if template_type == "system" ~}
+          description: A description for the system
+%{ else ~}
+          description: A description for the domain
+%{ endif ~}
+        owner:
+%{ if template_type == "system" ~}
+          title: Select the owner group for this system
+%{ else ~}
+          title: Select the owner group for this domain
+%{ endif ~}
+          type: string
+          description: The group that owns the system
+          ui:field: MyGroupsPicker
+%{ endif ~}
     - title: Choose a destination
       required:
         - repoUrl
@@ -71,20 +107,28 @@ spec:
         url: ./skeleton
         copyWithoutTemplating:
           - .github/workflows/*
-        values:
-          name: $${{ parameters.name }}
-          owner: $${{ parameters.owner }}
-          description: $${{ parameters.description }}
-          destination: $${{ parameters.repoUrl | parseRepoUrl }}
-          repoUrl: $${{ parameters.repoUrl }}
-          system: $${{ parameters.system }}
+  values:
+%{ if template_type != "system" ~}
+    name: $${{ parameters.name }}
+    owner: $${{ parameters.owner }}
+    description: $${{ parameters.description }}
+    destination: $${{ parameters.repoUrl | parseRepoUrl }}
+    repoUrl: $${{ parameters.repoUrl }}
+    system: $${{ parameters.system }}
+%{ else ~}
+    name: $${{ parameters.name }}
+    owner: $${{ parameters.owner }}
+    description: $${{ parameters.description }}
+    destination: $${{ parameters.repoUrl | parseRepoUrl }}
+    repoUrl: $${{ parameters.repoUrl }}
+%{ endif ~}
     - id: publish
       name: Publish
       action: publish:github
       input:
         allowedHosts: ["github.com"]
-        description: This is $${{ parameters.name }}
-        repoUrl: $${{ parameters.repoUrl }}
+  description: $${{ parameters.description || (parameters.name + ' system') }}
+  repoUrl: $${{ parameters.repoUrl }}
         gitCommitMessage: Create scaffold from template
         topics: ["backstage-include", "${organization}"]
         defaultBranch: main
@@ -92,8 +136,8 @@ spec:
       name: Register
       action: catalog:register
       input:
-        repoContentsUrl: $${{ steps['publish'].output.repoContentsUrl }}
-        catalogInfoPath: "/catalog-info.yaml"
+  repoContentsUrl: $${{ steps['publish'].output.repoContentsUrl }}
+  catalogInfoPath: "/catalog-info.yaml"
 
   # some outputs which are saved along with the job for use in the frontend
   output:
