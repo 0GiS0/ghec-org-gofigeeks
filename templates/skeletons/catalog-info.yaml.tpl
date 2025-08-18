@@ -11,7 +11,7 @@ metadata:
   tags:
     - ${{ values.system }}
 spec:
-  type: service
+  type: ${template_type}
   lifecycle: experimental
   owner: ${{ values.owner }}
   system: ${{ values.system }}
