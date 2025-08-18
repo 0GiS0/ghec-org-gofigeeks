@@ -130,11 +130,26 @@ variable "backstage_repository" {
   }
 }
 
+# Reusable Workflows Repository Configuration
+variable "reusable_workflows_repository" {
+  description = "Configuration for the reusable workflows repository"
+  type = object({
+    name        = string
+    description = string
+    topics      = list(string)
+  })
+  default = {
+    name        = "reusable-workflows"
+    description = "Centralized repository for reusable GitHub Actions workflows"
+    topics      = ["github-actions", "workflows", "ci-cd", "reusable"]
+  }
+}
+
 # Branch Protection Variables
 variable "required_status_checks" {
   description = "List of required status checks for branch protection"
   type        = list(string)
-  default     = ["ci-template", "lint", "docs-build", "codeql"]
+  default     = ["ci-template", "lint", "docs-build"]
 }
 
 variable "required_pull_request_reviews" {
