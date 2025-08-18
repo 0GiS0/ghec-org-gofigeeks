@@ -1,0 +1,15 @@
+name: Template CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  call-reusable-workflow:
+    uses: ${organization}/reusable-workflows/.github/workflows/ci-template.yml@main

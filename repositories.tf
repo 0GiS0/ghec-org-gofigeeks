@@ -75,6 +75,41 @@ resource "github_repository" "backstage" {
   }
 }
 
+# Reusable Workflows Repository
+resource "github_repository" "reusable_workflows" {
+  name        = var.reusable_workflows_repository.name
+  description = var.reusable_workflows_repository.description
+  visibility  = "private"
+  auto_init   = true
+
+  # Repository topics
+  topics = concat(var.reusable_workflows_repository.topics, local.common_topics)
+
+  # Repository settings
+  allow_merge_commit     = false
+  allow_squash_merge     = true
+  allow_rebase_merge     = false
+  delete_branch_on_merge = true
+  has_issues             = true
+  has_projects           = false
+  has_wiki               = false
+  has_downloads          = false
+  vulnerability_alerts   = true
+
+  # Security settings
+  security_and_analysis {
+    secret_scanning {
+      status = "enabled"
+    }
+    secret_scanning_push_protection {
+      status = "enabled"
+    }
+    advanced_security {
+      status = "enabled"
+    }
+  }
+}
+
 # Repository collaborators - Team permissions
 resource "github_team_repository" "platform_admin" {
   for_each = var.template_repositories
@@ -133,6 +168,31 @@ resource "github_team_repository" "backstage_read_only_pull" {
   permission = local.repository_permissions.read_only
 }
 
+# Reusable Workflows Repository - Team permissions
+resource "github_team_repository" "reusable_workflows_platform_admin" {
+  team_id    = github_team.platform.id
+  repository = github_repository.reusable_workflows.name
+  permission = local.repository_permissions.platform_team
+}
+
+resource "github_team_repository" "reusable_workflows_template_approvers_maintain" {
+  team_id    = github_team.template_approvers.id
+  repository = github_repository.reusable_workflows.name
+  permission = local.repository_permissions.template_approvers
+}
+
+resource "github_team_repository" "reusable_workflows_security_pull" {
+  team_id    = github_team.security.id
+  repository = github_repository.reusable_workflows.name
+  permission = local.repository_permissions.security
+}
+
+resource "github_team_repository" "reusable_workflows_read_only_pull" {
+  team_id    = github_team.read_only.id
+  repository = github_repository.reusable_workflows.name
+  permission = local.repository_permissions.read_only
+}
+
 # Branch protection rules for main branch
 resource "github_branch_protection" "main" {
   for_each = var.template_repositories
@@ -179,6 +239,39 @@ resource "github_branch_protection" "backstage_main" {
   depends_on = [
     github_repository_file.backstage_codeowners,
     github_repository_file.backstage_readme
+  ]
+
+  required_status_checks {
+    strict   = true
+    contexts = var.required_status_checks
+  }
+
+  required_pull_request_reviews {
+    required_approving_review_count = var.required_pull_request_reviews
+    dismiss_stale_reviews           = true
+    restrict_dismissals             = true
+    dismissal_restrictions = [
+      github_team.platform.node_id,
+      github_team.template_approvers.node_id
+    ]
+  }
+
+  # Block force pushes
+  allows_force_pushes = false
+  allows_deletions    = false
+}
+
+# Branch protection rules for reusable workflows repository main branch
+resource "github_branch_protection" "reusable_workflows_main" {
+  repository_id  = github_repository.reusable_workflows.name
+  pattern        = "main"
+  enforce_admins = false
+
+  # Ensure required files are created before protection
+  depends_on = [
+    github_repository_file.reusable_workflows_codeowners,
+    github_repository_file.reusable_workflows_readme,
+    github_repository_file.reusable_ci_workflow
   ]
 
   required_status_checks {
@@ -253,20 +346,69 @@ resource "github_repository_file" "backstage_readme" {
   depends_on = [github_repository.backstage]
 }
 
-# GitHub Actions workflow for CI/CD in template repositories
-resource "github_repository_file" "template_ci" {
-  for_each = var.manage_workflow_files ? var.template_repositories : {}
-
-  repository          = github_repository.templates[each.key].name
+# Reusable workflow file in the reusable-workflows repository
+resource "github_repository_file" "reusable_ci_workflow" {
+  repository          = github_repository.reusable_workflows.name
   branch              = "main"
   file                = ".github/workflows/ci-template.yml"
-  content             = file("${path.module}/templates/ci-template.yml")
-  commit_message      = "Add CI/CD workflow for template validation"
+  content             = file("${path.module}/templates/reusable-ci-template.yml")
+  commit_message      = "Add reusable CI/CD workflow for template validation"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
   overwrite_on_create = true
 
-  depends_on = [github_repository.templates]
+  depends_on = [github_repository.reusable_workflows]
+}
+
+# README file for the reusable-workflows repository
+resource "github_repository_file" "reusable_workflows_readme" {
+  repository = github_repository.reusable_workflows.name
+  branch     = "main"
+  file       = "README.md"
+  content = templatefile("${path.module}/templates/reusable-workflows-README.md.tpl", {
+    organization = var.github_organization
+  })
+  commit_message      = "Add README with reusable workflows documentation"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.reusable_workflows]
+}
+
+# CODEOWNERS file for the reusable-workflows repository
+resource "github_repository_file" "reusable_workflows_codeowners" {
+  repository = github_repository.reusable_workflows.name
+  branch     = "main"
+  file       = ".github/CODEOWNERS"
+  content = templatefile("${path.module}/templates/CODEOWNERS.tpl", {
+    platform_team      = "@${var.github_organization}/${github_team.platform.slug}"
+    template_approvers = "@${var.github_organization}/${github_team.template_approvers.slug}"
+  })
+  commit_message      = "Add CODEOWNERS file for workflow protection"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.reusable_workflows]
+}
+
+# GitHub Actions workflow for CI/CD in template repositories
+resource "github_repository_file" "template_ci" {
+  for_each = var.manage_workflow_files ? var.template_repositories : {}
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = ".github/workflows/ci-template.yml"
+  content = templatefile("${path.module}/templates/ci-template-caller.yml", {
+    organization = var.github_organization
+  })
+  commit_message      = "Add CI/CD workflow caller for template validation"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates, github_repository_file.reusable_ci_workflow]
 }
 
 # Catalog info file for each template repository
