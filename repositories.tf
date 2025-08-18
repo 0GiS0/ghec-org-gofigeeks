@@ -610,3 +610,203 @@ resource "github_repository_file" "dependabot_basic" {
 
   depends_on = [github_repository.templates]
 }
+
+# =============================================================================
+# TECHDOCS CONFIGURATION FILES FOR TEMPLATE REPOSITORIES
+# =============================================================================
+
+# MkDocs configuration for template repositories (TechDocs)
+resource "github_repository_file" "template_mkdocs" {
+  for_each = var.template_repositories
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "mkdocs.yml"
+  content = templatefile("${path.module}/templates/template-docs/mkdocs.yml.tpl", {
+    template_name        = each.key
+    template_description = each.value.description
+    github_organization  = var.github_organization
+  })
+  commit_message      = "Add TechDocs MkDocs configuration for template repository"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Template repository documentation index
+resource "github_repository_file" "template_docs_index" {
+  for_each = var.template_repositories
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "docs/index.md"
+  content = templatefile("${path.module}/templates/template-docs/docs/index.md.tpl", {
+    template_name         = each.key
+    template_description  = each.value.description
+    template_type         = each.value.type
+    github_organization   = var.github_organization
+    related_templates     = [for k, v in var.template_repositories : k if k != each.key]
+    template_descriptions = { for k, v in var.template_repositories : k => v.description }
+  })
+  commit_message      = "Add TechDocs documentation index for template repository"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Template repository usage documentation
+resource "github_repository_file" "template_docs_usage" {
+  for_each = var.template_repositories
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "docs/template-usage.md"
+  content = templatefile("${path.module}/templates/template-docs/docs/template-usage.md.tpl", {
+    template_name        = each.key
+    template_description = each.value.description
+    template_type        = each.value.type
+    github_organization  = var.github_organization
+  })
+  commit_message      = "Add template usage documentation"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# =============================================================================
+# TECHDOCS SKELETON FILES FOR GENERATED PROJECTS
+# =============================================================================
+
+# MkDocs configuration for generated projects (skeleton)
+resource "github_repository_file" "skeleton_mkdocs" {
+  for_each = var.template_repositories
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/mkdocs.yml"
+  content             = file("${path.module}/templates/skeletons/mkdocs.yml.tpl")
+  commit_message      = "Add TechDocs MkDocs configuration for generated projects"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Documentation index for generated projects
+resource "github_repository_file" "skeleton_docs_index" {
+  for_each = var.template_repositories
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/docs/index.md"
+  content             = file("${path.module}/templates/skeletons/docs/index.md.tpl")
+  commit_message      = "Add TechDocs documentation index for generated projects"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Getting Started documentation for generated projects
+resource "github_repository_file" "skeleton_docs_getting_started" {
+  for_each = var.template_repositories
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/docs/getting-started.md"
+  content             = file("${path.module}/templates/skeletons/docs/getting-started.md.tpl")
+  commit_message      = "Add getting started documentation for generated projects"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Development documentation for generated projects
+resource "github_repository_file" "skeleton_docs_development" {
+  for_each = var.template_repositories
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/docs/development.md"
+  content             = file("${path.module}/templates/skeletons/docs/development.md.tpl")
+  commit_message      = "Add development documentation for generated projects"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Architecture documentation for generated projects
+resource "github_repository_file" "skeleton_docs_architecture" {
+  for_each = var.template_repositories
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/docs/architecture.md"
+  content             = file("${path.module}/templates/skeletons/docs/architecture.md.tpl")
+  commit_message      = "Add architecture documentation for generated projects"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# API Reference documentation for generated projects
+resource "github_repository_file" "skeleton_docs_api_reference" {
+  for_each = var.template_repositories
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/docs/api-reference.md"
+  content             = file("${path.module}/templates/skeletons/docs/api-reference.md.tpl")
+  commit_message      = "Add API reference documentation for generated projects"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Deployment documentation for generated projects
+resource "github_repository_file" "skeleton_docs_deployment" {
+  for_each = var.template_repositories
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/docs/deployment.md"
+  content             = file("${path.module}/templates/skeletons/docs/deployment.md.tpl")
+  commit_message      = "Add deployment documentation for generated projects"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Contributing documentation for generated projects
+resource "github_repository_file" "skeleton_docs_contributing" {
+  for_each = var.template_repositories
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/docs/contributing.md"
+  content             = file("${path.module}/templates/skeletons/docs/contributing.md.tpl")
+  commit_message      = "Add contributing documentation for generated projects"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
