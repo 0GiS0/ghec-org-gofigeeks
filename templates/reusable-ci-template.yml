@@ -1,6 +1,7 @@
+---
 name: Reusable Template CI/CD
 
-on:
+'on':
   workflow_call:
 
 permissions:
@@ -11,83 +12,85 @@ jobs:
   ci-template:
     name: Template Validation
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v5
+      - name: Checkout code
+        uses: actions/checkout@v5
 
-    - name: Validate template.yaml
-      run: |
-        if [ -f "template.yaml" ]; then
-          echo "✅ template.yaml found"
-          # Add YAML validation here
-          python -c "import yaml; yaml.safe_load(open('template.yaml'))" || exit 1
-        else
-          echo "❌ template.yaml not found"
-          exit 1
-        fi
+      - name: Validate template.yaml
+        run: |
+          if [ -f "template.yaml" ]; then
+            echo "✅ template.yaml found"
+            # Add YAML validation here
+            python -c "import yaml; yaml.safe_load(open('template.yaml'))" ||
+            exit 1
+          else
+            echo "❌ template.yaml not found"
+            exit 1
+          fi
 
-    - name: Check skeleton directory
-      run: |
-        if [ -d "skeleton" ]; then
-          echo "✅ skeleton/ directory found"
-          echo "Contents:"
-          find skeleton -type f | head -10
-        else
-          echo "❌ skeleton/ directory not found"
-          exit 1
-        fi
+      - name: Check skeleton directory
+        run: |
+          if [ -d "skeleton" ]; then
+            echo "✅ skeleton/ directory found"
+            echo "Contents:"
+            find skeleton -type f | head -10
+          else
+            echo "❌ skeleton/ directory not found"
+            exit 1
+          fi
 
-    - name: Validate catalog-info.yaml
-      run: |
-        if [ -f "catalog-info.yaml" ]; then
-          echo "✅ catalog-info.yaml found"
-          python -c "import yaml; yaml.safe_load(open('catalog-info.yaml'))" || exit 1
-        else
-          echo "⚠️ catalog-info.yaml not found (recommended)"
-        fi
+      - name: Validate catalog-info.yaml
+        run: |
+          if [ -f "catalog-info.yaml" ]; then
+            echo "✅ catalog-info.yaml found"
+            python -c "import yaml; yaml.safe_load(open('catalog-info.yaml'))"
+            || exit 1
+          else
+            echo "⚠️ catalog-info.yaml not found (recommended)"
+          fi
 
   lint:
     name: Lint Template Files
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v5
+      - name: Checkout code
+        uses: actions/checkout@v5
 
-    - name: Setup Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
-    - name: Install dependencies
-      run: |
-        pip install yamllint
+      - name: Install dependencies
+        run: |
+          pip install yamllint
 
-    - name: Lint YAML files
-      run: |
-        find . -name "*.yaml" -o -name "*.yml" | xargs yamllint -d relaxed
+      - name: Lint YAML files
+        run: |
+          find . -name "*.yaml" -o -name "*.yml" | xargs yamllint -d relaxed
 
   docs-build:
     name: Build Documentation
     runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v5
 
-    - name: Check documentation
-      run: |
-        if [ -f "README.md" ]; then
-          echo "✅ README.md found"
-          wc -l README.md
-        else
-          echo "⚠️ README.md not found (recommended)"
-        fi
-        
-        if [ -d "docs" ]; then
-          echo "✅ docs/ directory found"
-          find docs -name "*.md" | wc -l
-        else
-          echo "ℹ️ docs/ directory not found"
-        fi
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Check documentation
+        run: |
+          if [ -f "README.md" ]; then
+            echo "✅ README.md found"
+            wc -l README.md
+          else
+            echo "⚠️ README.md not found (recommended)"
+          fi
+
+          if [ -d "docs" ]; then
+            echo "✅ docs/ directory found"
+            find docs -name "*.md" | wc -l
+          else
+            echo "ℹ️ docs/ directory not found"
+          fi
