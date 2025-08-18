@@ -88,7 +88,7 @@ spec:
       action: publish:github
       input:
         allowedHosts: ["github.com"]
-        description: This is $${{ parameters.name }}
+        description: $${{ parameters.description || (parameters.name + ' component') }}
         repoUrl: $${{ parameters.repoUrl }}
         gitCommitMessage: Create scaffold from template
         topics: ["backstage-include", "${organization}"]
