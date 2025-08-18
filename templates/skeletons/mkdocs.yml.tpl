@@ -1,3 +1,4 @@
+---
 site_name: $${parameters.name}
 site_description: $${parameters.description}
 site_url: $${parameters.repoUrl}

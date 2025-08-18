@@ -1,3 +1,4 @@
+---
 site_name: ${template_name} Template
 site_description: ${template_description}
 site_url: https://github.com/${github_organization}/${template_name}

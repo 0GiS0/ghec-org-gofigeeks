@@ -1,3 +1,4 @@
+---
 site_name: ${template_title}
 site_description: ${template_description}
 site_url: ${repo_url}

@@ -1,3 +1,4 @@
+---
 environment: development
 service_name: $${parameters.name}
 version: "1.0.0"
@@ -29,7 +30,7 @@ features:
 logging:
   level: DEBUG
   format: detailed
-  
+
 # Resource limits
 resources:
   cpu_limit: "500m"

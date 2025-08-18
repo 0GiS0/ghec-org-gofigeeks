@@ -1,3 +1,4 @@
+---
 environment: production
 service_name: $${parameters.name}
 version: "1.0.0"
@@ -28,7 +29,7 @@ features:
 logging:
   level: INFO
   format: json
-  
+
 # Resource limits
 resources:
   cpu_limit: "2000m"
