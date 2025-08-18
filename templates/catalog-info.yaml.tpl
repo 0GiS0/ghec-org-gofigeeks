@@ -112,21 +112,21 @@ spec:
         url: ./skeleton
         copyWithoutTemplating:
           - .github/workflows/*
-  values:
-%{ if template_type != "system" && template_type != "domain" ~}
-      name: $${{ parameters.name }}
-      owner: $${{ parameters.owner }}
-      description: $${{ parameters.description }}
-      destination: $${{ parameters.repoUrl | parseRepoUrl }}
-      repoUrl: $${{ parameters.repoUrl }}
-      system: $${{ parameters.system }}
-%{ else ~}
-      name: $${{ parameters.name }}
-      owner: $${{ parameters.owner }}
-      description: $${{ parameters.description }}
-      destination: $${{ parameters.repoUrl | parseRepoUrl }}
-      repoUrl: $${{ parameters.repoUrl }}
-%{ endif ~}
+      values:
+    %{ if template_type != "system" && template_type != "domain" ~}
+          name: $${{ parameters.name }}
+          owner: $${{ parameters.owner }}
+          description: $${{ parameters.description }}
+          destination: $${{ parameters.repoUrl | parseRepoUrl }}
+          repoUrl: $${{ parameters.repoUrl }}
+          system: $${{ parameters.system }}
+    %{ else ~}
+          name: $${{ parameters.name }}
+          owner: $${{ parameters.owner }}
+          description: $${{ parameters.description }}
+          destination: $${{ parameters.repoUrl | parseRepoUrl }}
+          repoUrl: $${{ parameters.repoUrl }}
+    %{ endif ~}
   - id: publish
       name: Publish
       action: publish:github
