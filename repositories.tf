@@ -958,3 +958,21 @@ resource "github_repository_file" "skeleton_docs_contributing" {
 
   depends_on = [github_repository.templates]
 }
+
+# Catalog info file for generated projects (skeleton)
+resource "github_repository_file" "skeleton_catalog_info" {
+  for_each = var.template_repositories
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "skeleton/catalog-info.yaml"
+  content = templatefile("${path.module}/templates/skeletons/catalog-info.yaml.tpl", {
+    template_type = each.value.type
+  })
+  commit_message      = "Add Backstage catalog-info.yaml with TechDocs annotation for generated projects"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}

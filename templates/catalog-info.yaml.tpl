@@ -6,6 +6,8 @@ metadata:
   name: ${template_name}
   title: ${template_title}
   description: ${template_description}
+  annotations:
+    backstage.io/techdocs-ref: dir:.
   tags:
 %{ for tag in template_tags ~}
     - ${tag}
