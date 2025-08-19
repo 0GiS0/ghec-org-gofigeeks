@@ -145,18 +145,7 @@ spec:
       name: Publish
       action: publish:github
       input:
-        description: |-
-          $${{ (() => {
-            const raw = String(parameters.description ?? '');
-            // Normalize whitespace/newlines to one line
-            const oneLine = raw.replace(/\s+/g, ' ').trim();
-            // Limit to 350 UTF-8 bytes (GitHub's actual limit)
-            let truncated = oneLine;
-            while (new TextEncoder().encode(truncated).length > 350) {
-              truncated = truncated.slice(0, -1);
-            }
-            return truncated;
-          })() }}
+        description: $${{ (() => { const raw = String(parameters.description ?? ''); const oneLine = raw.replace(/\s+/g, ' ').trim(); let truncated = oneLine; while (new TextEncoder().encode(truncated).length > 350) { truncated = truncated.slice(0, -1); } return truncated; })() }}
         repoUrl: $${{ parameters.repoUrl }}
         gitCommitMessage: Create scaffold from template
         topics: ["backstage-include", "${organization}"]
