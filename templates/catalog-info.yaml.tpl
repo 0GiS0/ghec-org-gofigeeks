@@ -39,8 +39,8 @@ spec:
           title: Description
           type: string
           description: A description for the component
-          maxLength: 350
-          ui:help: "Max 350 characters (GitHub limit)"
+          maxLength: 340
+          ui:help: "Max 340 characters (GitHub has a 350-byte limit, accented characters count as multiple bytes)"
         owner:
           title: Select in which group the component will be created
           type: string
@@ -82,8 +82,8 @@ spec:
 %{ else ~}
           description: A description for the domain
 %{ endif ~}
-          maxLength: 350
-          ui:help: "Max 350 characters (GitHub limit)"
+          maxLength: 340
+          ui:help: "Max 340 characters (GitHub has a 350-byte limit, accented characters count as multiple bytes)"
         owner:
 %{ if template_type == "system" ~}
           title: Select the owner group for this system
@@ -150,9 +150,12 @@ spec:
             const raw = String(parameters.description ?? '');
             // Normalize whitespace/newlines to one line
             const oneLine = raw.replace(/\s+/g, ' ').trim();
-            // Limit to 350 Unicode code points (handles emojis)
-            const cps = Array.from(oneLine);
-            return cps.length > 350 ? cps.slice(0, 350).join('') : oneLine;
+            // Limit to 350 UTF-8 bytes (GitHub's actual limit)
+            let truncated = oneLine;
+            while (new TextEncoder().encode(truncated).length > 350) {
+              truncated = truncated.slice(0, -1);
+            }
+            return truncated;
           })() }}
         repoUrl: $${{ parameters.repoUrl }}
         gitCommitMessage: Create scaffold from template

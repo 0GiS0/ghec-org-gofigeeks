@@ -1,4 +1,5 @@
 /.local-validate/rendered.yaml
+/.local-validate/temp_render.yaml
 /.local-validate/.terraform/
 /.local-validate/terraform.tfstate*
 # Terraform files
