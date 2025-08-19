@@ -308,8 +308,8 @@ resource "github_repository_file" "codeowners" {
   branch     = "main"
   file       = ".github/CODEOWNERS"
   content = templatefile("${path.module}/templates/CODEOWNERS.tpl", {
-    platform_team      = "@${var.github_organization}/${github_team.platform.slug}"
-    template_approvers = "@${var.github_organization}/${github_team.template_approvers.slug}"
+    platform_team      = "@${github_team.platform.slug}"
+    template_approvers = "@${github_team.template_approvers.slug}"
   })
   commit_message      = "Add CODEOWNERS file for template protection"
   commit_author       = "Terraform"
@@ -325,8 +325,8 @@ resource "github_repository_file" "backstage_codeowners" {
   branch     = "main"
   file       = ".github/CODEOWNERS"
   content = templatefile("${path.module}/templates/CODEOWNERS-backstage.tpl", {
-    platform_team      = "@${var.github_organization}/${github_team.platform.slug}"
-    template_approvers = "@${var.github_organization}/${github_team.template_approvers.slug}"
+    platform_team      = "@${github_team.platform.slug}"
+    template_approvers = "@${github_team.template_approvers.slug}"
   })
   commit_message      = "Add CODEOWNERS file for Backstage repository protection"
   commit_author       = "Terraform"
