@@ -555,6 +555,150 @@ resource "github_repository_file" "dotnet_service_program" {
   depends_on = [github_repository.templates]
 }
 
+resource "github_repository_file" "dotnet_service_csproj" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-dotnet-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/src/$${values.name}.csproj"
+  content             = file("${path.module}/templates/skeletons/dotnet-service/src/$${parameters.name}.csproj.tpl")
+  commit_message      = "Add .NET service skeleton project file"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "dotnet_service_readme" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-dotnet-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/README.md"
+  content             = file("${path.module}/templates/skeletons/dotnet-service/README.md.tpl")
+  commit_message      = "Add .NET service skeleton README"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "dotnet_service_api_controller" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-dotnet-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/src/Controllers/ApiController.cs"
+  content             = file("${path.module}/templates/skeletons/dotnet-service/src/Controllers/ApiController.cs.tpl")
+  commit_message      = "Add .NET service skeleton API controller"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "dotnet_service_health_controller" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-dotnet-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/src/Controllers/HealthController.cs"
+  content             = file("${path.module}/templates/skeletons/dotnet-service/src/Controllers/HealthController.cs.tpl")
+  commit_message      = "Add .NET service skeleton health controller"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "dotnet_service_models" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-dotnet-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/src/Models/ApiModels.cs"
+  content             = file("${path.module}/templates/skeletons/dotnet-service/src/Models/ApiModels.cs.tpl")
+  commit_message      = "Add .NET service skeleton API models"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "dotnet_service_devcontainer" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-dotnet-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.devcontainer/devcontainer.json"
+  content             = file("${path.module}/templates/skeletons/dotnet-service/.devcontainer/devcontainer.json.tpl")
+  commit_message      = "Add .NET service skeleton devcontainer configuration"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "dotnet_service_test_project" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-dotnet-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/tests/$${values.name}.Tests.csproj"
+  content             = file("${path.module}/templates/skeletons/dotnet-service/tests/$${parameters.name}.Tests.csproj.tpl")
+  commit_message      = "Add .NET service skeleton test project file"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "dotnet_service_api_tests" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-dotnet-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/tests/ApiTests.cs"
+  content             = file("${path.module}/templates/skeletons/dotnet-service/tests/ApiTests.cs.tpl")
+  commit_message      = "Add .NET service skeleton API tests"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
 # Astro Frontend Skeleton Files
 resource "github_repository_file" "astro_frontend_package" {
   for_each = {
