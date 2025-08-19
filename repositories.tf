@@ -976,3 +976,22 @@ resource "github_repository_file" "skeleton_catalog_info" {
 
   depends_on = [github_repository.templates]
 }
+
+# CODEOWNERS file for generated projects (skeleton)
+resource "github_repository_file" "skeleton_codeowners" {
+  for_each = var.template_repositories
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "skeleton/.github/CODEOWNERS"
+  content = templatefile("${path.module}/templates/skeletons/CODEOWNERS.tpl", {
+    developers_team = local.team_names.developers
+    platform_team   = local.team_names.platform
+  })
+  commit_message      = "Add CODEOWNERS file for generated projects"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
