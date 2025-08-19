@@ -39,6 +39,8 @@ spec:
           title: Description
           type: string
           description: A description for the component
+          maxLength: 350
+          ui:help: "Max 350 characters (GitHub limit)"
         owner:
           title: Select in which group the component will be created
           type: string
@@ -80,6 +82,8 @@ spec:
 %{ else ~}
           description: A description for the domain
 %{ endif ~}
+          maxLength: 350
+          ui:help: "Max 350 characters (GitHub limit)"
         owner:
 %{ if template_type == "system" ~}
           title: Select the owner group for this system
@@ -141,7 +145,15 @@ spec:
       name: Publish
       action: publish:github
       input:
-        description: $${{ parameters.description.length > 100 ? parameters.description.substring(0, (() => { const desc = parameters.description; const periodIndex = desc.indexOf('.'); const emojiIndex = desc.search(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/u); const cutPoints = [periodIndex, emojiIndex].filter(i => i !== -1 && i < 100); return cutPoints.length > 0 ? Math.min(...cutPoints) + 1 : 100; })()) : parameters.description }}
+        description: |-
+          $${{ (() => {
+            const raw = String(parameters.description ?? '');
+            // Normalize whitespace/newlines to one line
+            const oneLine = raw.replace(/\s+/g, ' ').trim();
+            // Limit to 350 Unicode code points (handles emojis)
+            const cps = Array.from(oneLine);
+            return cps.length > 350 ? cps.slice(0, 350).join('') : oneLine;
+          })() }}
         repoUrl: $${{ parameters.repoUrl }}
         gitCommitMessage: Create scaffold from template
         topics: ["backstage-include", "${organization}"]

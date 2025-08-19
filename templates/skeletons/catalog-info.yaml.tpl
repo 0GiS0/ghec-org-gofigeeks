@@ -12,7 +12,8 @@ kind: Component
 metadata:
   name: $${{ values.name }}
   title: $${{ values.name | title }}
-  description: $${{ values.description }}
+  description: |-
+    $${{ values.description }}
   annotations:
     backstage.io/techdocs-ref: dir:.
     github.com/project-slug: $${{ values.destination.owner }}/$${{ values.name }}
