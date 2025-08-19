@@ -141,7 +141,7 @@ spec:
       name: Publish
       action: publish:github
       input:
-        description: $${{ parameters.description || (parameters.name + ' component') }}
+        description: $${{ parameters.description }}
         repoUrl: $${{ parameters.repoUrl }}
         gitCommitMessage: Create scaffold from template
         topics: ["backstage-include", "${organization}"]
