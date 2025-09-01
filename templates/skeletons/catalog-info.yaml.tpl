@@ -19,7 +19,7 @@ metadata:
     github.com/project-slug: $${{ values.destination.owner }}/$${{ values.name }}
 %{ if template_type != "system" && template_type != "domain" ~}
   tags:
-    - $${{ values.system }}
+    - $${{ values.system | replace("system:default/", "") | replace("system:", "") }}
 %{ endif ~}
 spec:
 %{ if template_type == "system" ~}
