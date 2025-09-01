@@ -17,6 +17,7 @@ metadata:
   annotations:
     backstage.io/techdocs-ref: dir:.
     github.com/project-slug: $${{ values.destination.owner }}/$${{ values.name }}
+    github.com/workflows: ci
 %{ if template_type != "system" && template_type != "domain" ~}
   tags:
     - $${{ values.system | replace("system:default/", "") | replace("system:", "") }}
