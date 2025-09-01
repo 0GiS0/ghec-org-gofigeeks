@@ -1,7 +1,7 @@
 {
-  "name": "$${parameters.name}",
+  "name": "${{values.name}}",
   "version": "1.0.0",
-  "description": "$${parameters.description}",
+  "description": "${{values.description}}",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -28,8 +28,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "$${parameters.repoUrl}"
+    "url": "${{values.repoUrl}}"
   },
-  "author": "$${parameters.owner}",
+  "author": "${{values.owner}}",
   "license": "MIT"
 }

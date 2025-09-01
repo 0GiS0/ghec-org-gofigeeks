@@ -4,8 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyName>$${parameters.name}</AssemblyName>
-    <RootNamespace>$${parameters.name}</RootNamespace>
+    <AssemblyName>${{values.name}}</AssemblyName>
+    <RootNamespace>${{values.name}}</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

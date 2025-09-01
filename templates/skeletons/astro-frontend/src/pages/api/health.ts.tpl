@@ -3,7 +3,7 @@ export async function GET() {
   return new Response(
     JSON.stringify({
       status: 'OK',
-      service: '$${parameters.name}',
+      service: '${{values.name}}',
       timestamp: new Date().toISOString(),
       version: '1.0.0'
     }),

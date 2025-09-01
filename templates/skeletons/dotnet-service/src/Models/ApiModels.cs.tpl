@@ -1,4 +1,4 @@
-namespace $${parameters.name}.Models;
+namespace ${{values.name}}.Models;
 
 public class HealthResponse
 {

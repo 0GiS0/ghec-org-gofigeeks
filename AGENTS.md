@@ -90,9 +90,73 @@ Este repositorio gestiona la configuración de una organización de GitHub Enter
 - Modificar plantillas requiere actualizar la configuración de repositorios
 - Verificar que `manage_workflow_files` esté configurado correctamente
 
-### Formato de plantillas para Backstage
+### Plantillas para Backstage
 
-- **Placeholders en contenido**: Usar `$${parameters.name}` (doble $) para variables de Backstage
-- **Nombres de archivos**: Usar `{{values.name}}` para nombres de archivos que deben ser reemplazados
-- **No usar `templatefile()`**: Las plantillas deben usar `file()` para mantener los placeholders intactos
-- **Backstage procesa los placeholders**: Cuando el usuario crea un proyecto desde la plantilla
+Las plantillas en el directorio `templates/` están diseñadas para ser utilizadas por **Backstage** como templates de software. Backstage es una plataforma de desarrollador que permite crear nuevos proyectos desde plantillas predefinidas.
+
+#### Manejo de placeholders mixtos (Terraform + Backstage)
+
+Cuando un archivo necesita placeholders tanto para Terraform como para Backstage, se debe usar la siguiente estrategia:
+
+##### Archivos procesados por Terraform (`templatefile()`)
+
+Para archivos como `catalog-info.yaml.tpl` que son procesados por Terraform:
+
+- **Placeholders de Terraform**: `${variable_name}` (una sola $)
+- **Placeholders de Backstage**: `$${{parameters.nombreVariable}}` (doble $)
+  - Terraform convierte `$$` en `$` literal
+  - El resultado final será `${{parameters.nombreVariable}}` que Backstage puede procesar
+
+```yaml
+# En catalog-info.yaml.tpl (procesado por Terraform)
+metadata:
+  name: ${template_name}                    # Terraform placeholder
+  title: ${template_title}                  # Terraform placeholder
+  description: ${template_description}      # Terraform placeholder
+  values:
+    name: $${{parameters.name}}             # Backstage placeholder (doble $)
+    owner: $${{parameters.owner}}           # Backstage placeholder (doble $)
+```
+
+##### Archivos copiados directamente (`file()`)
+
+Para archivos en `skeletons/` que se copian tal cual:
+
+- **Placeholders de Backstage**: `${{values.nombreVariable}}` (una sola $)
+- **No hay placeholders de Terraform** en estos archivos
+
+```json
+// En package.json.tpl (copiado con file())
+{
+  "name": "${{values.name}}",              // Backstage placeholder (una $)
+  "description": "${{values.description}}" // Backstage placeholder (una $)
+}
+```
+
+#### Formato correcto de placeholders
+
+- **Terraform**: `${variable_name}`
+- **Backstage en archivos procesados por Terraform**: `$${{parameters.nombreVariable}}`
+- **Backstage en archivos copiados directamente**: `${{values.nombreVariable}}`
+
+#### Ejemplo de uso en Backstage
+
+```yaml
+# En el template.yaml de Backstage
+parameters:
+  - name: projectName
+    type: string
+    description: Nombre del proyecto
+  - name: description
+    type: string
+    description: Descripción del proyecto
+```
+
+```markdown
+<!-- En un archivo README.md de la plantilla (skeleton) -->
+# ${{values.projectName}}
+
+${{values.description}}
+
+Este proyecto fue creado desde la plantilla de Backstage.
+```

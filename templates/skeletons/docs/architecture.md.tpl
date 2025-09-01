@@ -1,17 +1,17 @@
 # Architecture
 
-This document describes the technical architecture and design decisions for **$${parameters.name}**.
+This document describes the technical architecture and design decisions for **${{values.name}}**.
 
 ## Overview
 
-$${parameters.description}
+${{values.description}}
 
 This project follows our organization's architectural patterns and best practices.
 
 ## System Context
 
-**System:** $${parameters.system}
-**Owner:** $${parameters.owner}
+**System:** ${{values.system}}
+**Owner:** ${{values.owner}}
 
 ## High-Level Architecture
 
@@ -177,6 +177,6 @@ Major architectural changes or improvements planned for the future.
 
 ## References
 
-- [System Documentation]($${parameters.system})
+- [System Documentation](${{values.system}})
 - [Organization Standards](../organization-standards.md)
 - [Security Guidelines](../security-guidelines.md)

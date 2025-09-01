@@ -1,5 +1,5 @@
 {
-  "name": "$${parameters.name}-devcontainer",
+  "name": "${{values.name}}-devcontainer",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
@@ -21,11 +21,11 @@
   "forwardPorts": [8000, 8001],
   "portsAttributes": {
     "8000": {
-      "label": "$${parameters.name} Gateway",
+      "label": "${{values.name}} Gateway",
       "onAutoForward": "notify"
     },
     "8001": {
-      "label": "$${parameters.name} Admin",
+      "label": "${{values.name}} Admin",
       "onAutoForward": "notify"
     }
   }

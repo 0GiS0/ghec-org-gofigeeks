@@ -1,6 +1,6 @@
 # Development
 
-This document outlines the development guidelines and workflows for **$${parameters.name}**.
+This document outlines the development guidelines and workflows for **${{values.name}}**.
 
 ## Development Environment
 
@@ -136,5 +136,5 @@ LOG_LEVEL=debug
 ## Getting Help
 
 - **Code reviews:** Tag appropriate team members for review
-- **Technical questions:** Contact the project owner: $${parameters.owner}
+- **Technical questions:** Contact the project owner: ${{values.owner}}
 - **Platform issues:** Contact the platform team

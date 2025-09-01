@@ -1,6 +1,6 @@
 # API Reference
 
-This document provides comprehensive API documentation for **$${parameters.name}**.
+This document provides comprehensive API documentation for **${{values.name}}**.
 
 ## Base URL
 
@@ -346,6 +346,6 @@ Use these endpoints for testing your integration:
 ## Support
 
 - **API Documentation:** This document
-- **Technical Support:** Contact $${parameters.owner}
+- **Technical Support:** Contact ${{values.owner}}
 - **Platform Issues:** Contact the platform team
 - **Bug Reports:** Create an issue in the repository

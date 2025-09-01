@@ -1,6 +1,6 @@
-# $${parameters.name}
+# ${{values.name}}
 
-$${parameters.description}
+${{values.description}}
 
 ## AI Assistant Service
 

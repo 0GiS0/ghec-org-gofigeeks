@@ -1,13 +1,13 @@
 ---
 environment: production
-service_name: $${parameters.name}
+service_name: ${{values.name}}
 version: "1.0.0"
 
 # Database configuration
 database:
   host: prod-db.example.com
   port: 5432
-  name: $${parameters.name}_prod
+  name: ${{values.name}}_prod
   connection_pool_size: 50
   ssl_mode: require
 

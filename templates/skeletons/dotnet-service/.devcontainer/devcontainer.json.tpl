@@ -1,5 +1,5 @@
 {
-  "name": "$${parameters.name}-devcontainer",
+  "name": "${{values.name}}-devcontainer",
   "image": "mcr.microsoft.com/devcontainers/dotnet:8.0",
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {}
@@ -15,20 +15,20 @@
         "github.copilot-chat"
       ],
       "settings": {
-        "dotnet.defaultSolution": "src/$${parameters.name}.csproj"
+        "dotnet.defaultSolution": "src/${{values.name}}.csproj"
       }
     }
   },
-  "postCreateCommand": "dotnet restore src/$${parameters.name}.csproj",
+  "postCreateCommand": "dotnet restore src/${{values.name}}.csproj",
   "remoteUser": "vscode",
   "forwardPorts": [5000, 5001],
   "portsAttributes": {
     "5000": {
-      "label": "$${parameters.name} API (HTTP)",
+      "label": "${{values.name}} API (HTTP)",
       "onAutoForward": "notify"
     },
     "5001": {
-      "label": "$${parameters.name} API (HTTPS)",
+      "label": "${{values.name}} API (HTTPS)",
       "onAutoForward": "notify"
     }
   }

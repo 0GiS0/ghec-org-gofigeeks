@@ -1,5 +1,5 @@
 {
-  "name": "$${parameters.name}-devcontainer",
+  "name": "${{values.name}}-devcontainer",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {}
@@ -29,7 +29,7 @@
   "forwardPorts": [3000],
   "portsAttributes": {
     "3000": {
-      "label": "$${parameters.name} API",
+      "label": "${{values.name}} API",
       "onAutoForward": "notify"
     }
   }

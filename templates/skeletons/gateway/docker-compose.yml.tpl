@@ -4,7 +4,7 @@ version: '3.8'
 services:
   kong:
     image: kong:3.4
-    container_name: $${parameters.name}-gateway
+    container_name: ${{values.name}}-gateway
     environment:
       KONG_DATABASE: "off"
       KONG_DECLARATIVE_CONFIG: /opt/kong/kong.yml
@@ -27,4 +27,4 @@ services:
 
 networks:
   default:
-    name: $${parameters.name}-network
+    name: ${{values.name}}-network

@@ -1,7 +1,7 @@
 const request = require('supertest');
 const app = require('../src/index');
 
-describe('$${parameters.name} API', () => {
+describe('${{values.name}} API', () => {
   describe('GET /health', () => {
     test('should return health status', async () => {
       const response = await request(app)
@@ -10,7 +10,7 @@ describe('$${parameters.name} API', () => {
         .expect(200);
 
       expect(response.body).toHaveProperty('status', 'OK');
-      expect(response.body).toHaveProperty('service', '$${parameters.name}');
+      expect(response.body).toHaveProperty('service', '${{values.name}}');
       expect(response.body).toHaveProperty('timestamp');
       expect(response.body).toHaveProperty('version');
     });
@@ -23,7 +23,7 @@ describe('$${parameters.name} API', () => {
         .expect('Content-Type', /json/)
         .expect(200);
 
-      expect(response.body).toHaveProperty('message', 'Hello from $${parameters.name}!');
+      expect(response.body).toHaveProperty('message', 'Hello from ${{values.name}}!');
       expect(response.body).toHaveProperty('timestamp');
     });
   });
@@ -35,7 +35,7 @@ describe('$${parameters.name} API', () => {
         .expect('Content-Type', /json/)
         .expect(200);
 
-      expect(response.body).toHaveProperty('service', '$${parameters.name}');
+      expect(response.body).toHaveProperty('service', '${{values.name}}');
       expect(response.body).toHaveProperty('status', 'running');
       expect(response.body).toHaveProperty('uptime');
       expect(response.body).toHaveProperty('memory');

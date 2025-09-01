@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/health', (req, res) => {
   res.status(200).json({
     status: 'OK',
-    service: '$${parameters.name}',
+    service: '${{values.name}}',
     timestamp: new Date().toISOString(),
     version: '1.0.0'
   });
@@ -25,14 +25,14 @@ app.get('/health', (req, res) => {
 // API routes
 app.get('/api/hello', (req, res) => {
   res.json({
-    message: 'Hello from $${parameters.name}!',
+    message: 'Hello from ${{values.name}}!',
     timestamp: new Date().toISOString()
   });
 });
 
 app.get('/api/status', (req, res) => {
   res.json({
-    service: '$${parameters.name}',
+    service: '${{values.name}}',
     status: 'running',
     uptime: process.uptime(),
     memory: process.memoryUsage(),
@@ -59,7 +59,7 @@ app.use('*', (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 $${parameters.name} server running on port ${PORT}`);
+  console.log(`🚀 ${{values.name}} server running on port ${PORT}`);
   console.log(`📋 Health check: http://localhost:${PORT}/health`);
   console.log(`🔧 API endpoints: http://localhost:${PORT}/api/hello`);
 });

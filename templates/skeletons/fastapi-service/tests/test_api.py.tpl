@@ -11,7 +11,7 @@ class TestAPI:
         assert response.status_code == 200
         data = response.json()
         assert data["status"] == "OK"
-        assert data["service"] == "${parameters.name}"
+        assert data["service"] == "${{values.name}}"
         assert "timestamp" in data
         assert "version" in data
 
@@ -20,7 +20,7 @@ class TestAPI:
         response = client.get("/api/hello")
         assert response.status_code == 200
         data = response.json()
-        assert data["message"] == "Hello from ${parameters.name}!"
+        assert data["message"] == "Hello from ${{values.name}}!"
         assert "timestamp" in data
 
     def test_status_endpoint(self):
@@ -28,7 +28,7 @@ class TestAPI:
         response = client.get("/api/status")
         assert response.status_code == 200
         data = response.json()
-        assert data["service"] == "${parameters.name}"
+        assert data["service"] == "${{values.name}}"
         assert data["status"] == "running"
         assert "uptime" in data
         assert "environment" in data
@@ -38,7 +38,7 @@ class TestAPI:
         response = client.get("/")
         assert response.status_code == 200
         data = response.json()
-        assert data["service"] == "${parameters.name}"
+        assert data["service"] == "${{values.name}}"
         assert "docs" in data
         assert "health" in data
 
@@ -52,4 +52,4 @@ class TestAPI:
         response = client.get("/openapi.json")
         assert response.status_code == 200
         data = response.json()
-        assert data["info"]["title"] == "${parameters.name}"
+        assert data["info"]["title"] == "${{values.name}}"

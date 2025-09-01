@@ -1,6 +1,6 @@
 ---
 title: 'About'
-description: 'About $${parameters.name}'
+description: 'About ${{values.name}}'
 ---
 
 <html lang="en">
@@ -9,13 +9,13 @@ description: 'About $${parameters.name}'
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title} - $${parameters.name}</title>
+    <title>{title} - ${{values.name}}</title>
     <meta name="description" content={description} />
   </head>
   <body>
     <main>
-      <h1>About $${parameters.name}</h1>
-      <p>$${parameters.description}</p>
+      <h1>About ${{values.name}}</h1>
+      <p>${{values.description}}</p>
       <p>
         This page provides information about the application and its purpose.
       </p>

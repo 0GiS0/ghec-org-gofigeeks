@@ -13,8 +13,8 @@ load_dotenv()
 
 # Initialize FastAPI app
 app = FastAPI(
-    title="${parameters.name}",
-    description="${parameters.description}",
+    title="${{values.name}}",
+    description="${{values.description}}",
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc"
@@ -54,7 +54,7 @@ async def health_check():
     """Health check endpoint."""
     return HealthResponse(
         status="OK",
-        service="${parameters.name}",
+        service="${{values.name}}",
         timestamp=datetime.utcnow().isoformat(),
         version="1.0.0"
     )
@@ -63,7 +63,7 @@ async def health_check():
 async def hello():
     """Hello world endpoint."""
     return HelloResponse(
-        message="Hello from ${parameters.name}!",
+        message="Hello from ${{values.name}}!",
         timestamp=datetime.utcnow().isoformat()
     )
 
@@ -71,7 +71,7 @@ async def hello():
 async def get_status():
     """Service status endpoint."""
     return StatusResponse(
-        service="${parameters.name}",
+        service="${{values.name}}",
         status="running",
         uptime=time.time() - start_time,
         environment=os.getenv("ENVIRONMENT", "development")
@@ -81,8 +81,8 @@ async def get_status():
 async def root():
     """Root endpoint with service information."""
     return {
-        "service": "${parameters.name}",
-        "message": "Welcome to ${parameters.name} API",
+        "service": "${{values.name}}",
+        "message": "Welcome to ${{values.name}} API",
         "docs": "/docs",
         "health": "/health"
     }

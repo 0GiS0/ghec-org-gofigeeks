@@ -451,9 +451,9 @@ resource "github_repository_file" "node_service_package" {
     if key == "backstage-template-node-service"
   }
 
-  repository = github_repository.templates[each.key].name
-  branch     = "main"
-  file       = "skeleton/package.json"
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/package.json"
   content             = file("${path.module}/templates/skeletons/node-service/package.json.tpl")
   commit_message      = "Add Node.js service skeleton package.json"
   commit_author       = "Terraform"
@@ -469,9 +469,9 @@ resource "github_repository_file" "node_service_main" {
     if key == "backstage-template-node-service"
   }
 
-  repository = github_repository.templates[each.key].name
-  branch     = "main"
-  file       = "skeleton/src/index.js"
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/src/index.js"
   content             = file("${path.module}/templates/skeletons/node-service/src/index.js.tpl")
   commit_message      = "Add Node.js service skeleton main file"
   commit_author       = "Terraform"
@@ -487,9 +487,9 @@ resource "github_repository_file" "node_service_devcontainer" {
     if key == "backstage-template-node-service"
   }
 
-  repository = github_repository.templates[each.key].name
-  branch     = "main"
-  file       = "skeleton/.devcontainer/devcontainer.json"
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.devcontainer/devcontainer.json"
   content             = file("${path.module}/templates/skeletons/node-service/.devcontainer/devcontainer.json.tpl")
   commit_message      = "Add Node.js service devcontainer configuration"
   commit_author       = "Terraform"
@@ -506,14 +506,10 @@ resource "github_repository_file" "fastapi_service_main" {
     if key == "backstage-template-fastapi-service"
   }
 
-  repository = github_repository.templates[each.key].name
-  branch     = "main"
-  file       = "skeleton/app/main.py"
-  content = templatefile("${path.module}/templates/skeletons/fastapi-service/app/main.py.tpl", {
-    parameters = {
-      name = each.key
-    }
-  })
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/app/main.py"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/app/main.py.tpl")
   commit_message      = "Add FastAPI service skeleton main file"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -551,9 +547,9 @@ resource "github_repository_file" "dotnet_service_program" {
     if key == "backstage-template-dotnet-service"
   }
 
-  repository = github_repository.templates[each.key].name
-  branch     = "main"
-  file       = "skeleton/src/Program.cs"
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/src/Program.cs"
   content             = file("${path.module}/templates/skeletons/dotnet-service/src/Program.cs.tpl")
   commit_message      = "Add .NET service skeleton Program.cs"
   commit_author       = "Terraform"
@@ -569,10 +565,10 @@ resource "github_repository_file" "dotnet_service_csproj" {
     if key == "backstage-template-dotnet-service"
   }
 
-  repository = github_repository.templates[each.key].name
-  branch     = "main"
-  file                = "skeleton/src/{{values.name}}.csproj"
-  content             = file("${path.module}/templates/skeletons/dotnet-service/src/$${parameters.name}.csproj.tpl")
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/src/$${{values.name}}.csproj"
+  content             = file("${path.module}/templates/skeletons/dotnet-service/src/$${{values.name}}.csproj.tpl")
   commit_message      = "Add .NET service skeleton project file"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -587,9 +583,9 @@ resource "github_repository_file" "dotnet_service_readme" {
     if key == "backstage-template-dotnet-service"
   }
 
-  repository = github_repository.templates[each.key].name
-  branch     = "main"
-  file       = "skeleton/README.md"
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/README.md"
   content             = file("${path.module}/templates/skeletons/dotnet-service/README.md.tpl")
   commit_message      = "Add .NET service skeleton README"
   commit_author       = "Terraform"
@@ -605,9 +601,9 @@ resource "github_repository_file" "dotnet_service_api_controller" {
     if key == "backstage-template-dotnet-service"
   }
 
-  repository = github_repository.templates[each.key].name
-  branch     = "main"
-  file       = "skeleton/src/Controllers/ApiController.cs"
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/src/Controllers/ApiController.cs"
   content             = file("${path.module}/templates/skeletons/dotnet-service/src/Controllers/ApiController.cs.tpl")
   commit_message      = "Add .NET service skeleton API controller"
   commit_author       = "Terraform"
@@ -623,9 +619,9 @@ resource "github_repository_file" "dotnet_service_health_controller" {
     if key == "backstage-template-dotnet-service"
   }
 
-  repository = github_repository.templates[each.key].name
-  branch     = "main"
-  file       = "skeleton/src/Controllers/HealthController.cs"
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/src/Controllers/HealthController.cs"
   content             = file("${path.module}/templates/skeletons/dotnet-service/src/Controllers/HealthController.cs.tpl")
   commit_message      = "Add .NET service skeleton health controller"
   commit_author       = "Terraform"
@@ -641,9 +637,9 @@ resource "github_repository_file" "dotnet_service_models" {
     if key == "backstage-template-dotnet-service"
   }
 
-  repository = github_repository.templates[each.key].name
-  branch     = "main"
-  file       = "skeleton/src/Models/ApiModels.cs"
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/src/Models/ApiModels.cs"
   content             = file("${path.module}/templates/skeletons/dotnet-service/src/Models/ApiModels.cs.tpl")
   commit_message      = "Add .NET service skeleton API models"
   commit_author       = "Terraform"
@@ -659,9 +655,9 @@ resource "github_repository_file" "dotnet_service_devcontainer" {
     if key == "backstage-template-dotnet-service"
   }
 
-  repository = github_repository.templates[each.key].name
-  branch     = "main"
-  file       = "skeleton/.devcontainer/devcontainer.json"
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.devcontainer/devcontainer.json"
   content             = file("${path.module}/templates/skeletons/dotnet-service/.devcontainer/devcontainer.json.tpl")
   commit_message      = "Add .NET service skeleton devcontainer configuration"
   commit_author       = "Terraform"
@@ -677,10 +673,10 @@ resource "github_repository_file" "dotnet_service_test_project" {
     if key == "backstage-template-dotnet-service"
   }
 
-  repository = github_repository.templates[each.key].name
-  branch     = "main"
-  file                = "skeleton/tests/{{values.name}}.Tests.csproj"
-  content             = file("${path.module}/templates/skeletons/dotnet-service/tests/$${parameters.name}.Tests.csproj.tpl")
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/tests/$${{values.name}}.Tests.csproj"
+  content             = file("${path.module}/templates/skeletons/dotnet-service/tests/$${{values.name}}.Tests.csproj.tpl")
   commit_message      = "Add .NET service skeleton test project file"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -695,9 +691,9 @@ resource "github_repository_file" "dotnet_service_api_tests" {
     if key == "backstage-template-dotnet-service"
   }
 
-  repository = github_repository.templates[each.key].name
-  branch     = "main"
-  file       = "skeleton/tests/ApiTests.cs"
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/tests/ApiTests.cs"
   content             = file("${path.module}/templates/skeletons/dotnet-service/tests/ApiTests.cs.tpl")
   commit_message      = "Add .NET service skeleton API tests"
   commit_author       = "Terraform"

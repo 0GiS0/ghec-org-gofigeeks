@@ -1,6 +1,6 @@
 ---
-title: '$${parameters.name}'
-description: '$${parameters.description}'
+title: '${{values.name}}'
+description: '${{values.description}}'
 ---
 
 <html lang="en">

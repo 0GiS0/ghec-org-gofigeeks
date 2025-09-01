@@ -1,16 +1,16 @@
-# $${parameters.name}
+# ${{values.name}}
 
-Welcome to the documentation for **$${parameters.name}**, a $${parameters.description}.
+Welcome to the documentation for **${{values.name}}**, a ${{values.description}}.
 
 This project was created using the Backstage template system and follows our organization's standards and best practices.
 
 ## Overview
 
-$${parameters.description}
+${{values.description}}
 
-**Repository:** [$${parameters.destination.owner}}/$${parameters.name}]($${parameters.repoUrl})
-**Owner:** $${parameters.owner}
-**System:** $${parameters.system}
+**Repository:** [${{values.destination.owner}}/${{values.name}}](${{values.repoUrl}})
+**Owner:** ${{values.owner}}
+**System:** ${{values.system}}
 
 ## Quick Links
 
@@ -25,11 +25,11 @@ $${parameters.description}
 
 | Field | Value |
 |-------|-------|
-| **Project Name** | $${parameters.name} |
-| **Description** | $${parameters.description} |
-| **Owner** | $${parameters.owner} |
-| **System** | $${parameters.system} |
-| **Repository** | [$${parameters.destination.owner}}/$${parameters.name}]($${parameters.repoUrl}) |
+| **Project Name** | ${{values.name}} |
+| **Description** | ${{values.description}} |
+| **Owner** | ${{values.owner}} |
+| **System** | ${{values.system}} |
+| **Repository** | [${{values.destination.owner}}/${{values.name}}](${{values.repoUrl}}) |
 | **Created** | {{ now() | strftime('%Y-%m-%d') }} |
 
 ## Support
@@ -37,7 +37,7 @@ $${parameters.description}
 If you need help with this project:
 
 1. **Check the documentation** - Start with the relevant sections in this documentation
-2. **Contact the owner** - Reach out to $${parameters.owner} for project-specific questions
+2. **Contact the owner** - Reach out to ${{values.owner}} for project-specific questions
 3. **Platform team** - Contact the platform team for infrastructure and tooling questions
 4. **Security concerns** - Contact the security team for security-related issues
 

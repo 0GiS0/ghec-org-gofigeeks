@@ -1,10 +1,10 @@
 ---
-site_name: $${parameters.name}
-site_description: $${parameters.description}
-site_url: $${parameters.repoUrl}
+site_name: ${{values.name}}
+site_description: ${{values.description}}
+site_url: ${{values.repoUrl}}
 
-repo_name: $${parameters.destination.owner}/$${parameters.name}
-repo_url: $${parameters.repoUrl}
+repo_name: ${{values.destination.owner}}/${{values.name}}
+repo_url: ${{values.repoUrl}}
 
 theme:
   name: material

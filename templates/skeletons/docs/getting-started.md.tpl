@@ -1,6 +1,6 @@
 # Getting Started
 
-This guide will help you get started with **$${parameters.name}**.
+This guide will help you get started with **${{values.name}}**.
 
 ## Prerequisites
 
@@ -13,8 +13,8 @@ Before you begin, ensure you have the following installed on your development ma
 
 1. **Clone the repository:**
    ```bash
-   git clone $${parameters.repoUrl}
-   cd $${parameters.name}
+   git clone ${{values.repoUrl}}
+   cd ${{values.name}}
    ```
 
 2. **Install dependencies:**
@@ -62,5 +62,5 @@ Before you begin, ensure you have the following installed on your development ma
 If you're still having trouble getting started:
 
 1. Check the project README.md for detailed setup instructions
-2. Contact the project owner: $${parameters.owner}
+2. Contact the project owner: ${{values.owner}}
 3. Reach out to the platform team for general tooling support

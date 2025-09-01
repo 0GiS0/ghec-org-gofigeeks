@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using $${parameters.name}.Models;
+using ${{values.name}}.Models;
 
-namespace $${parameters.name}.Controllers;
+namespace ${{values.name}}.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -21,7 +21,7 @@ public class HelloController : ControllerBase
         
         return Ok(new HelloResponse
         {
-            Message = "Hello from $${parameters.name}!",
+            Message = "Hello from ${{values.name}}!",
             Timestamp = DateTime.UtcNow
         });
     }
@@ -46,7 +46,7 @@ public class StatusController : ControllerBase
         
         return Ok(new StatusResponse
         {
-            Service = "$${parameters.name}",
+            Service = "${{values.name}}",
             Status = "running",
             Uptime = DateTime.UtcNow - StartTime,
             Environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development"

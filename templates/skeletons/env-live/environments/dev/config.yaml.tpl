@@ -1,13 +1,13 @@
 ---
 environment: development
-service_name: $${parameters.name}
+service_name: ${{values.name}}
 version: "1.0.0"
 
 # Database configuration
 database:
   host: localhost
   port: 5432
-  name: $${parameters.name}_dev
+  name: ${{values.name}}_dev
   connection_pool_size: 10
   ssl_mode: disable
 

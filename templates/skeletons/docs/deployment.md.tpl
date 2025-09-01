@@ -1,6 +1,6 @@
 # Deployment
 
-This document describes how to deploy **$${parameters.name}** to different environments.
+This document describes how to deploy **${{values.name}}** to different environments.
 
 ## Overview
 
@@ -71,7 +71,7 @@ These environment variables must be set for all environments:
 
 ```env
 # Application Configuration
-APP_NAME=$${parameters.name}
+APP_NAME=${{values.name}}
 APP_ENV=production
 APP_PORT=3000
 
@@ -149,16 +149,16 @@ If using Docker:
 
 1. **Build Docker image:**
    ```bash
-   docker build -t $${parameters.name}:latest .
+   docker build -t ${{values.name}}:latest .
    ```
 
 2. **Run container:**
    ```bash
    docker run -d \
-     --name $${parameters.name} \
+     --name ${{values.name}} \
      --env-file .env.production \
      -p 3000:3000 \
-     $${parameters.name}:latest
+     ${{values.name}}:latest
    ```
 
 ### Kubernetes Deployment
@@ -336,7 +336,7 @@ After each deployment:
 
 For deployment issues:
 
-- **Application issues:** Contact $${parameters.owner}
+- **Application issues:** Contact ${{values.owner}}
 - **Infrastructure issues:** Contact the platform team
 - **Emergency issues:** Follow the incident response procedures
 

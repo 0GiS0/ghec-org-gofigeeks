@@ -1,16 +1,16 @@
 ---
 apiVersion: v2
-name: $${parameters.name}
-description: $${parameters.description}
+name: ${{values.name}}
+description: ${{values.description}}
 type: application
 version: 0.1.0
 appVersion: "1.0.0"
 keywords:
   - kubernetes
   - helm
-home: $${parameters.repoUrl}
+home: ${{values.repoUrl}}
 sources:
-  - $${parameters.repoUrl}
+  - ${{values.repoUrl}}
 maintainers:
-  - name: $${parameters.owner}
-    email: $${parameters.owner}@example.com
+  - name: ${{values.owner}}
+    email: ${{values.owner}}@example.com

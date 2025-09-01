@@ -1,14 +1,14 @@
 # Contributing
 
-Thank you for your interest in contributing to **$${parameters.name}**! This document provides guidelines for contributing to this project.
+Thank you for your interest in contributing to **${{values.name}}**! This document provides guidelines for contributing to this project.
 
 ## Getting Started
 
 1. **Fork the repository** on GitHub
 2. **Clone your fork** locally:
    ```bash
-   git clone $${parameters.repoUrl}
-   cd $${parameters.name}
+   git clone ${{values.repoUrl}}
+   cd ${{values.name}}
    ```
 3. **Set up the development environment** by following the [Getting Started](getting-started.md) guide
 4. **Create a feature branch** for your contribution:
@@ -189,7 +189,7 @@ This project adheres to a code of conduct:
 
 - **GitHub Issues:** For bug reports and feature requests
 - **Pull Requests:** For code contributions and discussions
-- **Project Owner:** Contact $${parameters.owner} for project-specific questions
+- **Project Owner:** Contact ${{values.owner}} for project-specific questions
 - **Platform Team:** Contact for infrastructure and tooling questions
 
 ## Development Setup
@@ -290,5 +290,5 @@ By contributing to this project, you agree that your contributions will be licen
 - [Getting Started](getting-started.md)
 - [Development Guide](development.md)
 - [Architecture Documentation](architecture.md)
-- [Project Owner]($${parameters.owner})
+- [Project Owner](${{values.owner}})
 - [Organization Guidelines](../organization-guidelines.md)

@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = FastAPI(
-    title="${parameters.name}",
-    description="${parameters.description}",
+    title="${{values.name}}",
+    description="${{values.description}}",
     version="1.0.0"
 )
 
@@ -24,7 +24,7 @@ class ChatResponse(BaseModel):
 async def health_check():
     return {
         "status": "OK",
-        "service": "${parameters.name}",
+        "service": "${{values.name}}",
         "version": "1.0.0"
     }
 
@@ -50,7 +50,7 @@ async def chat(request: ChatRequest):
 @app.get("/")
 async def root():
     return {
-        "service": "${parameters.name}",
+        "service": "${{values.name}}",
         "message": "AI Assistant API",
         "endpoints": {
             "chat": "/chat",

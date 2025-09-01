@@ -1,5 +1,5 @@
 {
-  "name": "$${parameters.name}",
+  "name": "${{values.name}}",
   "type": "module",
   "version": "0.0.1",
   "scripts": {

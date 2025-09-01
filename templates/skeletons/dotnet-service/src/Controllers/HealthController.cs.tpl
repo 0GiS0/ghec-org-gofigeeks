@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using ${parameters.name}.Models;
+using ${{values.name}}.Models;
 
-namespace ${parameters.name}.Controllers;
+namespace ${{values.name}}.Controllers;
 
 [ApiController]
 [Route("[controller]")]
@@ -22,7 +22,7 @@ public class HealthController : ControllerBase
         return Ok(new HealthResponse
         {
             Status = "OK",
-            Service = "${parameters.name}",
+            Service = "${{values.name}}",
             Timestamp = DateTime.UtcNow,
             Version = "1.0.0"
         });
