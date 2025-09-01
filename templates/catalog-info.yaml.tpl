@@ -145,7 +145,7 @@ spec:
       name: Publish
       action: publish:github
       input:
-        description: $${{ (() => { const raw = String(parameters.description ?? ''); const oneLine = raw.replace(/\s+/g, ' ').trim(); let truncated = oneLine; while (new TextEncoder().encode(truncated).length > 350) { truncated = truncated.slice(0, -1); } return truncated; })() }}
+        description: $${{ parameters.description }}
         repoUrl: $${{ parameters.repoUrl }}
         gitCommitMessage: Create scaffold from template
         topics: ["backstage-include", "${organization}"]
