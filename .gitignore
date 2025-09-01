@@ -2,6 +2,8 @@
 /.local-validate/temp_render.yaml
 /.local-validate/.terraform/
 /.local-validate/terraform.tfstate*
+/.local-validate/main.tf
+/.local-validate/terraform.tfvars
 # Terraform files
 .terraform/
 .terraform.lock.hcl
