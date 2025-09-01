@@ -595,7 +595,7 @@ resource "github_repository_file" "dotnet_service_readme" {
   depends_on = [github_repository.templates]
 }
 
-resource "github_repository_file" "dotnet_service_api_controller" {
+resource "github_repository_file" "dotnet_service_hello_controller" {
   for_each = {
     for key, value in var.template_repositories : key => value
     if key == "backstage-template-dotnet-service"
@@ -603,9 +603,45 @@ resource "github_repository_file" "dotnet_service_api_controller" {
 
   repository          = github_repository.templates[each.key].name
   branch              = "main"
-  file                = "skeleton/src/Controllers/ApiController.cs"
-  content             = file("${path.module}/templates/skeletons/dotnet-service/src/Controllers/ApiController.cs.tpl")
-  commit_message      = "Add .NET service skeleton API controller"
+  file                = "skeleton/src/Controllers/HelloController.cs"
+  content             = file("${path.module}/templates/skeletons/dotnet-service/src/Controllers/HelloController.cs.tpl")
+  commit_message      = "Add .NET service skeleton Hello controller"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "dotnet_service_status_controller" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-dotnet-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/src/Controllers/StatusController.cs"
+  content             = file("${path.module}/templates/skeletons/dotnet-service/src/Controllers/StatusController.cs.tpl")
+  commit_message      = "Add .NET service skeleton Status controller"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "dotnet_service_excursions_controller" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-dotnet-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/src/Controllers/ExcursionsController.cs"
+  content             = file("${path.module}/templates/skeletons/dotnet-service/src/Controllers/ExcursionsController.cs.tpl")
+  commit_message      = "Add .NET service skeleton Excursions controller"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
   overwrite_on_create = true
