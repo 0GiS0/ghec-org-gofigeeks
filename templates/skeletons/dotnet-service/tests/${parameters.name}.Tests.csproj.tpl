@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../src/${parameters.name}.csproj" />
+    <ProjectReference Include="../src/$${parameters.name}.csproj" />
   </ItemGroup>
 
 </Project>

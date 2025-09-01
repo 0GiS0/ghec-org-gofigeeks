@@ -3,7 +3,7 @@ using System.Net;
 using System.Text.Json;
 using Xunit;
 
-namespace ${parameters.name}.Tests;
+namespace $${parameters.name}.Tests;
 
 public class ApiTests : IClassFixture<WebApplicationFactory<Program>>
 {

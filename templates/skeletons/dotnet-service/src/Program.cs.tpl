@@ -9,9 +9,9 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo 
     { 
-        Title = "${parameters.name}", 
+        Title = "$${parameters.name}", 
         Version = "v1",
-        Description = "${parameters.description}"
+        Description = "$${parameters.description}"
     });
 });
 
@@ -37,7 +37,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "${parameters.name} v1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "$${parameters.name} v1");
         c.RoutePrefix = "docs";
     });
 }
@@ -53,8 +53,8 @@ app.MapHealthChecks("/health");
 // Root endpoint
 app.MapGet("/", () => new
 {
-    Service = "${parameters.name}",
-    Message = "Welcome to ${parameters.name} API",
+    Service = "$${parameters.name}",
+    Message = "Welcome to $${parameters.name} API",
     Docs = "/docs",
     Health = "/health"
 });
