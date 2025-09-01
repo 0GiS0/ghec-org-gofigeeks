@@ -40,4 +40,4 @@ Thumbs.db
 *.temp
 
 # Downloaded archives
-*.zip
+*.zip.local-validate/main.tf
