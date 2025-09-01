@@ -39,8 +39,16 @@ spec:
           title: Description
           type: string
           description: A description for the component
+          minLength: 1
           maxLength: 340
-          ui:help: "Max 340 characters (GitHub has a 350-byte limit, accented characters count as multiple bytes)"
+          pattern: "^(?=.*\\S).*$"
+          ui:help: "Required field. Max 340 characters (GitHub has a 350-byte limit, accented characters count as multiple bytes). Excess whitespace will be normalized automatically."
+          ui:options:
+            inputProps:
+              maxLength: 340
+              placeholder: "Enter a clear, concise description of this component..."
+          ui:widget: textarea
+          ui:field: DescriptionField
         owner:
           title: Select in which group the component will be created
           type: string
@@ -82,8 +90,20 @@ spec:
 %{ else ~}
           description: A description for the domain
 %{ endif ~}
+          minLength: 1
           maxLength: 340
-          ui:help: "Max 340 characters (GitHub has a 350-byte limit, accented characters count as multiple bytes)"
+          pattern: "^(?=.*\\S).*$"
+          ui:help: "Required field. Max 340 characters (GitHub has a 350-byte limit, accented characters count as multiple bytes). Excess whitespace will be normalized automatically."
+          ui:options:
+            inputProps:
+              maxLength: 340
+%{ if template_type == "system" ~}
+              placeholder: "Enter a clear, concise description of this system..."
+%{ else ~}
+              placeholder: "Enter a clear, concise description of this domain..."
+%{ endif ~}
+          ui:widget: textarea
+          ui:field: DescriptionField
         owner:
 %{ if template_type == "system" ~}
           title: Select the owner group for this system
