@@ -594,6 +594,78 @@ resource "github_repository_file" "fastapi_service_requirements" {
   depends_on = [github_repository.templates]
 }
 
+resource "github_repository_file" "fastapi_service_excursion_model" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/app/models/excursion.py"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/app/models/excursion.py.tpl")
+  commit_message      = "Add FastAPI service skeleton excursion model"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_models_init" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/app/models/__init__.py"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/app/models/__init__.py.tpl")
+  commit_message      = "Add FastAPI service skeleton models __init__.py"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_excursion_router" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/app/routers/excursions.py"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/app/routers/excursions.py.tpl")
+  commit_message      = "Add FastAPI service skeleton excursions router"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_routers_init" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/app/routers/__init__.py"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/app/routers/__init__.py.tpl")
+  commit_message      = "Add FastAPI service skeleton routers __init__.py"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
 # .NET Service Skeleton Files
 resource "github_repository_file" "dotnet_service_program" {
   for_each = {
