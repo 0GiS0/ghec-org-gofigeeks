@@ -114,4 +114,17 @@ output "organization_security_settings" {
     secret_scanning_enabled                 = var.secret_scanning_enabled_for_new_repositories
     secret_scanning_push_protection_enabled = var.secret_scanning_push_protection_enabled_for_new_repositories
   }
+
+# Custom Properties information
+output "organization_custom_properties" {
+  description = "Organization custom properties configuration"
+  value = var.enable_custom_properties ? {
+    enabled    = var.enable_custom_properties
+    properties = var.organization_custom_properties
+  } : null
+}
+
+output "template_repositories_custom_properties" {
+  description = "Custom properties applied to template repositories"
+  value       = var.enable_custom_properties ? var.template_repository_custom_properties : null
 }

@@ -96,3 +96,36 @@ github_organization_billing_email = "billing@your-github-org.com"
 # dependency_graph_enabled_for_new_repositories = true
 # secret_scanning_enabled_for_new_repositories = true
 # secret_scanning_push_protection_enabled_for_new_repositories = true
+
+# Custom Properties Configuration
+# Enable or disable custom properties management
+enable_custom_properties = true
+
+# You can customize the organization-level custom properties
+# organization_custom_properties = {
+#   "service-tier" = {
+#     description    = "Service tier classification for operational support"
+#     property_type  = "single_select"
+#     required       = true
+#     allowed_values = ["tier-1", "tier-2", "tier-3", "experimental"]
+#   }
+#   "team-owner" = {
+#     description   = "Team responsible for maintaining this repository"
+#     property_type = "string"
+#     required      = true
+#   }
+#   "environment" = {
+#     description    = "Environment classification"
+#     property_type  = "single_select"
+#     required       = false
+#     allowed_values = ["production", "staging", "development"]
+#   }
+# }
+
+# Customize default property values for template repositories
+# template_repository_custom_properties = {
+#   "backstage-template-node-service" = {
+#     service_tier = "tier-3"
+#     team_owner   = "platform-team"
+#   }
+# }
