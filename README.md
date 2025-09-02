@@ -18,6 +18,7 @@ Para autenticación, este repo usa exclusivamente la GitHub App (sin PAT ni GITH
    - Members: Read
    - Codespaces: Read and write (necesario para gestionar el acceso de Codespaces de la organización)
    - Codespaces secrets: Read and write (recomendado si más adelante se gestionan secretos de Codespaces)
+   - Custom properties: Read and write (para gestionar propiedades personalizadas de repositorios)
 - Repositorio:
    - Administration: Read and write
    - Contents: Read and write
@@ -86,6 +87,31 @@ Durante el `apply`, se realiza una llamada a la API de GitHub para configurar el
 
 ---
 
+## 🏷️ Propiedades Personalizadas
+
+Esta implementación incluye soporte para **custom properties** de GitHub, que proporcionan metadatos estructurados a los repositorios:
+
+### Propiedades Definidas
+
+- **service-tier**: Clasificación del nivel de servicio (tier-1, tier-2, tier-3, experimental)
+- **team-owner**: Equipo responsable del mantenimiento del repositorio
+
+### Configuración
+
+Las propiedades personalizadas están habilitadas por defecto. Para deshabilitarlas:
+
+```hcl
+enable_custom_properties = false
+```
+
+### Integración con Backstage
+
+Las plantillas de Backstage incluyen formularios para configurar estas propiedades automáticamente al crear nuevos repositorios.
+
+📖 **Documentación completa**: [docs/CUSTOM_PROPERTIES.md](docs/CUSTOM_PROPERTIES.md)
+
+---
+
 ## 🧩 Solución de problemas
 
 - Resource not accessible by integration:
@@ -96,6 +122,11 @@ Durante el `apply`, se realiza una llamada a la API de GitHub para configurar el
 - Error al configurar Codespaces (HTTP 4xx/5xx):
    - Revisa `/tmp/codespaces-org-access.log`.
    - Confirma que la App tiene el permiso Organization → Codespaces: Read and write.
+
+- Error al configurar Custom Properties (HTTP 4xx/5xx):
+   - Revisa `/tmp/custom-properties-*.log`.
+   - Confirma que la App tiene el permiso Organization → Custom properties: Read and write.
+   - Verifica que no existe conflicto con propiedades existentes.
 
 - No se encuentra el PEM:
    - Usa ruta absoluta en `terraform.tfvars` y que el archivo exista con permisos 600.

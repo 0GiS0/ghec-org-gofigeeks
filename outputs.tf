@@ -102,3 +102,17 @@ output "backstage_repository" {
     visibility  = github_repository.backstage.visibility
   }
 }
+
+# Custom Properties information
+output "organization_custom_properties" {
+  description = "Organization custom properties configuration"
+  value = var.enable_custom_properties ? {
+    enabled    = var.enable_custom_properties
+    properties = var.organization_custom_properties
+  } : null
+}
+
+output "template_repositories_custom_properties" {
+  description = "Custom properties applied to template repositories"
+  value       = var.enable_custom_properties ? var.template_repository_custom_properties : null
+}
