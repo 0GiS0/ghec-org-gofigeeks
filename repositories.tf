@@ -567,8 +567,8 @@ resource "github_repository_file" "dotnet_service_csproj" {
 
   repository          = github_repository.templates[each.key].name
   branch              = "main"
-  file                = "skeleton/src/$${{values.name}}.csproj"
-  content             = file("${path.module}/templates/skeletons/dotnet-service/src/$${{values.name}}.csproj.tpl")
+  file                = "skeleton/src/$${{values.name | replace(\"-\", \"_\")}}.csproj"
+  content             = file("${path.module}/templates/skeletons/dotnet-service/src/$${{values.name | replace(\"-\", \"_\")}}.csproj.tpl")
   commit_message      = "Add .NET service skeleton project file"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -675,8 +675,8 @@ resource "github_repository_file" "dotnet_service_test_project" {
 
   repository          = github_repository.templates[each.key].name
   branch              = "main"
-  file                = "skeleton/tests/$${{values.name}}.Tests.csproj"
-  content             = file("${path.module}/templates/skeletons/dotnet-service/tests/$${{values.name}}.Tests.csproj.tpl")
+  file                = "skeleton/tests/$${{values.name | replace(\"-\", \"_\")}}.Tests.csproj"
+  content             = file("${path.module}/templates/skeletons/dotnet-service/tests/$${{values.name | replace(\"-\", \"_\")}}.Tests.csproj.tpl")
   commit_message      = "Add .NET service skeleton test project file"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"

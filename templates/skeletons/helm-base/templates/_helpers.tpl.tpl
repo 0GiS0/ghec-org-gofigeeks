@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "${{values.name}}.name" -}}
+{{- define "${{values.name | replace("-", "_")}}.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "${{values.name}}.fullname" -}}
+{{- define "${{values.name | replace("-", "_")}}.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "${{values.name}}.chart" -}}
+{{- define "${{values.name | replace("-", "_")}}.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "${{values.name}}.labels" -}}
-helm.sh/chart: {{ include "${{values.name}}.chart" . }}
-{{ include "${{values.name}}.selectorLabels" . }}
+{{- define "${{values.name | replace("-", "_")}}.labels" -}}
+helm.sh/chart: {{ include "${{values.name | replace("-", "_")}}.chart" . }}
+{{ include "${{values.name | replace("-", "_")}}.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "${{values.name}}.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "${{values.name}}.name" . }}
+{{- define "${{values.name | replace("-", "_")}}.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "${{values.name | replace("-", "_")}}.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "${{values.name}}.serviceAccountName" -}}
+{{- define "${{values.name | replace("-", "_")}}.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "${{values.name}}.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "${{values.name | replace("-", "_")}}.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

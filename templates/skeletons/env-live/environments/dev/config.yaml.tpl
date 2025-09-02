@@ -7,7 +7,7 @@ version: "1.0.0"
 database:
   host: localhost
   port: 5432
-  name: ${{values.name}}_dev
+  name: ${{values.name | replace("-", "_")}}_dev
   connection_pool_size: 10
   ssl_mode: disable
 

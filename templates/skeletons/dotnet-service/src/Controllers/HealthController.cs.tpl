@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using ${{values.name}}.Models;
+using ${{values.name | replace("-", "_")}}.Models;
 
-namespace ${{values.name}}.Controllers;
+namespace ${{values.name | replace("-", "_")}}.Controllers;
 
 [ApiController]
 [Route("[controller]")]

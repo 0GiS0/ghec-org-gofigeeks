@@ -4,8 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyName>${{values.name}}</AssemblyName>
-    <RootNamespace>${{values.name}}</RootNamespace>
+    <AssemblyName>${{values.name | replace("-", "_")}}</AssemblyName>
+    <RootNamespace>${{values.name | replace("-", "_")}}</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

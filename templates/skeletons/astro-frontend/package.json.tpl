@@ -1,5 +1,5 @@
 {
-  "name": "${{values.name}}",
+  "name": "${{values.name | replace("-", "_")}}",
   "type": "module",
   "version": "0.0.1",
   "scripts": {

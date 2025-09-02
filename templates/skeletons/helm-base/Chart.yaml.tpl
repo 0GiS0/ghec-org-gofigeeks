@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-name: ${{values.name}}
+name: ${{values.name | replace("-", "_")}}
 description: ${{values.description}}
 type: application
 version: 0.1.0

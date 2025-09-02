@@ -1,5 +1,5 @@
 {
-  "name": "${{values.name}}",
+  "name": "${{values.name | replace("-", "_")}}",
   "version": "1.0.0",
   "description": "${{values.description}}",
   "main": "src/index.js",

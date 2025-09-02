@@ -3,7 +3,7 @@ using System.Net;
 using System.Text.Json;
 using Xunit;
 
-namespace ${{values.name}}.Tests;
+namespace ${{values.name | replace("-", "_")}}.Tests;
 
 public class ApiTests : IClassFixture<WebApplicationFactory<Program>>
 {

@@ -7,7 +7,7 @@ version: "1.0.0"
 database:
   host: prod-db.example.com
   port: 5432
-  name: ${{values.name}}_prod
+  name: ${{values.name | replace("-", "_")}}_prod
   connection_pool_size: 50
   ssl_mode: require
 
