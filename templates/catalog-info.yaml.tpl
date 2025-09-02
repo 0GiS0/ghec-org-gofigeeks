@@ -84,6 +84,17 @@ spec:
           description: Team responsible for maintaining this repository
           default: platform-team
           ui:field: MyGroupsPicker
+        demo:
+          title: Demo Repository
+          type: string
+          description: Mark this repository as a demonstration/test repository
+          default: "yes"
+          enum:
+            - "yes"
+            - "no"
+          enumNames:
+            - "Yes - This is a demo/test repository"
+            - "No - This is a production repository"
 %{ else ~}
     - title: Complete the form to create a new ${template_title}
       required:
@@ -145,11 +156,16 @@ spec:
           ui:options:
             catalogFilter:
               kind: Domain
+%{ endif ~}
         serviceTier:
           title: Service Tier
           type: string
           description: Service tier classification for operational support
+%{ if template_type == "system" ~}
           default: tier-2
+%{ else ~}
+          default: tier-2
+%{ endif ~}
           enum:
             - tier-1
             - tier-2
@@ -166,7 +182,17 @@ spec:
           description: Team responsible for maintaining this repository
           default: platform-team
           ui:field: MyGroupsPicker
-%{ endif ~}
+        demo:
+          title: Demo Repository
+          type: string
+          description: Mark this repository as a demonstration/test repository
+          default: "yes"
+          enum:
+            - "yes"
+            - "no"
+          enumNames:
+            - "Yes - This is a demo/test repository"
+            - "No - This is a production repository"
 %{ endif ~}
     - title: Choose a destination
       required:
@@ -207,44 +233,21 @@ spec:
 %{ if template_type == "system" ~}
           domain: $${{ parameters.domain }}
 %{ endif ~}
-    - id: publish
-      name: Create Repository
-      action: github:repo:create
-      input:
-        description: $${{ parameters.description }}
-        repoUrl: $${{ parameters.repoUrl }}
-        defaultBranch: main
-        gitCommitMessage: Create scaffold from template
-        topics: ["backstage-include", "${organization}"]
-        access: private
     
-    - id: push
-      name: Push to Repository  
-      action: github:repo:push
+    - id: publish
+      name: Publish to GitHub
+      action: publish:github
       input:
-        repoUrl: $${{ steps['publish'].output.repoContentsUrl }}
-        gitCommitMessage: Create scaffold from template
-        gitAuthorName: Backstage Scaffolder
-        gitAuthorEmail: backstage@${organization}.com
+        repoUrl: $${{ parameters.repoUrl }}
+        description: $${{ parameters.description }}
+        topics: ["backstage-include", "${organization}"]
+        defaultBranch: main
+        gitCommitMessage: Create scaffold from template       
+        customProperties:
+           service-tier: $${{ parameters.serviceTier }}
+           team-owner: $${{ parameters.teamOwner }}
+           demo: $${{ parameters.demo }}
 
-    - id: set-custom-properties
-      name: Set Custom Properties
-      action: http:backstage:request
-      input:
-        method: PATCH
-        url: $${{ steps['publish'].output.remoteUrl | replace('https://github.com/', 'https://api.github.com/repos/') }}/properties/values
-        headers:
-          Authorization: token $${{ secrets.USER_OAUTH_TOKEN }}
-          Accept: application/vnd.github+json
-          X-GitHub-Api-Version: 2022-11-28
-        body:
-          properties:
-            - property_name: service-tier
-              value: $${{ parameters.serviceTier }}
-            - property_name: team-owner  
-              value: $${{ parameters.teamOwner }}
-            - property_name: demo
-              value: "yes"
     - id: register
       name: Register
       action: catalog:register
