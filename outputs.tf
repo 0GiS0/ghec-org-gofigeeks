@@ -114,6 +114,7 @@ output "organization_security_settings" {
     secret_scanning_enabled                 = var.secret_scanning_enabled_for_new_repositories
     secret_scanning_push_protection_enabled = var.secret_scanning_push_protection_enabled_for_new_repositories
   }
+}
 
 # Custom Properties information
 output "organization_custom_properties" {

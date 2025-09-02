@@ -22,6 +22,8 @@ Este repositorio gestiona la configuración de una organización de GitHub Enter
 - `repositories.tf` - Gestión de repositorios
 - `teams.tf` - Gestión de equipos
 - `codespaces.tf` - Configuración de Codespaces
+- `custom_properties.tf` - Gestión de custom properties organizacionales
+- `scripts/` - Scripts para integraciones avanzadas con GitHub API
 - `templates/` - Plantillas para repositorios y workflows
 - `terraform.tfvars.example` - Archivo de ejemplo para variables
 
@@ -34,13 +36,198 @@ Este repositorio gestiona la configuración de una organización de GitHub Enter
 - Variables sensibles marcadas con `sensitive = true`
 - Validaciones en variables cuando sea apropiado
 
+## Integraciones mediante Scripts
+
+### Patrón para funcionalidades no soportadas por Terraform
+
+Para funcionalidades de GitHub que no están completamente soportadas por el provider de Terraform, implementamos un patrón estándar de integración mediante scripts bash.
+
+#### Estructura del patrón
+
+1. **Script bash** en `scripts/` que interactúa con GitHub REST API
+2. **Recurso `null_resource`** que ejecuta el script con variables de entorno
+3. **Validación y logging** detallado para troubleshooting
+4. **Manejo de errores** configurable
+
+#### Implementación: Custom Properties
+
+Las custom properties organizacionales requieren este patrón porque:
+- El provider de Terraform no soporta crear definiciones organizacionales
+- Solo permite asignar valores a repositorios (requiere definiciones previas)
+- La API REST permite gestión completa de definiciones y valores
+
+```bash
+# scripts/custom_property.sh
+#!/usr/bin/env bash
+set -eo pipefail
+
+# Variables de entorno requeridas:
+# ORG_NAME, PROPERTY_NAME, PROPERTY_PAYLOAD
+# APP_ID, INSTALLATION_ID, PEM_FILE
+
+# Obtener token de GitHub App
+GITHUB_TOKEN=$(APP_ID="$APP_ID" INSTALLATION_ID="$INSTALLATION_ID" PEM_FILE="$PEM_FILE" ./scripts/github_app_token.sh)
+
+# Usar PUT para crear/actualizar propiedad individual
+curl -X PUT \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer $GITHUB_TOKEN" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  "https://api.github.com/orgs/$ORG_NAME/properties/schema/$PROPERTY_NAME" \
+  -d "$PROPERTY_DEF"
+```
+
+#### Configuración en Terraform
+
+```hcl
+resource "null_resource" "org_custom_properties" {
+  for_each = var.enable_custom_properties ? var.organization_custom_properties : {}
+
+  triggers = {
+    org      = var.github_organization
+    payload  = local.custom_properties_payloads[each.key]
+    property = each.key
+  }
+
+  provisioner "local-exec" {
+    interpreter = ["/bin/bash", "-c"]
+    command     = "scripts/custom_property.sh"
+    environment = {
+      ORG_NAME         = var.github_organization
+      PROPERTY_NAME    = each.key
+      PROPERTY_PAYLOAD = local.custom_properties_payloads[each.key]
+      APP_ID           = var.github_app_id
+      INSTALLATION_ID  = var.github_app_installation_id
+      PEM_FILE         = abspath(var.github_app_pem_file)
+      LOG_FILE         = "/tmp/custom-properties-${each.key}.log"
+      NON_FATAL_404    = var.custom_properties_non_fatal_404 ? "true" : "false"
+    }
+  }
+}
+```
+
+#### Mejores prácticas para scripts
+
+1. **Manejo de errores robusto**
+   ```bash
+   set -eo pipefail  # Salir en cualquier error
+   ```
+
+2. **Logging detallado**
+   ```bash
+   LOG_FILE="${LOG_FILE:-/tmp/script-${PROPERTY_NAME}.log}"
+   echo "$(date -Is) STEP operation-name" >> "$LOG_FILE"
+   ```
+
+3. **Validación de entrada**
+   ```bash
+   if [ -z "${ORG_NAME:-}" ]; then
+     echo "ERROR: ORG_NAME es requerido" >&2
+     exit 1
+   fi
+   ```
+
+4. **Tokens seguros**
+   ```bash
+   # Usar GitHub App en lugar de PAT
+   GITHUB_TOKEN=$(./scripts/github_app_token.sh)
+   ```
+
+5. **Payload processing**
+   ```bash
+   # Extraer solo campos necesarios del JSON
+   PROPERTY_DEF=$(echo "$PAYLOAD" | jq 'del(.property_name)')
+   ```
+
+#### Testing de scripts
+
+```bash
+# Test manual del script
+cd /workspaces/ghec-org-as-code
+
+ORG_NAME="GofiGeeksOrg" \
+PROPERTY_NAME="service-tier" \
+PROPERTY_PAYLOAD='{"property_name":"service-tier","value_type":"single_select","required":true,"default_value":"tier-1","allowed_values":["tier-1","tier-2","tier-3"]}' \
+APP_ID="1779409" \
+INSTALLATION_ID="80867883" \
+PEM_FILE="/workspaces/ghec-org-as-code/GofiGeeksOrg.pem" \
+NON_FATAL_404="false" \
+./scripts/custom_property.sh
+```
+
+#### Validación post-ejecución
+
+```bash
+# Verificar resultado via API
+curl -H "Authorization: Bearer $TOKEN" \
+  "https://api.github.com/orgs/GofiGeeksOrg/properties/schema" | jq .
+
+# Revisar logs
+cat /tmp/custom-properties-service-tier.log
+```
+
+---
+
 ## Instrucciones de testing
 
+### Testing general
 - Ejecutar `terraform fmt -check` para verificar formato
 - Ejecutar `terraform validate` para validar sintaxis
 - Ejecutar `terraform plan` antes de aplicar cambios
 - Verificar que el archivo PEM de la GitHub App existe y es legible
 - Confirmar que los usuarios listados en las variables son miembros de la organización
+
+### Testing de Custom Properties
+
+1. **Verificar API organizacional**
+   ```bash
+   # Listar propiedades existentes
+   curl -H "Authorization: Bearer $TOKEN" \
+     "https://api.github.com/orgs/GofiGeeksOrg/properties/schema" | jq .
+   ```
+
+2. **Verificar aplicación a repositorios**
+   ```bash
+   # Listar valores aplicados a repositorios
+   curl -H "Authorization: Bearer $TOKEN" \
+     "https://api.github.com/orgs/GofiGeeksOrg/properties/values" | jq .
+   ```
+
+3. **Testing de scripts individuales**
+   ```bash
+   # Test de creación de propiedad
+   ORG_NAME="GofiGeeksOrg" \
+   PROPERTY_NAME="test-property" \
+   PROPERTY_PAYLOAD='{"value_type":"string","required":false,"description":"Test property"}' \
+   ./scripts/custom_property.sh
+   ```
+
+4. **Validación de logs**
+   ```bash
+   # Revisar logs de ejecución
+   tail -f /tmp/custom-properties-*.log
+   ```
+
+### Testing de integración completa
+
+```bash
+# 1. Plan para ver cambios
+terraform plan -target=null_resource.org_custom_properties
+
+# 2. Apply solo custom properties
+terraform apply -target=null_resource.org_custom_properties -auto-approve
+
+# 3. Verificar en GitHub API
+curl -H "Authorization: Bearer $TOKEN" \
+  "https://api.github.com/orgs/GofiGeeksOrg/properties/schema"
+
+# 4. Apply propiedades a repositorios
+terraform apply -auto-approve
+
+# 5. Verificar aplicación final
+curl -H "Authorization: Bearer $TOKEN" \
+  "https://api.github.com/orgs/GofiGeeksOrg/properties/values"
+```
 
 ## Configuración de desarrollo
 

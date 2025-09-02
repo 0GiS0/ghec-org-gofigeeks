@@ -135,6 +135,76 @@ Las plantillas de Backstage incluyen formularios para configurar estas propiedad
 
 ---
 
+## 🎛️ Custom Properties
+
+Este repositorio gestiona custom properties organizacionales para clasificar y etiquetar repositorios automáticamente:
+
+### Propiedades disponibles
+
+- **service-tier**: Clasificación de nivel de servicio (`tier-1`, `tier-2`, `tier-3`, `experimental`)
+- **team-owner**: Equipo responsable del mantenimiento del repositorio
+
+### Configuración
+
+Las custom properties se gestionan mediante una combinación de:
+1. **Script personalizado** (`scripts/custom_property.sh`) para crear las definiciones organizacionales
+2. **Provider nativo de Terraform** para aplicar valores a repositorios específicos
+
+Esto permite gestionar funcionalidades no completamente soportadas por el provider de Terraform.
+
+### Control de errores
+
+- `custom_properties_non_fatal_404 = false` (modo estricto): Errores 404 fallan el apply
+- `custom_properties_non_fatal_404 = true` (modo permisivo): Errores 404 se tratan como advertencias
+
+---
+
+## 🔧 Integraciones mediante Scripts
+
+Para funcionalidades de GitHub que no están completamente soportadas por el provider de Terraform, este repositorio implementa un patrón de integración mediante scripts:
+
+### Patrón de implementación
+
+1. **Script bash** (`scripts/`) que interactúa directamente con la API de GitHub REST
+2. **Recurso `null_resource`** en Terraform que ejecuta el script con variables de entorno
+3. **Validación y logs** detallados para troubleshooting
+4. **Manejo de errores** configurable (fatal vs. no fatal)
+
+### Ventajas del patrón
+
+- ✅ **Flexibilidad**: Acceso completo a la API de GitHub REST
+- ✅ **Testeable**: Scripts pueden ejecutarse independientemente para testing
+- ✅ **Trazabilidad**: Logs detallados en `/tmp/` para debugging
+- ✅ **Configurable**: Control granular de comportamiento de errores
+- ✅ **Reutilizable**: Patrón aplicable a otras funcionalidades no soportadas
+
+### Ejemplo: Custom Properties
+
+```hcl
+resource "null_resource" "org_custom_properties" {
+  for_each = var.enable_custom_properties ? var.organization_custom_properties : {}
+
+  triggers = {
+    org      = var.github_organization
+    payload  = local.custom_properties_payloads[each.key]
+    property = each.key
+  }
+
+  provisioner "local-exec" {
+    interpreter = ["/bin/bash", "-c"]
+    command     = "scripts/custom_property.sh"
+    environment = {
+      ORG_NAME         = var.github_organization
+      PROPERTY_NAME    = each.key
+      PROPERTY_PAYLOAD = local.custom_properties_payloads[each.key]
+      # ... credenciales de GitHub App
+    }
+  }
+}
+```
+
+---
+
 ## 🧩 Solución de problemas
 
 - Resource not accessible by integration:

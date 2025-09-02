@@ -223,8 +223,10 @@ variable "codespaces_selected_usernames" {
 # Organization Security Settings Variables
 variable "advanced_security_enabled_for_new_repositories" {
   description = "Whether or not GitHub Advanced Security is enabled for new repositories by default"
-} 
- 
+  type        = bool
+  default     = true
+}
+
 # Custom Properties Configuration
 variable "enable_custom_properties" {
   description = "Enable managing organization-wide custom properties via GitHub REST API (requires appropriate token permissions)."
@@ -282,14 +284,22 @@ variable "organization_custom_properties" {
       description    = "Service tier classification for operational support"
       property_type  = "single_select"
       required       = true
+      default_value  = "tier-1"
       allowed_values = ["tier-1", "tier-2", "tier-3", "experimental"]
     }
     "team-owner" = {
       description   = "Team responsible for maintaining this repository"
       property_type = "string"
       required      = true
+      default_value = "platform-team"
     }
   }
+}
+
+variable "custom_properties_non_fatal_404" {
+  description = "If true, a 404 when calling the custom properties API (feature not enabled / permission missing) will be treated as a warning and not fail the apply."
+  type        = bool
+  default     = true
 }
 
 variable "template_repository_custom_properties" {
