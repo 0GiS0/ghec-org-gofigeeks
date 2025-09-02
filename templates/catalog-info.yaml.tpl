@@ -243,6 +243,8 @@ spec:
               value: $${{ parameters.serviceTier }}
             - property_name: team-owner  
               value: $${{ parameters.teamOwner }}
+            - property_name: demo
+              value: "yes"
     - id: register
       name: Register
       action: catalog:register

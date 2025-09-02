@@ -293,6 +293,12 @@ variable "organization_custom_properties" {
       required      = true
       default_value = "platform-team"
     }
+    "demo" = {
+      description    = "Indicates if the repository is for demonstration purposes"
+      property_type  = "single_select"
+      required       = false
+      allowed_values = ["yes", "no"]
+    }
   }
 }
 

@@ -23,6 +23,13 @@ Custom properties provide a way to add metadata to repositories for better organ
 - **Purpose**: Team responsible for maintaining the repository
 - **Required**: Yes
 
+### demo
+- **Type**: Single select
+- **Options**: yes, no
+- **Purpose**: Indicates if the repository is for demonstration purposes
+- **Required**: No
+- **Default**: Automatically set to "yes" for repositories created through Backstage templates
+
 ## Implementation Details
 
 ### Terraform Configuration
@@ -117,6 +124,8 @@ The template uses a multi-step approach:
           value: ${{ parameters.serviceTier }}
         - property_name: team-owner  
           value: ${{ parameters.teamOwner }}
+        - property_name: demo
+          value: "yes"
 ```
 
 ## Default Property Values
@@ -130,6 +139,10 @@ All template repositories are assigned:
 Core infrastructure repositories (backstage, reusable-workflows):
 - **service-tier**: tier-1
 - **team-owner**: platform-team
+
+### Repositories Created via Backstage
+All repositories created through Backstage templates automatically receive:
+- **demo**: "yes" (for easy identification and cleanup of demonstration repositories)
 
 ## Usage
 
