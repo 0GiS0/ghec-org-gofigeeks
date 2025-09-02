@@ -30,6 +30,8 @@ Custom properties provide a way to add metadata to repositories for better organ
 - **Required**: No
 - **Default**: Automatically set to "yes" for repositories created through Backstage templates
 
+This property enables easy identification and cleanup of demonstration repositories. A cleanup script is provided at `scripts/cleanup-demo-repos.sh` to help identify and optionally delete repositories marked as demos.
+
 ## Implementation Details
 
 ### Terraform Configuration
@@ -201,6 +203,37 @@ terraform fmt
 terraform validate
 terraform plan
 ```
+
+## Repository Cleanup
+
+### Demo Repository Management
+A cleanup script is provided to help manage repositories created for demonstration purposes:
+
+```bash
+# List demo repositories (dry run)
+./scripts/cleanup-demo-repos.sh --org your-org --token ghp_xxxx
+
+# Delete demo repositories with confirmation
+./scripts/cleanup-demo-repos.sh --org your-org --token ghp_xxxx --delete
+
+# Delete demo repositories without confirmation (dangerous!)
+./scripts/cleanup-demo-repos.sh --org your-org --token ghp_xxxx --delete --confirm
+```
+
+The script identifies repositories with the `demo` custom property set to "yes" and provides options to:
+- List demo repositories (default dry run mode)
+- Delete repositories with interactive confirmation
+- Batch delete repositories without confirmation
+
+**Requirements:**
+- GitHub token with `repo:delete` permissions
+- `curl` and `jq` installed on the system
+
+**Safety Features:**
+- Dry run mode by default
+- Interactive confirmation prompts
+- Detailed logging of all operations
+- Error handling and rollback capabilities
 
 ## Troubleshooting
 
