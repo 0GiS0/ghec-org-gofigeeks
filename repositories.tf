@@ -499,6 +499,60 @@ resource "github_repository_file" "node_service_devcontainer" {
   depends_on = [github_repository.templates]
 }
 
+resource "github_repository_file" "node_service_excursion_model" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-node-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/src/models/Excursion.js"
+  content             = file("${path.module}/templates/skeletons/node-service/src/models/Excursion.js.tpl")
+  commit_message      = "Add Node.js service skeleton Excursion model"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "node_service_excursion_controller" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-node-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/src/controllers/ExcursionController.js"
+  content             = file("${path.module}/templates/skeletons/node-service/src/controllers/ExcursionController.js.tpl")
+  commit_message      = "Add Node.js service skeleton Excursion controller"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "node_service_excursion_routes" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-node-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/src/routes/excursions.js"
+  content             = file("${path.module}/templates/skeletons/node-service/src/routes/excursions.js.tpl")
+  commit_message      = "Add Node.js service skeleton excursions routes"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
 # FastAPI Service Skeleton Files  
 resource "github_repository_file" "fastapi_service_main" {
   for_each = {
@@ -533,6 +587,78 @@ resource "github_repository_file" "fastapi_service_requirements" {
     }
   })
   commit_message      = "Add FastAPI service skeleton requirements"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_excursion_model" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/app/models/excursion.py"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/app/models/excursion.py.tpl")
+  commit_message      = "Add FastAPI service skeleton excursion model"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_models_init" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/app/models/__init__.py"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/app/models/__init__.py.tpl")
+  commit_message      = "Add FastAPI service skeleton models __init__.py"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_excursion_router" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/app/routers/excursions.py"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/app/routers/excursions.py.tpl")
+  commit_message      = "Add FastAPI service skeleton excursions router"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_routers_init" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/app/routers/__init__.py"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/app/routers/__init__.py.tpl")
+  commit_message      = "Add FastAPI service skeleton routers __init__.py"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
   overwrite_on_create = true
@@ -595,7 +721,7 @@ resource "github_repository_file" "dotnet_service_readme" {
   depends_on = [github_repository.templates]
 }
 
-resource "github_repository_file" "dotnet_service_api_controller" {
+resource "github_repository_file" "dotnet_service_hello_controller" {
   for_each = {
     for key, value in var.template_repositories : key => value
     if key == "backstage-template-dotnet-service"
@@ -603,9 +729,45 @@ resource "github_repository_file" "dotnet_service_api_controller" {
 
   repository          = github_repository.templates[each.key].name
   branch              = "main"
-  file                = "skeleton/src/Controllers/ApiController.cs"
-  content             = file("${path.module}/templates/skeletons/dotnet-service/src/Controllers/ApiController.cs.tpl")
-  commit_message      = "Add .NET service skeleton API controller"
+  file                = "skeleton/src/Controllers/HelloController.cs"
+  content             = file("${path.module}/templates/skeletons/dotnet-service/src/Controllers/HelloController.cs.tpl")
+  commit_message      = "Add .NET service skeleton Hello controller"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "dotnet_service_status_controller" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-dotnet-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/src/Controllers/StatusController.cs"
+  content             = file("${path.module}/templates/skeletons/dotnet-service/src/Controllers/StatusController.cs.tpl")
+  commit_message      = "Add .NET service skeleton Status controller"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "dotnet_service_excursions_controller" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-dotnet-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/src/Controllers/ExcursionsController.cs"
+  content             = file("${path.module}/templates/skeletons/dotnet-service/src/Controllers/ExcursionsController.cs.tpl")
+  commit_message      = "Add .NET service skeleton Excursions controller"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
   overwrite_on_create = true

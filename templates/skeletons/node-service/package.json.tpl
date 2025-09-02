@@ -15,12 +15,12 @@
     "express": "^5.1.0",
     "cors": "^2.8.5",
     "helmet": "^8.1.0",
-    "dotenv": "^16.4.5"
+    "dotenv": "^17.2.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.0",
-    "jest": "^30.0.5",
-    "eslint": "^9.33.0",
+    "nodemon": "^3.1.10",
+    "jest": "^30.1.2",
+    "eslint": "^9.34.0",
     "supertest": "^7.1.4"
   },
   "engines": {

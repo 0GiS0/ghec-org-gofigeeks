@@ -1,11 +1,11 @@
 import os
 import time
 from datetime import datetime
-from typing import Dict, Any
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from app.models.excursion import HealthResponse, HelloResponse, StatusResponse
+from app.routers import excursions
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -29,25 +29,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Pydantic models
-class HealthResponse(BaseModel):
-    status: str
-    service: str
-    timestamp: str
-    version: str
-
-class HelloResponse(BaseModel):
-    message: str
-    timestamp: str
-
-class StatusResponse(BaseModel):
-    service: str
-    status: str
-    uptime: float
-    environment: str
+# Include routers
+app.include_router(excursions.router)
 
 # Store start time for uptime calculation
 start_time = time.time()
+
 
 @app.get("/health", response_model=HealthResponse)
 async def health_check():
@@ -59,6 +46,7 @@ async def health_check():
         version="1.0.0"
     )
 
+
 @app.get("/api/hello", response_model=HelloResponse)
 async def hello():
     """Hello world endpoint."""
@@ -66,6 +54,7 @@ async def hello():
         message="Hello from ${{values.name}}!",
         timestamp=datetime.utcnow().isoformat()
     )
+
 
 @app.get("/api/status", response_model=StatusResponse)
 async def get_status():
@@ -77,15 +66,31 @@ async def get_status():
         environment=os.getenv("ENVIRONMENT", "development")
     )
 
+
 @app.get("/")
 async def root():
     """Root endpoint with service information."""
     return {
         "service": "${{values.name}}",
-        "message": "Welcome to ${{values.name}} API",
-        "docs": "/docs",
-        "health": "/health"
+        "message": "Welcome to the Excursions API",
+        "version": "1.0.0",
+        "endpoints": {
+            "health": "/health",
+            "hello": "/api/hello", 
+            "status": "/api/status",
+            "excursions": "/api/excursions",
+            "docs": "/docs",
+            "redoc": "/redoc"
+        },
+        "excursion_endpoints": {
+            "get_all_excursions": "GET /api/excursions",
+            "get_excursion_by_id": "GET /api/excursions/{id}",
+            "create_excursion": "POST /api/excursions",
+            "update_excursion": "PUT /api/excursions/{id}",
+            "delete_excursion": "DELETE /api/excursions/{id}"
+        }
     }
+
 
 if __name__ == "__main__":
     import uvicorn

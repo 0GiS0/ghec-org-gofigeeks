@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
+const excursionRoutes = require('./routes/excursions');
 require('dotenv').config();
 
 const app = express();
@@ -40,6 +41,31 @@ app.get('/api/status', (req, res) => {
   });
 });
 
+// Excursions API routes
+app.use('/api/excursions', excursionRoutes);
+
+// Root endpoint with API information
+app.get('/', (req, res) => {
+  res.json({
+    service: '${{values.name}}',
+    message: 'Welcome to the Excursions API',
+    version: '1.0.0',
+    endpoints: {
+      health: '/health',
+      hello: '/api/hello',
+      status: '/api/status',
+      excursions: '/api/excursions'
+    },
+    excursionEndpoints: {
+      getAllExcursions: 'GET /api/excursions',
+      getExcursionById: 'GET /api/excursions/:id',
+      createExcursion: 'POST /api/excursions',
+      updateExcursion: 'PUT /api/excursions/:id',
+      deleteExcursion: 'DELETE /api/excursions/:id'
+    }
+  });
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -62,6 +88,7 @@ app.listen(PORT, () => {
   console.log(`🚀 ${{values.name}} server running on port ${PORT}`);
   console.log(`📋 Health check: http://localhost:${PORT}/health`);
   console.log(`🔧 API endpoints: http://localhost:${PORT}/api/hello`);
+  console.log(`🎯 Excursions API: http://localhost:${PORT}/api/excursions`);
 });
 
 module.exports = app;
