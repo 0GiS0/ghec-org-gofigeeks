@@ -118,6 +118,7 @@ Esta implementación incluye soporte para **custom properties** de GitHub, que p
 
 - **service-tier**: Clasificación del nivel de servicio (tier-1, tier-2, tier-3, experimental)
 - **team-owner**: Equipo responsable del mantenimiento del repositorio
+- **demo**: Indica si el repositorio es para demostración (yes, no) - se configura automáticamente como "yes" para repos creados vía Backstage
 
 ### Configuración
 
@@ -143,6 +144,7 @@ Este repositorio gestiona custom properties organizacionales para clasificar y e
 
 - **service-tier**: Clasificación de nivel de servicio (`tier-1`, `tier-2`, `tier-3`, `experimental`)
 - **team-owner**: Equipo responsable del mantenimiento del repositorio
+- **demo**: Identifica repositorios de demostración (`yes`, `no`) - automáticamente configurada como "yes" para repositorios creados vía Backstage
 
 ### Configuración
 

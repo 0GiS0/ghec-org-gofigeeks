@@ -23,6 +23,15 @@ Custom properties provide a way to add metadata to repositories for better organ
 - **Purpose**: Team responsible for maintaining the repository
 - **Required**: Yes
 
+### demo
+- **Type**: Single select
+- **Options**: yes, no
+- **Purpose**: Indicates if the repository is for demonstration purposes
+- **Required**: No
+- **Default**: Automatically set to "yes" for repositories created through Backstage templates
+
+This property enables easy identification and cleanup of demonstration repositories. A cleanup script is provided at `scripts/cleanup-demo-repos.sh` to help identify and optionally delete repositories marked as demos.
+
 ## Implementation Details
 
 ### Terraform Configuration
@@ -117,6 +126,8 @@ The template uses a multi-step approach:
           value: ${{ parameters.serviceTier }}
         - property_name: team-owner  
           value: ${{ parameters.teamOwner }}
+        - property_name: demo
+          value: "yes"
 ```
 
 ## Default Property Values
@@ -130,6 +141,10 @@ All template repositories are assigned:
 Core infrastructure repositories (backstage, reusable-workflows):
 - **service-tier**: tier-1
 - **team-owner**: platform-team
+
+### Repositories Created via Backstage
+All repositories created through Backstage templates automatically receive:
+- **demo**: "yes" (for easy identification and cleanup of demonstration repositories)
 
 ## Usage
 
@@ -188,6 +203,37 @@ terraform fmt
 terraform validate
 terraform plan
 ```
+
+## Repository Cleanup
+
+### Demo Repository Management
+A cleanup script is provided to help manage repositories created for demonstration purposes:
+
+```bash
+# List demo repositories (dry run)
+./scripts/cleanup-demo-repos.sh --org your-org --token ghp_xxxx
+
+# Delete demo repositories with confirmation
+./scripts/cleanup-demo-repos.sh --org your-org --token ghp_xxxx --delete
+
+# Delete demo repositories without confirmation (dangerous!)
+./scripts/cleanup-demo-repos.sh --org your-org --token ghp_xxxx --delete --confirm
+```
+
+The script identifies repositories with the `demo` custom property set to "yes" and provides options to:
+- List demo repositories (default dry run mode)
+- Delete repositories with interactive confirmation
+- Batch delete repositories without confirmation
+
+**Requirements:**
+- GitHub token with `repo:delete` permissions
+- `curl` and `jq` installed on the system
+
+**Safety Features:**
+- Dry run mode by default
+- Interactive confirmation prompts
+- Detailed logging of all operations
+- Error handling and rollback capabilities
 
 ## Troubleshooting
 
