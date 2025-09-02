@@ -14,7 +14,8 @@
         "ms-python.flake8",
         "charliermarsh.ruff",
         "github.copilot",
-        "github.copilot-chat"
+        "github.copilot-chat",
+        "humao.rest-client"
       ],
       "settings": {
         "python.defaultInterpreterPath": "/usr/local/bin/python",
