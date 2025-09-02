@@ -220,6 +220,11 @@ variable "codespaces_selected_usernames" {
   default     = []
 }
 
+# Organization Security Settings Variables
+variable "advanced_security_enabled_for_new_repositories" {
+  description = "Whether or not GitHub Advanced Security is enabled for new repositories by default"
+} 
+ 
 # Custom Properties Configuration
 variable "enable_custom_properties" {
   description = "Enable managing organization-wide custom properties via GitHub REST API (requires appropriate token permissions)."
@@ -227,6 +232,42 @@ variable "enable_custom_properties" {
   default     = true
 }
 
+variable "dependabot_alerts_enabled_for_new_repositories" {
+  description = "Whether or not Dependabot alerts are enabled for new repositories by default"
+  type        = bool
+  default     = true
+}
+
+variable "dependabot_security_updates_enabled_for_new_repositories" {
+  description = "Whether or not Dependabot security updates are enabled for new repositories by default"
+  type        = bool
+  default     = true
+}
+
+variable "dependency_graph_enabled_for_new_repositories" {
+  description = "Whether or not dependency graph is enabled for new repositories by default"
+  type        = bool
+  default     = true
+}
+
+variable "secret_scanning_enabled_for_new_repositories" {
+  description = "Whether or not secret scanning is enabled for new repositories by default"
+  type        = bool
+  default     = true
+}
+
+variable "secret_scanning_push_protection_enabled_for_new_repositories" {
+  description = "Whether or not secret scanning push protection is enabled for new repositories by default"
+  type        = bool
+  default     = true
+}
+
+# Organization billing email (required for organization settings)
+variable "github_organization_billing_email" {
+  description = "Billing email address for the GitHub organization"
+  type        = string
+  default     = ""
+}
 variable "organization_custom_properties" {
   description = "Map of custom properties to create at organization level"
   type = map(object({

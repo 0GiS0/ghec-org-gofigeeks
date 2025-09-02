@@ -49,9 +49,32 @@ github_app_id              = "<APP_ID>"
 github_app_installation_id = "<INSTALLATION_ID>"
 github_app_pem_file        = "/workspaces/ghec-org-as-code/GofiGeeksOrg.pem" # usa ruta absoluta
 
+# Email de facturación de la organización (requerido)
+github_organization_billing_email = "billing@gofigeeks.org"
+
 # Equipos (opcional)
 platform_team_maintainers = ["platform-lead", "infra-admin"]
 platform_team_members     = ["engineer1", "engineer2"]
+```
+
+### 🔒 Configuración de Seguridad Avanzada
+
+Por defecto, este repositorio habilita **GitHub Advanced Security** para todos los nuevos repositorios en la organización, incluyendo:
+
+- ✅ **Advanced Security** - Análisis de código y vulnerabilidades
+- ✅ **Dependabot Alerts** - Alertas de dependencias vulnerables
+- ✅ **Dependabot Security Updates** - Actualizaciones automáticas de seguridad
+- ✅ **Dependency Graph** - Gráfico de dependencias
+- ✅ **Secret Scanning** - Detección de secretos
+- ✅ **Secret Scanning Push Protection** - Prevención de push con secretos
+
+Estas configuraciones se aplican automáticamente a todos los repositorios creados después de ejecutar `terraform apply`. Los repositorios existentes mantendrán su configuración actual.
+
+Para personalizar estas configuraciones, puedes modificar las variables en `terraform.tfvars`:
+
+```hcl
+# Deshabilitar alguna característica específica si es necesario
+# secret_scanning_push_protection_enabled_for_new_repositories = false
 ```
 
 3) Asegúrate de que el PEM exista y sea legible:
