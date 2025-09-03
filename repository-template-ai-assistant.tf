@@ -30,7 +30,7 @@ resource "github_repository_file" "ai_assistant_main" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/src/main.py"
-  content             = file("${path.module}/templates/ai-assistant/src/main.py.tpl")
+  content             = file("${path.module}/templates/ai-assistant/skeleton/src/main.py.tpl")
   commit_message      = "Add AI assistant skeleton main file"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -49,7 +49,7 @@ resource "github_repository_file" "ai_assistant_requirements" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/requirements.txt"
-  content             = file("${path.module}/templates/ai-assistant/requirements.txt.tpl")
+  content             = file("${path.module}/templates/ai-assistant/skeleton/requirements.txt.tpl")
   commit_message      = "Add AI assistant skeleton requirements"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -68,7 +68,7 @@ resource "github_repository_file" "ai_assistant_readme" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/README.md"
-  content             = file("${path.module}/templates/ai-assistant/README.md.tpl")
+  content             = file("${path.module}/templates/ai-assistant/skeleton/README.md.tpl")
   commit_message      = "Add AI assistant skeleton README"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -87,7 +87,7 @@ resource "github_repository_file" "ai_assistant_api_tests" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/api-tests.http"
-  content             = file("${path.module}/templates/ai-assistant/api-tests.http.tpl")
+  content             = file("${path.module}/templates/ai-assistant/skeleton/api-tests.http.tpl")
   commit_message      = "Add AI assistant skeleton API tests"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -106,7 +106,7 @@ resource "github_repository_file" "ai_assistant_devcontainer" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.devcontainer/devcontainer.json"
-  content             = file("${path.module}/templates/ai-assistant/.devcontainer/devcontainer.json.tpl")
+  content             = file("${path.module}/templates/ai-assistant/skeleton/.devcontainer/devcontainer.json.tpl")
   commit_message      = "Add AI Assistant devcontainer configuration"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -125,7 +125,7 @@ resource "github_repository_file" "ai_assistant_dependabot" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = ".github/dependabot.yml"
-  content             = file("${path.module}/templates/ai-assistant/.github/dependabot.yml")
+  content             = file("${path.module}/templates/ai-assistant/skeleton/.github/dependabot.yml")
   commit_message      = "Add Dependabot configuration for pip dependencies"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"

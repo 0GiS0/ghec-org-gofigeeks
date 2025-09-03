@@ -30,7 +30,7 @@ resource "github_repository_file" "env_live_dev_config" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/environments/dev/config.yaml"
-  content             = file("${path.module}/templates/env-live/environments/dev/config.yaml.tpl")
+  content             = file("${path.module}/templates/env-live/skeleton/environments/dev/config.yaml.tpl")
   commit_message      = "Add environment live skeleton dev config"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -49,7 +49,7 @@ resource "github_repository_file" "env_live_validate_config" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/validate_config.py"
-  content             = file("${path.module}/templates/env-live/validate_config.py.tpl")
+  content             = file("${path.module}/templates/env-live/skeleton/validate_config.py.tpl")
   commit_message      = "Add environment live skeleton validation script"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -68,7 +68,7 @@ resource "github_repository_file" "env_live_readme" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/README.md"
-  content             = file("${path.module}/templates/env-live/README.md.tpl")
+  content             = file("${path.module}/templates/env-live/skeleton/README.md.tpl")
   commit_message      = "Add environment live skeleton README"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -87,7 +87,7 @@ resource "github_repository_file" "env_live_devcontainer" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.devcontainer/devcontainer.json"
-  content             = file("${path.module}/templates/env-live/.devcontainer/devcontainer.json.tpl")
+  content             = file("${path.module}/templates/env-live/skeleton/.devcontainer/devcontainer.json.tpl")
   commit_message      = "Add Environment Live devcontainer configuration"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"

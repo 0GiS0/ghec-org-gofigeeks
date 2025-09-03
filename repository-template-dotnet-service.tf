@@ -11,7 +11,7 @@ resource "github_repository_file" "dotnet_service_gitignore" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.gitignore"
-  content             = file("${path.module}/templates/dotnet-service/.gitignore.tpl")
+  content             = file("${path.module}/templates/dotnet-service/skeleton/.gitignore.tpl")
   commit_message      = "Add .NET service skeleton .gitignore"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -30,7 +30,7 @@ resource "github_repository_file" "dotnet_service_program" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/src/Program.cs"
-  content             = file("${path.module}/templates/dotnet-service/src/Program.cs.tpl")
+  content             = file("${path.module}/templates/dotnet-service/skeleton/src/Program.cs.tpl")
   commit_message      = "Add .NET service skeleton Program.cs"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -49,7 +49,7 @@ resource "github_repository_file" "dotnet_service_csproj" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/src/Service.csproj"
-  content             = file("${path.module}/templates/dotnet-service/src/Service.csproj.tpl")
+  content             = file("${path.module}/templates/dotnet-service/skeleton/src/Service.csproj.tpl")
   commit_message      = "Add .NET service skeleton project file"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -68,7 +68,7 @@ resource "github_repository_file" "dotnet_service_readme" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/README.md"
-  content             = file("${path.module}/templates/dotnet-service/README.md.tpl")
+  content             = file("${path.module}/templates/dotnet-service/skeleton/README.md.tpl")
   commit_message      = "Add .NET service skeleton README"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -87,7 +87,7 @@ resource "github_repository_file" "dotnet_service_hello_controller" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/src/Controllers/HelloController.cs"
-  content             = file("${path.module}/templates/dotnet-service/src/Controllers/HelloController.cs.tpl")
+  content             = file("${path.module}/templates/dotnet-service/skeleton/src/Controllers/HelloController.cs.tpl")
   commit_message      = "Add .NET service skeleton Hello controller"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -105,7 +105,7 @@ resource "github_repository_file" "dotnet_service_status_controller" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/src/Controllers/StatusController.cs"
-  content             = file("${path.module}/templates/dotnet-service/src/Controllers/StatusController.cs.tpl")
+  content             = file("${path.module}/templates/dotnet-service/skeleton/src/Controllers/StatusController.cs.tpl")
   commit_message      = "Add .NET service skeleton Status controller"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -123,7 +123,7 @@ resource "github_repository_file" "dotnet_service_excursions_controller" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/src/Controllers/ExcursionsController.cs"
-  content             = file("${path.module}/templates/dotnet-service/src/Controllers/ExcursionsController.cs.tpl")
+  content             = file("${path.module}/templates/dotnet-service/skeleton/src/Controllers/ExcursionsController.cs.tpl")
   commit_message      = "Add .NET service skeleton Excursions controller"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -141,7 +141,7 @@ resource "github_repository_file" "dotnet_service_health_controller" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/src/Controllers/HealthController.cs"
-  content             = file("${path.module}/templates/dotnet-service/src/Controllers/HealthController.cs.tpl")
+  content             = file("${path.module}/templates/dotnet-service/skeleton/src/Controllers/HealthController.cs.tpl")
   commit_message      = "Add .NET service skeleton health controller"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -160,7 +160,7 @@ resource "github_repository_file" "dotnet_service_models" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/src/Models/ApiModels.cs"
-  content             = file("${path.module}/templates/dotnet-service/src/Models/ApiModels.cs.tpl")
+  content             = file("${path.module}/templates/dotnet-service/skeleton/src/Models/ApiModels.cs.tpl")
   commit_message      = "Add .NET service skeleton API models"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -179,7 +179,7 @@ resource "github_repository_file" "dotnet_service_devcontainer" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.devcontainer/devcontainer.json"
-  content             = file("${path.module}/templates/dotnet-service/.devcontainer/devcontainer.json.tpl")
+  content             = file("${path.module}/templates/dotnet-service/skeleton/.devcontainer/devcontainer.json.tpl")
   commit_message      = "Add .NET service skeleton devcontainer configuration"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -198,7 +198,7 @@ resource "github_repository_file" "dotnet_service_test_project" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/tests/Service.Tests.csproj"
-  content             = file("${path.module}/templates/dotnet-service/tests/Service.Tests.csproj.tpl")
+  content             = file("${path.module}/templates/dotnet-service/skeleton/tests/Service.Tests.csproj.tpl")
   commit_message      = "Add .NET service skeleton test project file"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -217,7 +217,7 @@ resource "github_repository_file" "dotnet_service_api_tests" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/tests/ApiTests.cs"
-  content             = file("${path.module}/templates/dotnet-service/tests/ApiTests.cs.tpl")
+  content             = file("${path.module}/templates/dotnet-service/skeleton/tests/ApiTests.cs.tpl")
   commit_message      = "Add .NET service skeleton API tests"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -236,7 +236,7 @@ resource "github_repository_file" "dotnet_service_dependabot" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = ".github/dependabot.yml"
-  content             = file("${path.module}/templates/dotnet-service/.github/dependabot.yml")
+  content             = file("${path.module}/templates/dotnet-service/skeleton/.github/dependabot.yml")
   commit_message      = "Add Dependabot configuration for NuGet dependencies"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"

@@ -118,28 +118,6 @@ resource "github_repository_file" "template_ci" {
   depends_on = [github_repository.templates, github_repository_file.reusable_ci_workflow]
 }
 
-# Catalog info file for each template repository
-resource "github_repository_file" "catalog_info" {
-  for_each = var.template_repositories
-
-  repository = github_repository.templates[each.key].name
-  branch     = "main"
-  file       = "catalog-info.yaml"
-  content = templatefile("${path.module}/templates/catalog-info.yaml.tpl", {
-    template_name        = each.key
-    template_title       = each.value.description
-    template_description = each.value.description
-    template_tags        = each.value.topics
-    template_type        = "service"
-    organization         = var.github_organization
-  })
-  commit_message      = "Add Backstage catalog-info.yaml for template registration"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
 
 # MkDocs configuration file for each template repository
 resource "github_repository_file" "template_mkdocs" {

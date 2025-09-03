@@ -30,7 +30,7 @@ resource "github_repository_file" "helm_base_chart" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/Chart.yaml"
-  content             = file("${path.module}/templates/helm-base/Chart.yaml.tpl")
+  content             = file("${path.module}/templates/helm-base/skeleton/Chart.yaml.tpl")
   commit_message      = "Add Helm base skeleton Chart.yaml"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -49,7 +49,7 @@ resource "github_repository_file" "helm_base_values" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/values.yaml"
-  content             = file("${path.module}/templates/helm-base/values.yaml.tpl")
+  content             = file("${path.module}/templates/helm-base/skeleton/values.yaml.tpl")
   commit_message      = "Add Helm base skeleton values.yaml"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -68,7 +68,7 @@ resource "github_repository_file" "helm_base_readme" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/README.md"
-  content             = file("${path.module}/templates/helm-base/README.md.tpl")
+  content             = file("${path.module}/templates/helm-base/skeleton/README.md.tpl")
   commit_message      = "Add Helm base skeleton README"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -87,7 +87,7 @@ resource "github_repository_file" "helm_base_devcontainer" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.devcontainer/devcontainer.json"
-  content             = file("${path.module}/templates/helm-base/.devcontainer/devcontainer.json.tpl")
+  content             = file("${path.module}/templates/helm-base/skeleton/.devcontainer/devcontainer.json.tpl")
   commit_message      = "Add Helm Base devcontainer configuration"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"

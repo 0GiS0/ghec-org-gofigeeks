@@ -30,7 +30,7 @@ resource "github_repository_file" "astro_frontend_package" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/package.json"
-  content             = file("${path.module}/templates/astro-frontend/package.json.tpl")
+  content             = file("${path.module}/templates/astro-frontend/skeleton/package.json.tpl")
   commit_message      = "Add Astro frontend skeleton package.json"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -49,7 +49,7 @@ resource "github_repository_file" "astro_frontend_config" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/astro.config.mjs"
-  content             = file("${path.module}/templates/astro-frontend/astro.config.mjs.tpl")
+  content             = file("${path.module}/templates/astro-frontend/skeleton/astro.config.mjs.tpl")
   commit_message      = "Add Astro frontend skeleton configuration"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -68,7 +68,7 @@ resource "github_repository_file" "astro_frontend_readme" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/README.md"
-  content             = file("${path.module}/templates/astro-frontend/README.md.tpl")
+  content             = file("${path.module}/templates/astro-frontend/skeleton/README.md.tpl")
   commit_message      = "Add Astro frontend skeleton README"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -87,7 +87,7 @@ resource "github_repository_file" "astro_frontend_api_tests" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/api-tests.http"
-  content             = file("${path.module}/templates/astro-frontend/api-tests.http.tpl")
+  content             = file("${path.module}/templates/astro-frontend/skeleton/api-tests.http.tpl")
   commit_message      = "Add Astro frontend skeleton API tests"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -106,7 +106,7 @@ resource "github_repository_file" "astro_frontend_devcontainer" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.devcontainer/devcontainer.json"
-  content             = file("${path.module}/templates/astro-frontend/.devcontainer/devcontainer.json.tpl")
+  content             = file("${path.module}/templates/astro-frontend/skeleton/.devcontainer/devcontainer.json.tpl")
   commit_message      = "Add Astro Frontend devcontainer configuration"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -125,7 +125,7 @@ resource "github_repository_file" "astro_frontend_dependabot" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = ".github/dependabot.yml"
-  content             = file("${path.module}/templates/astro-frontend/.github/dependabot.yml")
+  content             = file("${path.module}/templates/astro-frontend/skeleton/.github/dependabot.yml")
   commit_message      = "Add Dependabot configuration for npm dependencies"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
