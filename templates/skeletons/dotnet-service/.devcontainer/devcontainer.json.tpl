@@ -12,7 +12,8 @@
         "formulahendry.dotnet-test-explorer",
         "jchannon.csharpextensions",
         "github.copilot",
-        "github.copilot-chat"
+        "github.copilot-chat",
+        "humao.rest-client"
       ],
       "settings": {
         "dotnet.defaultSolution": "src/${{values.name}}.csproj"
