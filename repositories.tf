@@ -444,6 +444,185 @@ resource "github_repository_file" "catalog_info" {
 # SKELETON FILES FOR TEMPLATE REPOSITORIES
 # =============================================================================
 
+# =============================================================================
+# GITIGNORE FILES FOR SKELETON DIRECTORIES
+# =============================================================================
+
+# Node.js Service .gitignore
+resource "github_repository_file" "node_service_gitignore" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-node-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.gitignore"
+  content             = file("${path.module}/templates/skeletons/node-service/.gitignore.tpl")
+  commit_message      = "Add Node.js service skeleton .gitignore"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# FastAPI Service .gitignore
+resource "github_repository_file" "fastapi_service_gitignore" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.gitignore"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/.gitignore.tpl")
+  commit_message      = "Add FastAPI service skeleton .gitignore"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# .NET Service .gitignore
+resource "github_repository_file" "dotnet_service_gitignore" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-dotnet-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.gitignore"
+  content             = file("${path.module}/templates/skeletons/dotnet-service/.gitignore.tpl")
+  commit_message      = "Add .NET service skeleton .gitignore"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Astro Frontend .gitignore
+resource "github_repository_file" "astro_frontend_gitignore" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-astro-frontend"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.gitignore"
+  content             = file("${path.module}/templates/skeletons/astro-frontend/.gitignore.tpl")
+  commit_message      = "Add Astro frontend skeleton .gitignore"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# AI Assistant .gitignore
+resource "github_repository_file" "ai_assistant_gitignore" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-ai-assistant"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.gitignore"
+  content             = file("${path.module}/templates/skeletons/ai-assistant/.gitignore.tpl")
+  commit_message      = "Add AI assistant skeleton .gitignore"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Gateway .gitignore
+resource "github_repository_file" "gateway_gitignore" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-gateway"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.gitignore"
+  content             = file("${path.module}/templates/skeletons/gateway/.gitignore.tpl")
+  commit_message      = "Add gateway skeleton .gitignore"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Helm Base .gitignore
+resource "github_repository_file" "helm_base_gitignore" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-helm-base"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.gitignore"
+  content             = file("${path.module}/templates/skeletons/helm-base/.gitignore.tpl")
+  commit_message      = "Add Helm base skeleton .gitignore"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Environment Live .gitignore
+resource "github_repository_file" "env_live_gitignore" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-env-live"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.gitignore"
+  content             = file("${path.module}/templates/skeletons/env-live/.gitignore.tpl")
+  commit_message      = "Add environment live skeleton .gitignore"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# System and Domain templates .gitignore (generic)
+resource "github_repository_file" "generic_template_gitignore" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if contains(["backstage-template-system", "backstage-template-domain"], key)
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.gitignore"
+  content             = file("${path.module}/templates/skeletons/.gitignore.tpl")
+  commit_message      = "Add generic skeleton .gitignore"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# =============================================================================
+# OTHER SKELETON FILES FOR TEMPLATE REPOSITORIES
+# =============================================================================
+
 # Node.js Service Skeleton Files
 resource "github_repository_file" "node_service_package" {
   for_each = {
