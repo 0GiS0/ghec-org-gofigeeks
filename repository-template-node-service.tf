@@ -1,7 +1,63 @@
 # Node.js Service Template Repository Files
 # This file contains all file resources specific to the Node.js Service template
 
-# .gitignore file for Node.js Service template
+# Dependabot configuration for npm dependencies (skeleton)
+resource "github_repository_file" "node_service_dependabot" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-node-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.github/dependabot.yml"
+  content             = file("${path.module}/templates/node-service/skeleton/.github/dependabot.yml")
+  commit_message      = "Add Dependabot configuration for npm dependencies to skeleton"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# CI workflow for Node.js service template (skeleton)
+resource "github_repository_file" "node_service_ci_workflow" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-node-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.github/workflows/ci.yml"
+  content             = file("${path.module}/templates/node-service/skeleton/.github/workflows/ci.yml")
+  commit_message      = "Add CI workflow for Node.js service template to skeleton"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Dependabot configuration for template itself (to update skeleton dependencies)
+resource "github_repository_file" "node_service_template_dependabot" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-node-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = ".github/dependabot.yml"
+  content             = file("${path.module}/templates/node-service/.github/dependabot.yml")
+  commit_message      = "Add Dependabot configuration for template repository"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
 resource "github_repository_file" "node_service_gitignore" {
   for_each = {
     for key, value in var.template_repositories : key => value
@@ -127,25 +183,6 @@ resource "github_repository_file" "node_service_excursion_routes" {
   file                = "skeleton/src/routes/excursions.js"
   content             = file("${path.module}/templates/node-service/skeleton/src/routes/excursions.js.tpl")
   commit_message      = "Add Node.js service skeleton excursions routes"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Dependabot configuration for Node.js Service
-resource "github_repository_file" "node_service_dependabot" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-node-service"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = ".github/dependabot.yml"
-  content             = file("${path.module}/templates/node-service/skeleton/.github/dependabot.yml")
-  commit_message      = "Add Dependabot configuration for npm dependencies"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
   overwrite_on_create = true
