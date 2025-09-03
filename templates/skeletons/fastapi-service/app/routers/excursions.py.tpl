@@ -17,7 +17,7 @@ excursions: List[Excursion] = [
         duration=6,
         max_participants=12,
         created_at=datetime.utcnow(),
-        updated_at=datetime.utcnow()
+        updated_at=datetime.utcnow(),
     ),
     Excursion(
         id=2,
@@ -28,8 +28,8 @@ excursions: List[Excursion] = [
         duration=3,
         max_participants=8,
         created_at=datetime.utcnow(),
-        updated_at=datetime.utcnow()
-    )
+        updated_at=datetime.utcnow(),
+    ),
 ]
 next_id = 3
 
@@ -53,17 +53,17 @@ async def get_excursion_by_id(excursion_id: int):
 async def create_excursion(excursion_data: ExcursionCreate):
     """Create a new excursion."""
     global next_id
-    
+
     new_excursion = Excursion(
         id=next_id,
         **excursion_data.dict(),
         created_at=datetime.utcnow(),
-        updated_at=datetime.utcnow()
+        updated_at=datetime.utcnow(),
     )
-    
+
     excursions.append(new_excursion)
     next_id += 1
-    
+
     return new_excursion
 
 
@@ -73,14 +73,14 @@ async def update_excursion(excursion_id: int, excursion_data: ExcursionUpdate):
     excursion = next((e for e in excursions if e.id == excursion_id), None)
     if not excursion:
         raise HTTPException(status_code=404, detail=f"Excursion with id {excursion_id} not found")
-    
+
     # Update the excursion
     update_data = excursion_data.dict()
     for field, value in update_data.items():
         setattr(excursion, field, value)
-    
+
     excursion.updated_at = datetime.utcnow()
-    
+
     return excursion
 
 
@@ -88,10 +88,10 @@ async def update_excursion(excursion_id: int, excursion_data: ExcursionUpdate):
 async def delete_excursion(excursion_id: int):
     """Delete an excursion."""
     global excursions
-    
+
     excursion_index = next((i for i, e in enumerate(excursions) if e.id == excursion_id), None)
     if excursion_index is None:
         raise HTTPException(status_code=404, detail=f"Excursion with id {excursion_id} not found")
-    
+
     excursions.pop(excursion_index)
     return

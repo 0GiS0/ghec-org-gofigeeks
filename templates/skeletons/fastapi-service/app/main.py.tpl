@@ -11,13 +11,17 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
+# Service configuration
+SERVICE_NAME = "${{values.name}}"
+SERVICE_DESCRIPTION = "${{values.description}}"
+
 # Initialize FastAPI app
 app = FastAPI(
-    title="${{values.name}}",
-    description="${{values.description}}",
+    title=SERVICE_NAME,
+    description=SERVICE_DESCRIPTION,
     version="1.0.0",
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
 )
 
 # Add CORS middleware
@@ -41,9 +45,9 @@ async def health_check():
     """Health check endpoint."""
     return HealthResponse(
         status="OK",
-        service="${{values.name}}",
+        service=SERVICE_NAME,
         timestamp=datetime.utcnow().isoformat(),
-        version="1.0.0"
+        version="1.0.0",
     )
 
 
@@ -51,8 +55,8 @@ async def health_check():
 async def hello():
     """Hello world endpoint."""
     return HelloResponse(
-        message="Hello from ${{values.name}}!",
-        timestamp=datetime.utcnow().isoformat()
+        message=f"Hello from {SERVICE_NAME}!",
+        timestamp=datetime.utcnow().isoformat(),
     )
 
 
@@ -60,10 +64,10 @@ async def hello():
 async def get_status():
     """Service status endpoint."""
     return StatusResponse(
-        service="${{values.name}}",
+        service=SERVICE_NAME,
         status="running",
         uptime=time.time() - start_time,
-        environment=os.getenv("ENVIRONMENT", "development")
+        environment=os.getenv("ENVIRONMENT", "development"),
     )
 
 
@@ -71,36 +75,36 @@ async def get_status():
 async def root():
     """Root endpoint with service information."""
     return {
-        "service": "${{values.name}}",
+        "service": SERVICE_NAME,
         "message": "Welcome to the Excursions API",
         "version": "1.0.0",
         "endpoints": {
             "health": "/health",
-            "hello": "/api/hello", 
+            "hello": "/api/hello",
             "status": "/api/status",
             "excursions": "/api/excursions",
             "docs": "/docs",
-            "redoc": "/redoc"
+            "redoc": "/redoc",
         },
         "excursion_endpoints": {
             "get_all_excursions": "GET /api/excursions",
             "get_excursion_by_id": "GET /api/excursions/{id}",
             "create_excursion": "POST /api/excursions",
             "update_excursion": "PUT /api/excursions/{id}",
-            "delete_excursion": "DELETE /api/excursions/{id}"
-        }
+            "delete_excursion": "DELETE /api/excursions/{id}",
+        },
     }
 
 
 if __name__ == "__main__":
     import uvicorn
-    
+
     port = int(os.getenv("PORT", 8000))
     host = os.getenv("HOST", "0.0.0.0")
-    
+
     uvicorn.run(
         "main:app",
         host=host,
         port=port,
-        reload=True if os.getenv("ENVIRONMENT") == "development" else False
+        reload=True if os.getenv("ENVIRONMENT") == "development" else False,
     )

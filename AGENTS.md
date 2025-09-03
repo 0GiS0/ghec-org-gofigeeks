@@ -23,7 +23,8 @@ Este repositorio gestiona la configuración de una organización de GitHub Enter
 - `teams.tf` - Gestión de equipos
 - `codespaces.tf` - Configuración de Codespaces
 - `custom_properties.tf` - Gestión de custom properties organizacionales
-- `scripts/` - Scripts para integraciones avanzadas con GitHub API
+- `scripts/terraform-integration/` - Scripts para integraciones avanzadas con GitHub API
+- `scripts/repo-tools/` - Herramientas de mantenimiento y validación del repositorio
 - `templates/` - Plantillas para repositorios y workflows
 - `terraform.tfvars.example` - Archivo de ejemplo para variables
 
@@ -36,6 +37,13 @@ Este repositorio gestiona la configuración de una organización de GitHub Enter
 - Variables sensibles marcadas con `sensitive = true`
 - Validaciones en variables cuando sea apropiado
 
+### Código Python en plantillas
+
+- Todo código Python en archivos `.py.tpl` debe seguir el formato estándar de **black**
+- Ejecutar `./scripts/repo-tools/check-python-format.sh` para verificar el formato
+- Ejecutar `./scripts/repo-tools/format-python.sh` para aplicar formato automáticamente
+- La verificación de formato es **obligatoria** antes de cualquier commit que modifique archivos Python
+
 ## Integraciones mediante Scripts
 
 ### Patrón para funcionalidades no soportadas por Terraform
@@ -44,7 +52,7 @@ Para funcionalidades de GitHub que no están completamente soportadas por el pro
 
 #### Estructura del patrón
 
-1. **Script bash** en `scripts/` que interactúa con GitHub REST API
+1. **Script bash** en `scripts/terraform-integration/` que interactúa con GitHub REST API
 2. **Recurso `null_resource`** que ejecuta el script con variables de entorno
 3. **Validación y logging** detallado para troubleshooting
 4. **Manejo de errores** configurable
@@ -57,7 +65,7 @@ Las custom properties organizacionales requieren este patrón porque:
 - La API REST permite gestión completa de definiciones y valores
 
 ```bash
-# scripts/custom_property.sh
+# scripts/terraform-integration/custom_property.sh
 #!/usr/bin/env bash
 set -eo pipefail
 
@@ -66,7 +74,7 @@ set -eo pipefail
 # APP_ID, INSTALLATION_ID, PEM_FILE
 
 # Obtener token de GitHub App
-GITHUB_TOKEN=$(APP_ID="$APP_ID" INSTALLATION_ID="$INSTALLATION_ID" PEM_FILE="$PEM_FILE" ./scripts/github_app_token.sh)
+GITHUB_TOKEN=$(APP_ID="$APP_ID" INSTALLATION_ID="$INSTALLATION_ID" PEM_FILE="$PEM_FILE" ./scripts/terraform-integration/github_app_token.sh)
 
 # Usar PUT para crear/actualizar propiedad individual
 curl -X PUT \
@@ -91,7 +99,7 @@ resource "null_resource" "org_custom_properties" {
 
   provisioner "local-exec" {
     interpreter = ["/bin/bash", "-c"]
-    command     = "scripts/custom_property.sh"
+    command     = "scripts/terraform-integration/custom_property.sh"
     environment = {
       ORG_NAME         = var.github_organization
       PROPERTY_NAME    = each.key
@@ -106,7 +114,7 @@ resource "null_resource" "org_custom_properties" {
 }
 ```
 
-#### Mejores prácticas para scripts
+### Mejores prácticas para scripts
 
 1. **Manejo de errores robusto**
    ```bash
@@ -130,7 +138,7 @@ resource "null_resource" "org_custom_properties" {
 4. **Tokens seguros**
    ```bash
    # Usar GitHub App en lugar de PAT
-   GITHUB_TOKEN=$(./scripts/github_app_token.sh)
+   GITHUB_TOKEN=$(./scripts/terraform-integration/github_app_token.sh)
    ```
 
 5. **Payload processing**
@@ -139,30 +147,81 @@ resource "null_resource" "org_custom_properties" {
    PROPERTY_DEF=$(echo "$PAYLOAD" | jq 'del(.property_name)')
    ```
 
+### Scripts de formato de código Python
+
+El proyecto incluye scripts automatizados para mantener la calidad del código Python:
+
+#### `scripts/repo-tools/check-python-format.sh`
+Verifica que todos los archivos `.py.tpl` sigan el formato estándar de black.
+
+```bash
+# Uso básico
+./scripts/repo-tools/check-python-format.sh
+
+# Con log personalizado
+LOG_FILE="/tmp/mi-verificacion.log" ./scripts/repo-tools/check-python-format.sh
+```
+
+**Características:**
+- Detecta automáticamente todos los archivos `.py.tpl` en `templates/`
+- Genera logs detallados con timestamps
+- Código de salida 0 si todo está correcto, 1 si hay errores
+- Proporciona comandos para corregir errores
+
+#### `scripts/repo-tools/format-python.sh`
+Aplica automáticamente el formato black a todos los archivos `.py.tpl`.
+
+```bash
+# Aplicar formato a todos los archivos
+./scripts/repo-tools/format-python.sh
+
+# Con log personalizado
+LOG_FILE="/tmp/mi-formato.log" ./scripts/repo-tools/format-python.sh
+```
+
+**Características:**
+- Modifica directamente los archivos para aplicar el formato
+- Preserva los placeholders de Backstage y Terraform
+- Genera logs de cada archivo procesado
+- Operación idempotente (seguro ejecutar múltiples veces)
+
+**Flujo de trabajo recomendado:**
+```bash
+# 1. Verificar estado actual
+./scripts/repo-tools/check-python-format.sh
+
+# 2. Si hay errores, aplicar formato
+./scripts/repo-tools/format-python.sh
+
+# 3. Verificar que todo esté correcto
+./scripts/repo-tools/check-python-format.sh
+```
+
 #### Testing de scripts
 
 ```bash
 # Test manual del script
 cd /workspaces/ghec-org-as-code
 
-ORG_NAME="GofiGeeksOrg" \
+# Cargar variables de entorno
+source .env
+
+ORG_NAME="$GITHUB_ORGANIZATION" \
 PROPERTY_NAME="service-tier" \
 PROPERTY_PAYLOAD='{"property_name":"service-tier","value_type":"single_select","required":true,"default_value":"tier-1","allowed_values":["tier-1","tier-2","tier-3"]}' \
-APP_ID="1779409" \
-INSTALLATION_ID="80867883" \
-PEM_FILE="/workspaces/ghec-org-as-code/GofiGeeksOrg.pem" \
+APP_ID="$GITHUB_APP_ID" \
+INSTALLATION_ID="$GITHUB_APP_INSTALLATION_ID" \
+PEM_FILE="$GITHUB_APP_PEM_FILE" \
 NON_FATAL_404="false" \
-./scripts/custom_property.sh
+./scripts/terraform-integration/custom_property.sh
 ```
 
 #### Validación post-ejecución
 
 ```bash
-# Verificar resultado via API
-curl -H "Authorization: Bearer $TOKEN" \
-  "https://api.github.com/orgs/GofiGeeksOrg/properties/schema" | jq .
-
-# Revisar logs
+   # Verificar resultado via API
+   curl -H "Authorization: Bearer $TOKEN" \
+     "https://api.github.com/orgs/$GITHUB_ORGANIZATION/properties/schema" | jq .# Revisar logs
 cat /tmp/custom-properties-service-tier.log
 ```
 
@@ -177,29 +236,60 @@ cat /tmp/custom-properties-service-tier.log
 - Verificar que el archivo PEM de la GitHub App existe y es legible
 - Confirmar que los usuarios listados en las variables son miembros de la organización
 
+### Testing de código Python
+
+**OBLIGATORIO** antes de cualquier commit que modifique archivos `.py.tpl`:
+
+1. **Verificar formato con black**
+   ```bash
+   ./scripts/repo-tools/check-python-format.sh
+   ```
+
+2. **Aplicar formato automáticamente (si es necesario)**
+   ```bash
+   ./scripts/repo-tools/format-python.sh
+   ```
+
+3. **Verificar nuevamente el formato**
+   ```bash
+   ./scripts/repo-tools/check-python-format.sh
+   ```
+
+Los archivos Python verificados incluyen:
+- `templates/skeletons/ai-assistant/src/main.py.tpl`
+- `templates/skeletons/fastapi-service/app/**/*.py.tpl`
+- `templates/skeletons/fastapi-service/tests/**/*.py.tpl`
+- `templates/skeletons/env-live/validate_config.py.tpl`
+
+**Nota**: Los scripts automáticamente detectan todos los archivos `.py.tpl` en el directorio `templates/`
+
 ### Testing de Custom Properties
 
 1. **Verificar API organizacional**
    ```bash
+   # Cargar variables de entorno
+   source .env
+   
    # Listar propiedades existentes
    curl -H "Authorization: Bearer $TOKEN" \
-     "https://api.github.com/orgs/GofiGeeksOrg/properties/schema" | jq .
+     "https://api.github.com/orgs/$GITHUB_ORGANIZATION/properties/schema" | jq .
    ```
 
 2. **Verificar aplicación a repositorios**
    ```bash
    # Listar valores aplicados a repositorios
    curl -H "Authorization: Bearer $TOKEN" \
-     "https://api.github.com/orgs/GofiGeeksOrg/properties/values" | jq .
+     "https://api.github.com/orgs/$GITHUB_ORGANIZATION/properties/values" | jq .
    ```
 
 3. **Testing de scripts individuales**
    ```bash
    # Test de creación de propiedad
-   ORG_NAME="GofiGeeksOrg" \
+   source .env
+   ORG_NAME="$GITHUB_ORGANIZATION" \
    PROPERTY_NAME="test-property" \
    PROPERTY_PAYLOAD='{"value_type":"string","required":false,"description":"Test property"}' \
-   ./scripts/custom_property.sh
+   ./scripts/terraform-integration/custom_property.sh
    ```
 
 4. **Validación de logs**
@@ -218,25 +308,47 @@ terraform plan -target=null_resource.org_custom_properties
 terraform apply -target=null_resource.org_custom_properties -auto-approve
 
 # 3. Verificar en GitHub API
+source .env
 curl -H "Authorization: Bearer $TOKEN" \
-  "https://api.github.com/orgs/GofiGeeksOrg/properties/schema"
+  "https://api.github.com/orgs/$GITHUB_ORGANIZATION/properties/schema"
 
 # 4. Apply propiedades a repositorios
 terraform apply -auto-approve
 
 # 5. Verificar aplicación final
 curl -H "Authorization: Bearer $TOKEN" \
-  "https://api.github.com/orgs/GofiGeeksOrg/properties/values"
+  "https://api.github.com/orgs/$GITHUB_ORGANIZATION/properties/values"
 ```
 
 ## Configuración de desarrollo
 
-1. Copiar `terraform.tfvars.example` a `terraform.tfvars`
-2. Configurar las variables requeridas:
-   - `github_organization`
-   - `github_app_id`
-   - `github_app_installation_id`
-   - `github_app_pem_file`
+### Variables de entorno
+
+1. **Copiar archivo de configuración de ejemplo**:
+   ```bash
+   cp .env.sample .env
+   ```
+
+2. **Editar .env con tus credenciales**:
+   ```bash
+   nano .env
+   ```
+
+3. **Configurar las variables requeridas**:
+   - `GITHUB_ORGANIZATION` - Nombre de tu organización GitHub
+   - `GITHUB_APP_ID` - ID de tu GitHub App
+   - `GITHUB_APP_INSTALLATION_ID` - ID de instalación de la app
+   - `GITHUB_APP_PEM_FILE` - Ruta al archivo PEM de la GitHub App
+
+4. **Cargar variables de entorno**:
+   ```bash
+   source scripts/load-env.sh
+   ```
+
+### Terraform
+
+1. Las variables se pueden cargar automáticamente desde .env usando el prefijo `TF_VAR_`
+2. Alternativamente, usar `terraform.tfvars` para configuración específica
 3. Asegurar que el archivo PEM tenga permisos 600
 4. Verificar que la GitHub App tenga los permisos necesarios
 
@@ -259,9 +371,19 @@ curl -H "Authorization: Bearer $TOKEN" \
 
 - Título: `[GHEC] <Descripción del cambio>`
 - Siempre ejecutar `terraform fmt` y `terraform validate` antes de commitear
+- **OBLIGATORIO**: Si se modifican archivos `.py.tpl`, ejecutar `./scripts/repo-tools/check-python-format.sh`
 - Incluir descripción detallada de los cambios en el PR
 - Verificar que no se incluyan archivos sensibles en el commit
 - Actualizar documentación si se añaden nuevas variables o funcionalidades
+
+### Checklist de PR para cambios en código Python
+
+Al modificar archivos `.py.tpl`, verificar:
+
+- [ ] `./scripts/repo-tools/check-python-format.sh` ejecutado sin errores
+- [ ] Si había errores de formato, ejecutado `./scripts/repo-tools/format-python.sh`
+- [ ] Verificación final con `./scripts/repo-tools/check-python-format.sh` exitosa
+- [ ] Todos los archivos Python siguen el formato estándar de black
 
 ## Gestión de estado
 

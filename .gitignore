@@ -19,6 +19,11 @@ tfplan
 # GitHub App private keys
 *.pem
 
+# Environment variables
+.env
+.env.local
+.env.production
+
 # OS generated files
 .DS_Store
 .DS_Store?

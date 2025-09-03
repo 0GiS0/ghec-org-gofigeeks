@@ -31,7 +31,7 @@ resource "null_resource" "org_custom_properties" {
 
   provisioner "local-exec" {
     interpreter = ["/bin/bash", "-c"]
-    command     = "scripts/custom_property.sh"
+    command     = "scripts/terraform-integration/custom_property.sh"
     environment = {
       ORG_NAME         = var.github_organization
       PROPERTY_NAME    = each.key
@@ -59,7 +59,7 @@ resource "null_resource" "wait_org_custom_properties" {
 
   provisioner "local-exec" {
     interpreter = ["/bin/bash", "-c"]
-    command     = "scripts/wait_custom_properties.sh"
+    command     = "scripts/terraform-integration/wait_custom_properties.sh"
     environment = {
       ORG_NAME            = var.github_organization
       APP_ID              = var.github_app_id

@@ -22,7 +22,7 @@ resource "null_resource" "org_codespaces_access" {
 
   provisioner "local-exec" {
     interpreter = ["/bin/bash", "-c"]
-    command     = "scripts/codespaces_access.sh"
+    command     = "scripts/terraform-integration/codespaces_access.sh"
     environment = {
       ORG_NAME        = var.github_organization
       PAYLOAD_JSON    = local.codespaces_payload

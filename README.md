@@ -4,10 +4,44 @@ Configura tu organización de GitHub Enterprise Cloud con Terraform en minutos. 
 
 ---
 
+## 🚀 Configuración Rápida
+
+### 1. Script de configuración automática
+
+```bash
+# Ejecutar configuración inicial (recomendado)
+./scripts/setup.sh
+```
+
+### 2. Configuración manual
+
+```bash
+# 1. Copiar variables de entorno
+cp .env.sample .env
+
+# 2. Editar con tus credenciales
+nano .env
+
+# 3. Cargar variables
+source scripts/load-env.sh
+
+# 4. Inicializar Terraform
+terraform init
+terraform plan
+terraform apply
+```
+
+📚 **¿Primera vez?** Consulta la [Guía de Configuración Completa](docs/SETUP.md)
+
+---
+
 ## ✅ Requisitos
 
 - Terraform CLI ≥ 1.6
 - Una GitHub App instalada en tu organización (con la clave privada .pem)
+- Archivo `.env` configurado con tus credenciales
+
+> **💡 Tip**: Usa `./scripts/setup.sh` para configuración automática guiada
 
 ### 🔐 Permisos de la GitHub App (imprescindibles)
 
@@ -35,27 +69,77 @@ Nota: La App debe estar instalada en la organización objetivo y el `installatio
 
 ## ⚙️ Configuración
 
-1) Copia el archivo de variables y edítalo:
+### 🔧 Variables de Entorno (Recomendado)
+
+1) **Configura variables de entorno**:
+
+```bash
+# Usar script de configuración automática
+./scripts/setup.sh
+
+# O manualmente:
+cp .env.sample .env
+nano .env
+```
+
+2) **Cargar variables**:
+
+```bash
+source scripts/load-env.sh
+```
+
+### 📝 Terraform.tfvars (Alternativo)
+
+También puedes usar `terraform.tfvars` para configuración específica:
 
 ```bash
 cp terraform.tfvars.example terraform.tfvars
 ```
 
-2) Rellena `terraform.tfvars` con tu organización y la App:
+Edita `terraform.tfvars` con tu organización:
 
 ```hcl
-github_organization        = "GofiGeeksOrg"
-github_app_id              = "<APP_ID>"
-github_app_installation_id = "<INSTALLATION_ID>"
-github_app_pem_file        = "/workspaces/ghec-org-as-code/GofiGeeksOrg.pem" # usa ruta absoluta
+github_organization        = "tu-organizacion"
+github_app_id              = "123456"
+github_app_installation_id = "12345678"
+github_app_pem_file        = "tu-github-app.pem"
 
 # Email de facturación de la organización (requerido)
-github_organization_billing_email = "billing@gofigeeks.org"
+github_organization_billing_email = "billing@tu-org.com"
 
 # Equipos (opcional)
 platform_team_maintainers = ["platform-lead", "infra-admin"]
 platform_team_members     = ["engineer1", "engineer2"]
 ```
+
+> **Nota**: Si usas tanto `.env` como `terraform.tfvars`, las variables en `terraform.tfvars` tienen prioridad.
+
+### 🔐 Seguridad de Archivos Sensibles
+
+**Archivos que NO deben ser commiteados**:
+- `.env` - Variables de entorno con credenciales reales
+- `*.pem` - Claves privadas de GitHub App
+- `terraform.tfvars` - Variables de Terraform con datos reales
+
+**Verificar configuración de seguridad**:
+
+```bash
+# Verificar que archivos sensibles están en .gitignore
+cat .gitignore | grep -E "(\.env|\.pem|terraform\.tfvars)"
+
+# Verificar permisos del archivo PEM
+chmod 600 tu-github-app.pem
+ls -la *.pem
+
+# Cargar y validar configuración
+source scripts/load-env.sh
+```
+
+**Buenas prácticas**:
+- Usar `.env.sample` como referencia para nuevos desarrolladores
+- Mantener archivos PEM con permisos 600
+- Rotar credenciales regularmente
+- No incluir información sensible en documentación o commits
 
 ### 🔒 Configuración de Seguridad Avanzada
 
@@ -77,11 +161,14 @@ Para personalizar estas configuraciones, puedes modificar las variables en `terr
 # secret_scanning_push_protection_enabled_for_new_repositories = false
 ```
 
-3) Asegúrate de que el PEM exista y sea legible:
+3) Asegúrate de que el archivo PEM exista y sea legible:
 
 ```bash
-ls -l /workspaces/ghec-org-as-code/GofiGeeksOrg.pem
-chmod 600 /workspaces/ghec-org-as-code/GofiGeeksOrg.pem
+# Verificar que el archivo PEM existe
+ls -l tu-github-app.pem
+
+# Configurar permisos seguros
+chmod 600 tu-github-app.pem
 ```
 
 ### 👥 Importante: miembros de la organización

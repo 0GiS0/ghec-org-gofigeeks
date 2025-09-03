@@ -2,7 +2,11 @@ import pytest
 from fastapi.testclient import TestClient
 from app.main import app
 
+# Test configuration
+SERVICE_NAME = "${{values.name}}"
+
 client = TestClient(app)
+
 
 class TestAPI:
     def test_health_endpoint(self):
@@ -11,7 +15,7 @@ class TestAPI:
         assert response.status_code == 200
         data = response.json()
         assert data["status"] == "OK"
-        assert data["service"] == "${{values.name}}"
+        assert data["service"] == SERVICE_NAME
         assert "timestamp" in data
         assert "version" in data
 
@@ -20,7 +24,7 @@ class TestAPI:
         response = client.get("/api/hello")
         assert response.status_code == 200
         data = response.json()
-        assert data["message"] == "Hello from ${{values.name}}!"
+        assert data["message"] == f"Hello from {SERVICE_NAME}!"
         assert "timestamp" in data
 
     def test_status_endpoint(self):
@@ -28,7 +32,7 @@ class TestAPI:
         response = client.get("/api/status")
         assert response.status_code == 200
         data = response.json()
-        assert data["service"] == "${{values.name}}"
+        assert data["service"] == SERVICE_NAME
         assert data["status"] == "running"
         assert "uptime" in data
         assert "environment" in data
@@ -38,7 +42,7 @@ class TestAPI:
         response = client.get("/")
         assert response.status_code == 200
         data = response.json()
-        assert data["service"] == "${{values.name}}"
+        assert data["service"] == SERVICE_NAME
         assert data["message"] == "Welcome to the Excursions API"
         assert "endpoints" in data
         assert "excursion_endpoints" in data
@@ -54,7 +58,7 @@ class TestAPI:
         response = client.get("/openapi.json")
         assert response.status_code == 200
         data = response.json()
-        assert data["info"]["title"] == "${{values.name}}"
+        assert data["info"]["title"] == SERVICE_NAME
 
 
 class TestExcursionsAPI:
@@ -65,7 +69,7 @@ class TestExcursionsAPI:
         data = response.json()
         assert isinstance(data, list)
         assert len(data) >= 2  # Should have at least 2 default excursions
-        
+
         # Check structure of first excursion
         first_excursion = data[0]
         assert "id" in first_excursion
@@ -102,9 +106,9 @@ class TestExcursionsAPI:
             "location": "Coastal Area",
             "price": 35.00,
             "duration": 2,
-            "max_participants": 15
+            "max_participants": 15,
         }
-        
+
         response = client.post("/api/excursions/", json=new_excursion)
         assert response.status_code == 201
         data = response.json()
@@ -123,9 +127,9 @@ class TestExcursionsAPI:
             "location": "",  # Empty location should fail validation
             "price": -10.00,  # Negative price should fail validation
             "duration": 0,  # Zero duration should fail validation
-            "max_participants": 0  # Zero participants should fail validation
+            "max_participants": 0,  # Zero participants should fail validation
         }
-        
+
         response = client.post("/api/excursions/", json=invalid_excursion)
         assert response.status_code == 422  # Validation error
         data = response.json()
@@ -139,9 +143,9 @@ class TestExcursionsAPI:
             "location": "Updated Rocky Mountains",
             "price": 85.00,
             "duration": 7,
-            "max_participants": 10
+            "max_participants": 10,
         }
-        
+
         response = client.put("/api/excursions/1", json=updated_data)
         assert response.status_code == 200
         data = response.json()
@@ -158,9 +162,9 @@ class TestExcursionsAPI:
             "location": "Updated location",
             "price": 50.00,
             "duration": 3,
-            "max_participants": 8
+            "max_participants": 8,
         }
-        
+
         response = client.put("/api/excursions/999", json=updated_data)
         assert response.status_code == 404
         data = response.json()
@@ -175,17 +179,17 @@ class TestExcursionsAPI:
             "location": "Test Location",
             "price": 25.00,
             "duration": 1,
-            "max_participants": 5
+            "max_participants": 5,
         }
-        
+
         create_response = client.post("/api/excursions/", json=new_excursion)
         assert create_response.status_code == 201
         excursion_id = create_response.json()["id"]
-        
+
         # Now delete it
         delete_response = client.delete(f"/api/excursions/{excursion_id}")
         assert delete_response.status_code == 204
-        
+
         # Verify it's gone
         get_response = client.get(f"/api/excursions/{excursion_id}")
         assert get_response.status_code == 404
