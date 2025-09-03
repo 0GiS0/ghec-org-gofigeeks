@@ -1,0 +1,45 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{values.name}}
+  description: ${{values.description}}
+  annotations:
+    github.com/project-slug: ${{values.owner}}/${{values.name}}
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - fastapi
+    - python
+    - api
+    - microservice
+  links:
+    - url: https://${{values.owner}}.github.io/${{values.name}}
+      title: Documentation
+      icon: docs
+    - url: https://github.com/${{values.owner}}/${{values.name}}/blob/main/README.md
+      title: README
+      icon: github
+spec:
+  type: service
+  lifecycle: experimental
+  owner: ${{values.owner}}
+  system: ${{values.system | default("platform")}}
+  providesApis:
+    - ${{values.name}}-api
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: ${{values.name}}-api
+  description: REST API for ${{values.description}}
+  tags:
+    - rest
+    - fastapi
+    - python
+spec:
+  type: openapi
+  lifecycle: experimental
+  owner: ${{values.owner}}
+  system: ${{values.system | default("platform")}}
+  definition:
+    $text: ./openapi.json

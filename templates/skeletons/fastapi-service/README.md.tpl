@@ -26,15 +26,25 @@ ${{values.description}}
    pytest
    ```
 
-4. **Format code:**
+4. **Run tests with coverage:**
+   ```bash
+   pytest --cov=app --cov-report=html
+   ```
+
+5. **Format code:**
    ```bash
    black .
    isort .
    ```
 
-5. **Lint code:**
+6. **Lint code:**
    ```bash
    flake8 .
+   ```
+
+7. **Build documentation:**
+   ```bash
+   mkdocs serve
    ```
 
 ### API Documentation
@@ -42,6 +52,12 @@ ${{values.description}}
 - Interactive API docs: http://localhost:8000/docs
 - Alternative docs: http://localhost:8000/redoc
 - OpenAPI schema: http://localhost:8000/openapi.json
+- Project documentation: http://localhost:8001 (after running `mkdocs serve`)
+
+### API Testing
+
+Use the provided HTTP files in VS Code with the REST Client extension:
+- `api.http` - Complete API test suite for interactive testing
 
 ### API Endpoints
 
@@ -93,8 +109,48 @@ pytest
 Run with coverage:
 
 ```bash
-pytest --cov=app
+pytest --cov=app --cov-report=html
 ```
+
+View coverage report by opening `htmlcov/index.html` in your browser.
+
+## 📚 Documentation
+
+This project includes comprehensive documentation built with MkDocs:
+
+### Local Development
+```bash
+mkdocs serve
+```
+Then visit http://localhost:8001
+
+### Build Static Site
+```bash
+mkdocs build
+```
+
+### Deploy to GitHub Pages
+```bash
+mkdocs gh-deploy
+```
+
+## 🤖 AI Agent Support
+
+This project includes comprehensive documentation for working with AI coding agents. See [AGENTS.md](AGENTS.md) for:
+- Best practices for AI-assisted development
+- Common prompts and templates
+- Code quality guidelines
+- Security considerations
+
+## 🔗 Integration
+
+### Backstage Integration
+This service includes a `catalog-info.yaml` file for integration with Backstage developer portals.
+
+### VS Code Integration
+- REST Client files for API testing
+- Dev container configuration
+- Recommended extensions and settings
 
 ## 📦 Dependencies
 
@@ -106,7 +162,10 @@ pytest --cov=app
 ## 🛠️ Development Dependencies
 
 - **pytest**: Testing framework
+- **pytest-cov**: Coverage reporting
 - **httpx**: HTTP client for testing
 - **black**: Code formatter
 - **flake8**: Code linter
 - **isort**: Import organizer
+- **mkdocs**: Documentation generator
+- **mkdocs-material**: Documentation theme

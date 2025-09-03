@@ -845,6 +845,258 @@ resource "github_repository_file" "fastapi_service_routers_init" {
   depends_on = [github_repository.templates]
 }
 
+resource "github_repository_file" "fastapi_service_app_init" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/app/__init__.py"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/app/__init__.py.tpl")
+  commit_message      = "Add FastAPI service skeleton app __init__.py"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_requirements_dev" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/requirements-dev.txt"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/requirements-dev.txt.tpl")
+  commit_message      = "Add FastAPI service skeleton dev requirements"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_env_example" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.env.example"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/.env.example.tpl")
+  commit_message      = "Add FastAPI service skeleton .env.example"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_readme" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/README.md"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/README.md.tpl")
+  commit_message      = "Add FastAPI service skeleton README"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_api_http" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/api.http"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/api.http.tpl")
+  commit_message      = "Add FastAPI service skeleton API tests"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_agents_md" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/AGENTS.md"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/AGENTS.md.tpl")
+  commit_message      = "Add FastAPI service skeleton AI agents documentation"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_catalog_info" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/catalog-info.yaml"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/catalog-info.yaml.tpl")
+  commit_message      = "Add FastAPI service skeleton Backstage catalog info"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_mkdocs_yml" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/mkdocs.yml"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/mkdocs.yml.tpl")
+  commit_message      = "Add FastAPI service skeleton MkDocs configuration"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_test_api" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/tests/test_api.py"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/tests/test_api.py.tpl")
+  commit_message      = "Add FastAPI service skeleton tests"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_docs_index" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/docs/index.md"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/docs/index.md.tpl")
+  commit_message      = "Add FastAPI service skeleton documentation index"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_docs_api_reference" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/docs/api-reference.md"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/docs/api-reference.md.tpl")
+  commit_message      = "Add FastAPI service skeleton API reference documentation"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_docs_getting_started" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/docs/getting-started.md"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/docs/getting-started.md.tpl")
+  commit_message      = "Add FastAPI service skeleton getting started documentation"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_ci_workflow" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.github/workflows/ci.yml"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/.github/workflows/ci.yml")
+  commit_message      = "Add FastAPI service skeleton CI workflow"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+resource "github_repository_file" "fastapi_service_dependabot" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.github/dependabot.yml"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/.github/dependabot.yml.tpl")
+  commit_message      = "Add FastAPI service skeleton Dependabot configuration"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
 # .NET Service Skeleton Files
 resource "github_repository_file" "dotnet_service_program" {
   for_each = {

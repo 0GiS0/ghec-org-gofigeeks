@@ -1,19 +1,17 @@
----
 version: 2
-
 updates:
-  # Python/pip dependencies
+  # Enable version updates for Python dependencies
   - package-ecosystem: "pip"
-    directory: "/skeleton"
+    directory: "/"
     schedule:
       interval: "weekly"
       day: "monday"
       time: "06:00"
     open-pull-requests-limit: 10
     reviewers:
-      - "${template_approvers}"
+      - "${{values.owner}}"
     assignees:
-      - "${template_approvers}"
+      - "${{values.owner}}"
     commit-message:
       prefix: "deps"
       prefix-development: "deps-dev"
@@ -21,7 +19,6 @@ updates:
     labels:
       - "dependencies"
       - "python"
-      - "template"
     ignore:
       # Ignore major version updates for stable dependencies
       - dependency-name: "fastapi"
@@ -31,7 +28,7 @@ updates:
       - dependency-name: "pydantic"
         update-types: ["version-update:semver-major"]
 
-  # GitHub Actions dependencies
+  # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -40,9 +37,9 @@ updates:
       time: "06:00"
     open-pull-requests-limit: 5
     reviewers:
-      - "${template_approvers}"
+      - "${{values.owner}}"
     assignees:
-      - "${template_approvers}"
+      - "${{values.owner}}"
     commit-message:
       prefix: "ci"
       include: "scope"
@@ -50,20 +47,19 @@ updates:
       - "dependencies"
       - "github-actions"
       - "ci"
-      - "template"
 
-  # Docker dependencies (for devcontainer)
+  # Enable version updates for Docker (if using dev containers)
   - package-ecosystem: "docker"
-    directory: "/skeleton/.devcontainer"
+    directory: "/.devcontainer"
     schedule:
       interval: "weekly"
       day: "monday"
       time: "06:00"
     open-pull-requests-limit: 3
     reviewers:
-      - "${template_approvers}"
+      - "${{values.owner}}"
     assignees:
-      - "${template_approvers}"
+      - "${{values.owner}}"
     commit-message:
       prefix: "docker"
       include: "scope"
@@ -71,4 +67,3 @@ updates:
       - "dependencies"
       - "docker"
       - "devcontainer"
-      - "template"
