@@ -829,6 +829,120 @@ resource "github_repository_file" "dotnet_service_devcontainer" {
   depends_on = [github_repository.templates]
 }
 
+# FastAPI Service DevContainer Configuration
+resource "github_repository_file" "fastapi_service_devcontainer" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.devcontainer/devcontainer.json"
+  content             = file("${path.module}/templates/skeletons/fastapi-service/.devcontainer/devcontainer.json.tpl")
+  commit_message      = "Add FastAPI service devcontainer configuration"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Gateway DevContainer Configuration
+resource "github_repository_file" "gateway_devcontainer" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-gateway"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.devcontainer/devcontainer.json"
+  content             = file("${path.module}/templates/skeletons/gateway/.devcontainer/devcontainer.json.tpl")
+  commit_message      = "Add Gateway devcontainer configuration"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# AI Assistant DevContainer Configuration
+resource "github_repository_file" "ai_assistant_devcontainer" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-ai-assistant"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.devcontainer/devcontainer.json"
+  content             = file("${path.module}/templates/skeletons/ai-assistant/.devcontainer/devcontainer.json.tpl")
+  commit_message      = "Add AI Assistant devcontainer configuration"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Astro Frontend DevContainer Configuration
+resource "github_repository_file" "astro_frontend_devcontainer" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-astro-frontend"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.devcontainer/devcontainer.json"
+  content             = file("${path.module}/templates/skeletons/astro-frontend/.devcontainer/devcontainer.json.tpl")
+  commit_message      = "Add Astro Frontend devcontainer configuration"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Helm Base DevContainer Configuration
+resource "github_repository_file" "helm_base_devcontainer" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-helm-base"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.devcontainer/devcontainer.json"
+  content             = file("${path.module}/templates/skeletons/helm-base/.devcontainer/devcontainer.json.tpl")
+  commit_message      = "Add Helm Base devcontainer configuration"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Environment Live DevContainer Configuration
+resource "github_repository_file" "env_live_devcontainer" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-env-live"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/.devcontainer/devcontainer.json"
+  content             = file("${path.module}/templates/skeletons/env-live/.devcontainer/devcontainer.json.tpl")
+  commit_message      = "Add Environment Live devcontainer configuration"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
 resource "github_repository_file" "dotnet_service_test_project" {
   for_each = {
     for key, value in var.template_repositories : key => value
