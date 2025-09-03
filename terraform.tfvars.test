@@ -1,8 +1,0 @@
-github_organization = "test-org"
-
-platform_team_members = ["user1"]
-template_approvers_members = ["user2"]
-security_team_members = ["user3"]
-read_only_team_members = ["user4"]
-
-template_approvers_maintainers = ["maintainer1", "maintainer2"]
