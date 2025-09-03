@@ -12,7 +12,8 @@
         "esbenp.prettier-vscode",
         "bradlc.vscode-tailwindcss",
         "github.copilot",
-        "github.copilot-chat"
+        "github.copilot-chat",
+        "humao.rest-client"
       ],
       "settings": {
         "editor.formatOnSave": true,

@@ -11,7 +11,8 @@
         "ms-python.pylint",
         "ms-python.black-formatter",
         "github.copilot",
-        "github.copilot-chat"
+        "github.copilot-chat",
+        "humao.rest-client"
       ]
     }
   },
