@@ -8,10 +8,6 @@ updates:
       day: "monday"
       time: "06:00"
     open-pull-requests-limit: 10
-    reviewers:
-      - "${{values.owner}}"
-    assignees:
-      - "${{values.owner}}"
     commit-message:
       prefix: "deps"
       prefix-development: "deps-dev"
@@ -36,10 +32,6 @@ updates:
       day: "monday"
       time: "06:00"
     open-pull-requests-limit: 5
-    reviewers:
-      - "${{values.owner}}"
-    assignees:
-      - "${{values.owner}}"
     commit-message:
       prefix: "ci"
       include: "scope"
@@ -56,10 +48,6 @@ updates:
       day: "monday"
       time: "06:00"
     open-pull-requests-limit: 3
-    reviewers:
-      - "${{values.owner}}"
-    assignees:
-      - "${{values.owner}}"
     commit-message:
       prefix: "docker"
       include: "scope"

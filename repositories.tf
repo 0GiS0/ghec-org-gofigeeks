@@ -463,7 +463,7 @@ resource "github_repository_file" "node_service_gitignore" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.gitignore"
-  content             = file("${path.module}/templates/skeletons/node-service/.gitignore.tpl")
+  content             = file("${path.module}/templates/node-service/.gitignore.tpl")
   commit_message      = "Add Node.js service skeleton .gitignore"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -482,7 +482,7 @@ resource "github_repository_file" "fastapi_service_gitignore" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.gitignore"
-  content             = file("${path.module}/templates/skeletons/fastapi-service/.gitignore.tpl")
+  content             = file("${path.module}/templates/fastapi-service/.gitignore.tpl")
   commit_message      = "Add FastAPI service skeleton .gitignore"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -501,7 +501,7 @@ resource "github_repository_file" "dotnet_service_gitignore" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.gitignore"
-  content             = file("${path.module}/templates/skeletons/dotnet-service/.gitignore.tpl")
+  content             = file("${path.module}/templates/dotnet-service/.gitignore.tpl")
   commit_message      = "Add .NET service skeleton .gitignore"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -520,7 +520,7 @@ resource "github_repository_file" "astro_frontend_gitignore" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.gitignore"
-  content             = file("${path.module}/templates/skeletons/astro-frontend/.gitignore.tpl")
+  content             = file("${path.module}/templates/astro-frontend/.gitignore.tpl")
   commit_message      = "Add Astro frontend skeleton .gitignore"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -539,7 +539,7 @@ resource "github_repository_file" "ai_assistant_gitignore" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.gitignore"
-  content             = file("${path.module}/templates/skeletons/ai-assistant/.gitignore.tpl")
+  content             = file("${path.module}/templates/ai-assistant/.gitignore.tpl")
   commit_message      = "Add AI assistant skeleton .gitignore"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -558,7 +558,7 @@ resource "github_repository_file" "gateway_gitignore" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.gitignore"
-  content             = file("${path.module}/templates/skeletons/gateway/.gitignore.tpl")
+  content             = file("${path.module}/templates/gateway/.gitignore.tpl")
   commit_message      = "Add gateway skeleton .gitignore"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -577,7 +577,7 @@ resource "github_repository_file" "helm_base_gitignore" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.gitignore"
-  content             = file("${path.module}/templates/skeletons/helm-base/.gitignore.tpl")
+  content             = file("${path.module}/templates/helm-base/.gitignore.tpl")
   commit_message      = "Add Helm base skeleton .gitignore"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -596,7 +596,7 @@ resource "github_repository_file" "env_live_gitignore" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.gitignore"
-  content             = file("${path.module}/templates/skeletons/env-live/.gitignore.tpl")
+  content             = file("${path.module}/templates/env-live/.gitignore.tpl")
   commit_message      = "Add environment live skeleton .gitignore"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -615,7 +615,7 @@ resource "github_repository_file" "generic_template_gitignore" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.gitignore"
-  content             = file("${path.module}/templates/skeletons/.gitignore.tpl")
+  content             = file("${path.module}/templates/common/.gitignore.tpl")
   commit_message      = "Add generic skeleton .gitignore"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -638,7 +638,7 @@ resource "github_repository_file" "node_service_package" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/package.json"
-  content             = file("${path.module}/templates/skeletons/node-service/package.json.tpl")
+  content             = file("${path.module}/templates/node-service/package.json.tpl")
   commit_message      = "Add Node.js service skeleton package.json"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -656,7 +656,7 @@ resource "github_repository_file" "node_service_main" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/src/index.js"
-  content             = file("${path.module}/templates/skeletons/node-service/src/index.js.tpl")
+  content             = file("${path.module}/templates/node-service/src/index.js.tpl")
   commit_message      = "Add Node.js service skeleton main file"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -674,7 +674,7 @@ resource "github_repository_file" "node_service_devcontainer" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.devcontainer/devcontainer.json"
-  content             = file("${path.module}/templates/skeletons/node-service/.devcontainer/devcontainer.json.tpl")
+  content             = file("${path.module}/templates/node-service/.devcontainer/devcontainer.json.tpl")
   commit_message      = "Add Node.js service devcontainer configuration"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -692,7 +692,7 @@ resource "github_repository_file" "node_service_excursion_model" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/src/models/Excursion.js"
-  content             = file("${path.module}/templates/skeletons/node-service/src/models/Excursion.js.tpl")
+  content             = file("${path.module}/templates/node-service/src/models/Excursion.js.tpl")
   commit_message      = "Add Node.js service skeleton Excursion model"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -710,7 +710,7 @@ resource "github_repository_file" "node_service_excursion_controller" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/src/controllers/ExcursionController.js"
-  content             = file("${path.module}/templates/skeletons/node-service/src/controllers/ExcursionController.js.tpl")
+  content             = file("${path.module}/templates/node-service/src/controllers/ExcursionController.js.tpl")
   commit_message      = "Add Node.js service skeleton Excursion controller"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -728,7 +728,7 @@ resource "github_repository_file" "node_service_excursion_routes" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/src/routes/excursions.js"
-  content             = file("${path.module}/templates/skeletons/node-service/src/routes/excursions.js.tpl")
+  content             = file("${path.module}/templates/node-service/src/routes/excursions.js.tpl")
   commit_message      = "Add Node.js service skeleton excursions routes"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -747,7 +747,7 @@ resource "github_repository_file" "fastapi_service_main" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/app/main.py"
-  content             = file("${path.module}/templates/skeletons/fastapi-service/app/main.py.tpl")
+  content             = file("${path.module}/templates/fastapi-service/app/main.py.tpl")
   commit_message      = "Add FastAPI service skeleton main file"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -765,7 +765,7 @@ resource "github_repository_file" "fastapi_service_requirements" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "skeleton/requirements.txt"
-  content = templatefile("${path.module}/templates/skeletons/fastapi-service/requirements.txt.tpl", {
+  content = templatefile("${path.module}/templates/fastapi-service/requirements.txt.tpl", {
     parameters = {
       name = each.key
     }
@@ -787,7 +787,7 @@ resource "github_repository_file" "fastapi_service_excursion_model" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/app/models/excursion.py"
-  content             = file("${path.module}/templates/skeletons/fastapi-service/app/models/excursion.py.tpl")
+  content             = file("${path.module}/templates/fastapi-service/app/models/excursion.py.tpl")
   commit_message      = "Add FastAPI service skeleton excursion model"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -805,7 +805,7 @@ resource "github_repository_file" "fastapi_service_models_init" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/app/models/__init__.py"
-  content             = file("${path.module}/templates/skeletons/fastapi-service/app/models/__init__.py.tpl")
+  content             = file("${path.module}/templates/fastapi-service/app/models/__init__.py.tpl")
   commit_message      = "Add FastAPI service skeleton models __init__.py"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -823,7 +823,7 @@ resource "github_repository_file" "fastapi_service_excursion_router" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/app/routers/excursions.py"
-  content             = file("${path.module}/templates/skeletons/fastapi-service/app/routers/excursions.py.tpl")
+  content             = file("${path.module}/templates/fastapi-service/app/routers/excursions.py.tpl")
   commit_message      = "Add FastAPI service skeleton excursions router"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -841,7 +841,7 @@ resource "github_repository_file" "fastapi_service_routers_init" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/app/routers/__init__.py"
-  content             = file("${path.module}/templates/skeletons/fastapi-service/app/routers/__init__.py.tpl")
+  content             = file("${path.module}/templates/fastapi-service/app/routers/__init__.py.tpl")
   commit_message      = "Add FastAPI service skeleton routers __init__.py"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -859,7 +859,7 @@ resource "github_repository_file" "fastapi_service_app_init" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/app/__init__.py"
-  content             = file("${path.module}/templates/skeletons/fastapi-service/app/__init__.py.tpl")
+  content             = file("${path.module}/templates/fastapi-service/app/__init__.py.tpl")
   commit_message      = "Add FastAPI service skeleton app __init__.py"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -877,7 +877,7 @@ resource "github_repository_file" "fastapi_service_requirements_dev" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/requirements-dev.txt"
-  content             = file("${path.module}/templates/skeletons/fastapi-service/requirements-dev.txt.tpl")
+  content             = file("${path.module}/templates/fastapi-service/requirements-dev.txt.tpl")
   commit_message      = "Add FastAPI service skeleton dev requirements"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -895,7 +895,7 @@ resource "github_repository_file" "fastapi_service_env_example" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.env.example"
-  content             = file("${path.module}/templates/skeletons/fastapi-service/.env.example.tpl")
+  content             = file("${path.module}/templates/fastapi-service/.env.example.tpl")
   commit_message      = "Add FastAPI service skeleton .env.example"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -913,7 +913,7 @@ resource "github_repository_file" "fastapi_service_readme" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/README.md"
-  content             = file("${path.module}/templates/skeletons/fastapi-service/README.md.tpl")
+  content             = file("${path.module}/templates/fastapi-service/README.md.tpl")
   commit_message      = "Add FastAPI service skeleton README"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -931,7 +931,7 @@ resource "github_repository_file" "fastapi_service_api_http" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/api.http"
-  content             = file("${path.module}/templates/skeletons/fastapi-service/api.http.tpl")
+  content             = file("${path.module}/templates/fastapi-service/api.http.tpl")
   commit_message      = "Add FastAPI service skeleton API tests"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -949,7 +949,7 @@ resource "github_repository_file" "fastapi_service_agents_md" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/AGENTS.md"
-  content             = file("${path.module}/templates/skeletons/fastapi-service/AGENTS.md.tpl")
+  content             = file("${path.module}/templates/fastapi-service/AGENTS.md.tpl")
   commit_message      = "Add FastAPI service skeleton AI agents documentation"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -967,7 +967,7 @@ resource "github_repository_file" "fastapi_service_catalog_info" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/catalog-info.yaml"
-  content             = file("${path.module}/templates/skeletons/fastapi-service/catalog-info.yaml.tpl")
+  content             = file("${path.module}/templates/fastapi-service/catalog-info.yaml.tpl")
   commit_message      = "Add FastAPI service skeleton Backstage catalog info"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -985,7 +985,7 @@ resource "github_repository_file" "fastapi_service_mkdocs_yml" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/mkdocs.yml"
-  content             = file("${path.module}/templates/skeletons/fastapi-service/mkdocs.yml.tpl")
+  content             = file("${path.module}/templates/fastapi-service/mkdocs.yml.tpl")
   commit_message      = "Add FastAPI service skeleton MkDocs configuration"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1003,7 +1003,7 @@ resource "github_repository_file" "fastapi_service_test_api" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/tests/test_api.py"
-  content             = file("${path.module}/templates/skeletons/fastapi-service/tests/test_api.py.tpl")
+  content             = file("${path.module}/templates/fastapi-service/tests/test_api.py.tpl")
   commit_message      = "Add FastAPI service skeleton tests"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1021,7 +1021,7 @@ resource "github_repository_file" "fastapi_service_docs_index" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/docs/index.md"
-  content             = file("${path.module}/templates/skeletons/fastapi-service/docs/index.md.tpl")
+  content             = file("${path.module}/templates/fastapi-service/docs/index.md.tpl")
   commit_message      = "Add FastAPI service skeleton documentation index"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1039,7 +1039,7 @@ resource "github_repository_file" "fastapi_service_docs_api_reference" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/docs/api-reference.md"
-  content             = file("${path.module}/templates/skeletons/fastapi-service/docs/api-reference.md.tpl")
+  content             = file("${path.module}/templates/fastapi-service/docs/api-reference.md.tpl")
   commit_message      = "Add FastAPI service skeleton API reference documentation"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1057,7 +1057,7 @@ resource "github_repository_file" "fastapi_service_docs_getting_started" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/docs/getting-started.md"
-  content             = file("${path.module}/templates/skeletons/fastapi-service/docs/getting-started.md.tpl")
+  content             = file("${path.module}/templates/fastapi-service/docs/getting-started.md.tpl")
   commit_message      = "Add FastAPI service skeleton getting started documentation"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1075,7 +1075,7 @@ resource "github_repository_file" "fastapi_service_ci_workflow" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.github/workflows/ci.yml"
-  content             = file("${path.module}/templates/skeletons/fastapi-service/.github/workflows/ci.yml")
+  content             = file("${path.module}/templates/fastapi-service/.github/workflows/ci.yml")
   commit_message      = "Add FastAPI service skeleton CI workflow"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1093,7 +1093,7 @@ resource "github_repository_file" "fastapi_service_dependabot" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.github/dependabot.yml"
-  content             = file("${path.module}/templates/skeletons/fastapi-service/.github/dependabot.yml.tpl")
+  content             = file("${path.module}/templates/fastapi-service/.github/dependabot.yml")
   commit_message      = "Add FastAPI service skeleton Dependabot configuration"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1112,7 +1112,7 @@ resource "github_repository_file" "dotnet_service_program" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/src/Program.cs"
-  content             = file("${path.module}/templates/skeletons/dotnet-service/src/Program.cs.tpl")
+  content             = file("${path.module}/templates/dotnet-service/src/Program.cs.tpl")
   commit_message      = "Add .NET service skeleton Program.cs"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1130,7 +1130,7 @@ resource "github_repository_file" "dotnet_service_csproj" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/src/$${{values.name | replace(\"-\", \"_\")}}.csproj"
-  content             = file("${path.module}/templates/skeletons/dotnet-service/src/$${{values.name | replace(\"-\", \"_\")}}.csproj.tpl")
+  content             = file("${path.module}/templates/dotnet-service/src/$${{values.name | replace(\"-\", \"_\")}}.csproj.tpl")
   commit_message      = "Add .NET service skeleton project file"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1148,7 +1148,7 @@ resource "github_repository_file" "dotnet_service_readme" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/README.md"
-  content             = file("${path.module}/templates/skeletons/dotnet-service/README.md.tpl")
+  content             = file("${path.module}/templates/dotnet-service/README.md.tpl")
   commit_message      = "Add .NET service skeleton README"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1166,7 +1166,7 @@ resource "github_repository_file" "dotnet_service_hello_controller" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/src/Controllers/HelloController.cs"
-  content             = file("${path.module}/templates/skeletons/dotnet-service/src/Controllers/HelloController.cs.tpl")
+  content             = file("${path.module}/templates/dotnet-service/src/Controllers/HelloController.cs.tpl")
   commit_message      = "Add .NET service skeleton Hello controller"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1184,7 +1184,7 @@ resource "github_repository_file" "dotnet_service_status_controller" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/src/Controllers/StatusController.cs"
-  content             = file("${path.module}/templates/skeletons/dotnet-service/src/Controllers/StatusController.cs.tpl")
+  content             = file("${path.module}/templates/dotnet-service/src/Controllers/StatusController.cs.tpl")
   commit_message      = "Add .NET service skeleton Status controller"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1202,7 +1202,7 @@ resource "github_repository_file" "dotnet_service_excursions_controller" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/src/Controllers/ExcursionsController.cs"
-  content             = file("${path.module}/templates/skeletons/dotnet-service/src/Controllers/ExcursionsController.cs.tpl")
+  content             = file("${path.module}/templates/dotnet-service/src/Controllers/ExcursionsController.cs.tpl")
   commit_message      = "Add .NET service skeleton Excursions controller"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1220,7 +1220,7 @@ resource "github_repository_file" "dotnet_service_health_controller" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/src/Controllers/HealthController.cs"
-  content             = file("${path.module}/templates/skeletons/dotnet-service/src/Controllers/HealthController.cs.tpl")
+  content             = file("${path.module}/templates/dotnet-service/src/Controllers/HealthController.cs.tpl")
   commit_message      = "Add .NET service skeleton health controller"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1238,7 +1238,7 @@ resource "github_repository_file" "dotnet_service_models" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/src/Models/ApiModels.cs"
-  content             = file("${path.module}/templates/skeletons/dotnet-service/src/Models/ApiModels.cs.tpl")
+  content             = file("${path.module}/templates/dotnet-service/src/Models/ApiModels.cs.tpl")
   commit_message      = "Add .NET service skeleton API models"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1256,7 +1256,7 @@ resource "github_repository_file" "dotnet_service_devcontainer" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.devcontainer/devcontainer.json"
-  content             = file("${path.module}/templates/skeletons/dotnet-service/.devcontainer/devcontainer.json.tpl")
+  content             = file("${path.module}/templates/dotnet-service/.devcontainer/devcontainer.json.tpl")
   commit_message      = "Add .NET service skeleton devcontainer configuration"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1275,7 +1275,7 @@ resource "github_repository_file" "fastapi_service_devcontainer" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.devcontainer/devcontainer.json"
-  content             = file("${path.module}/templates/skeletons/fastapi-service/.devcontainer/devcontainer.json.tpl")
+  content             = file("${path.module}/templates/fastapi-service/.devcontainer/devcontainer.json.tpl")
   commit_message      = "Add FastAPI service devcontainer configuration"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1294,7 +1294,7 @@ resource "github_repository_file" "gateway_devcontainer" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.devcontainer/devcontainer.json"
-  content             = file("${path.module}/templates/skeletons/gateway/.devcontainer/devcontainer.json.tpl")
+  content             = file("${path.module}/templates/gateway/.devcontainer/devcontainer.json.tpl")
   commit_message      = "Add Gateway devcontainer configuration"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1313,7 +1313,7 @@ resource "github_repository_file" "ai_assistant_devcontainer" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.devcontainer/devcontainer.json"
-  content             = file("${path.module}/templates/skeletons/ai-assistant/.devcontainer/devcontainer.json.tpl")
+  content             = file("${path.module}/templates/ai-assistant/.devcontainer/devcontainer.json.tpl")
   commit_message      = "Add AI Assistant devcontainer configuration"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1332,7 +1332,7 @@ resource "github_repository_file" "astro_frontend_devcontainer" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.devcontainer/devcontainer.json"
-  content             = file("${path.module}/templates/skeletons/astro-frontend/.devcontainer/devcontainer.json.tpl")
+  content             = file("${path.module}/templates/astro-frontend/.devcontainer/devcontainer.json.tpl")
   commit_message      = "Add Astro Frontend devcontainer configuration"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1351,7 +1351,7 @@ resource "github_repository_file" "helm_base_devcontainer" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.devcontainer/devcontainer.json"
-  content             = file("${path.module}/templates/skeletons/helm-base/.devcontainer/devcontainer.json.tpl")
+  content             = file("${path.module}/templates/helm-base/.devcontainer/devcontainer.json.tpl")
   commit_message      = "Add Helm Base devcontainer configuration"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1370,7 +1370,7 @@ resource "github_repository_file" "env_live_devcontainer" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.devcontainer/devcontainer.json"
-  content             = file("${path.module}/templates/skeletons/env-live/.devcontainer/devcontainer.json.tpl")
+  content             = file("${path.module}/templates/env-live/.devcontainer/devcontainer.json.tpl")
   commit_message      = "Add Environment Live devcontainer configuration"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1388,7 +1388,7 @@ resource "github_repository_file" "dotnet_service_test_project" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/tests/$${{values.name | replace(\"-\", \"_\")}}.Tests.csproj"
-  content             = file("${path.module}/templates/skeletons/dotnet-service/tests/$${{values.name | replace(\"-\", \"_\")}}.Tests.csproj.tpl")
+  content             = file("${path.module}/templates/dotnet-service/tests/$${{values.name | replace(\"-\", \"_\")}}.Tests.csproj.tpl")
   commit_message      = "Add .NET service skeleton test project file"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1406,7 +1406,7 @@ resource "github_repository_file" "dotnet_service_api_tests" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/tests/ApiTests.cs"
-  content             = file("${path.module}/templates/skeletons/dotnet-service/tests/ApiTests.cs.tpl")
+  content             = file("${path.module}/templates/dotnet-service/tests/ApiTests.cs.tpl")
   commit_message      = "Add .NET service skeleton API tests"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1425,7 +1425,7 @@ resource "github_repository_file" "astro_frontend_package" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/package.json"
-  content             = file("${path.module}/templates/skeletons/astro-frontend/package.json.tpl")
+  content             = file("${path.module}/templates/astro-frontend/package.json.tpl")
   commit_message      = "Add Astro frontend skeleton package.json"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1444,7 +1444,7 @@ resource "github_repository_file" "helm_base_chart" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/Chart.yaml"
-  content             = file("${path.module}/templates/skeletons/helm-base/Chart.yaml.tpl")
+  content             = file("${path.module}/templates/helm-base/Chart.yaml.tpl")
   commit_message      = "Add Helm base skeleton Chart.yaml"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1463,7 +1463,7 @@ resource "github_repository_file" "gateway_kong_config" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/config/kong.yml"
-  content             = file("${path.module}/templates/skeletons/gateway/config/kong.yml.tpl")
+  content             = file("${path.module}/templates/gateway/config/kong.yml.tpl")
   commit_message      = "Add gateway skeleton Kong configuration"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1482,7 +1482,7 @@ resource "github_repository_file" "ai_assistant_main" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/src/main.py"
-  content             = file("${path.module}/templates/skeletons/ai-assistant/src/main.py.tpl")
+  content             = file("${path.module}/templates/ai-assistant/src/main.py.tpl")
   commit_message      = "Add AI assistant skeleton main file"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1501,7 +1501,7 @@ resource "github_repository_file" "env_live_dev_config" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/environments/dev/config.yaml"
-  content             = file("${path.module}/templates/skeletons/env-live/environments/dev/config.yaml.tpl")
+  content             = file("${path.module}/templates/env-live/environments/dev/config.yaml.tpl")
   commit_message      = "Add environment live skeleton dev config"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1517,16 +1517,14 @@ resource "github_repository_file" "env_live_dev_config" {
 # Dependabot configuration for Node.js templates (node-service, astro-frontend)
 resource "github_repository_file" "dependabot_npm" {
   for_each = {
-    for key, value in var.template_repositories : key => value
-    if contains(["backstage-template-node-service", "backstage-template-astro-frontend"], key)
+    "backstage-template-node-service"   = "node-service"
+    "backstage-template-astro-frontend" = "astro-frontend"
   }
 
-  repository = github_repository.templates[each.key].name
-  branch     = "main"
-  file       = ".github/dependabot.yml"
-  content = templatefile("${path.module}/templates/dependabot/npm.yml.tpl", {
-    template_approvers = "@${var.github_organization}/template-approvers"
-  })
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = ".github/dependabot.yml"
+  content             = file("${path.module}/templates/${each.value}/.github/dependabot.yml")
   commit_message      = "Add Dependabot configuration for npm dependencies"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1538,16 +1536,14 @@ resource "github_repository_file" "dependabot_npm" {
 # Dependabot configuration for Python templates (fastapi-service, ai-assistant)
 resource "github_repository_file" "dependabot_pip" {
   for_each = {
-    for key, value in var.template_repositories : key => value
-    if contains(["backstage-template-fastapi-service", "backstage-template-ai-assistant"], key)
+    "backstage-template-fastapi-service" = "fastapi-service"
+    "backstage-template-ai-assistant"    = "ai-assistant"
   }
 
-  repository = github_repository.templates[each.key].name
-  branch     = "main"
-  file       = ".github/dependabot.yml"
-  content = templatefile("${path.module}/templates/dependabot/pip.yml.tpl", {
-    template_approvers = "@${var.github_organization}/template-approvers"
-  })
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = ".github/dependabot.yml"
+  content             = file("${path.module}/templates/${each.value}/.github/dependabot.yml")
   commit_message      = "Add Dependabot configuration for pip dependencies"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1563,12 +1559,10 @@ resource "github_repository_file" "dependabot_nuget" {
     if key == "backstage-template-dotnet-service"
   }
 
-  repository = github_repository.templates[each.key].name
-  branch     = "main"
-  file       = ".github/dependabot.yml"
-  content = templatefile("${path.module}/templates/dependabot/nuget.yml.tpl", {
-    template_approvers = "@${var.github_organization}/template-approvers"
-  })
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = ".github/dependabot.yml"
+  content             = file("${path.module}/templates/dotnet-service/.github/dependabot.yml")
   commit_message      = "Add Dependabot configuration for NuGet dependencies"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1584,12 +1578,10 @@ resource "github_repository_file" "dependabot_docker" {
     if key == "backstage-template-gateway"
   }
 
-  repository = github_repository.templates[each.key].name
-  branch     = "main"
-  file       = ".github/dependabot.yml"
-  content = templatefile("${path.module}/templates/dependabot/docker.yml.tpl", {
-    template_approvers = "@${var.github_organization}/template-approvers"
-  })
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = ".github/dependabot.yml"
+  content             = file("${path.module}/templates/gateway/.github/dependabot.yml")
   commit_message      = "Add Dependabot configuration for Docker dependencies"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1605,12 +1597,10 @@ resource "github_repository_file" "dependabot_basic" {
     if contains(["backstage-template-helm-base", "backstage-template-env-live"], key)
   }
 
-  repository = github_repository.templates[each.key].name
-  branch     = "main"
-  file       = ".github/dependabot.yml"
-  content = templatefile("${path.module}/templates/dependabot/basic.yml.tpl", {
-    template_approvers = "@${var.github_organization}/template-approvers"
-  })
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = ".github/dependabot.yml"
+  content             = file("${path.module}/templates/common/docs/.github/dependabot.yml")
   commit_message      = "Add Dependabot configuration for GitHub Actions dependencies"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1698,7 +1688,7 @@ resource "github_repository_file" "skeleton_mkdocs" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/mkdocs.yml"
-  content             = file("${path.module}/templates/skeletons/mkdocs.yml.tpl")
+  content             = file("${path.module}/templates/common/mkdocs.yml.tpl")
   commit_message      = "Add TechDocs MkDocs configuration for generated projects"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1714,7 +1704,7 @@ resource "github_repository_file" "skeleton_docs_index" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/docs/index.md"
-  content             = file("${path.module}/templates/skeletons/docs/index.md.tpl")
+  content             = file("${path.module}/templates/common/docs/index.md.tpl")
   commit_message      = "Add TechDocs documentation index for generated projects"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1730,7 +1720,7 @@ resource "github_repository_file" "skeleton_docs_getting_started" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/docs/getting-started.md"
-  content             = file("${path.module}/templates/skeletons/docs/getting-started.md.tpl")
+  content             = file("${path.module}/templates/common/docs/getting-started.md.tpl")
   commit_message      = "Add getting started documentation for generated projects"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1746,7 +1736,7 @@ resource "github_repository_file" "skeleton_docs_development" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/docs/development.md"
-  content             = file("${path.module}/templates/skeletons/docs/development.md.tpl")
+  content             = file("${path.module}/templates/common/docs/development.md.tpl")
   commit_message      = "Add development documentation for generated projects"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1762,7 +1752,7 @@ resource "github_repository_file" "skeleton_docs_architecture" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/docs/architecture.md"
-  content             = file("${path.module}/templates/skeletons/docs/architecture.md.tpl")
+  content             = file("${path.module}/templates/common/docs/architecture.md.tpl")
   commit_message      = "Add architecture documentation for generated projects"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1778,7 +1768,7 @@ resource "github_repository_file" "skeleton_docs_api_reference" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/docs/api-reference.md"
-  content             = file("${path.module}/templates/skeletons/docs/api-reference.md.tpl")
+  content             = file("${path.module}/templates/common/docs/api-reference.md.tpl")
   commit_message      = "Add API reference documentation for generated projects"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1794,7 +1784,7 @@ resource "github_repository_file" "skeleton_docs_deployment" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/docs/deployment.md"
-  content             = file("${path.module}/templates/skeletons/docs/deployment.md.tpl")
+  content             = file("${path.module}/templates/common/docs/deployment.md.tpl")
   commit_message      = "Add deployment documentation for generated projects"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1810,7 +1800,7 @@ resource "github_repository_file" "skeleton_docs_contributing" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/docs/contributing.md"
-  content             = file("${path.module}/templates/skeletons/docs/contributing.md.tpl")
+  content             = file("${path.module}/templates/common/docs/contributing.md.tpl")
   commit_message      = "Add contributing documentation for generated projects"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -1826,7 +1816,7 @@ resource "github_repository_file" "skeleton_catalog_info" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "skeleton/catalog-info.yaml"
-  content = templatefile("${path.module}/templates/skeletons/catalog-info.yaml.tpl", {
+  content = templatefile("${path.module}/templates/common/catalog-info.yaml.tpl", {
     template_type = each.value.type
   })
   commit_message      = "Add Backstage catalog-info.yaml with TechDocs annotation for generated projects"
@@ -1844,7 +1834,7 @@ resource "github_repository_file" "skeleton_codeowners" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "skeleton/.github/CODEOWNERS"
-  content = templatefile("${path.module}/templates/skeletons/CODEOWNERS.tpl", {
+  content = templatefile("${path.module}/templates/common/CODEOWNERS.tpl", {
     developers_team = local.team_names.developers
     platform_team   = local.team_names.platform
   })

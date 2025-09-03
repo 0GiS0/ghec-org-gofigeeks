@@ -2,24 +2,20 @@
 version: 2
 
 updates:
-  # Docker dependencies
-  - package-ecosystem: "docker"
+  # Node.js/npm dependencies
+  - package-ecosystem: "npm"
     directory: "/skeleton"
     schedule:
       interval: "weekly"
       day: "monday"
       time: "09:00"
-    open-pull-requests-limit: 3
-    reviewers:
-      - "${template_approvers}"
-    assignees:
-      - "${template_approvers}"
+    open-pull-requests-limit: 5
     commit-message:
-      prefix: "docker"
+      prefix: "npm"
       include: "scope"
     labels:
       - "dependencies"
-      - "docker"
+      - "npm"
       - "template"
 
   # GitHub Actions dependencies
@@ -30,10 +26,6 @@ updates:
       day: "monday"
       time: "09:00"
     open-pull-requests-limit: 3
-    reviewers:
-      - "${template_approvers}"
-    assignees:
-      - "${template_approvers}"
     commit-message:
       prefix: "github-actions"
       include: "scope"

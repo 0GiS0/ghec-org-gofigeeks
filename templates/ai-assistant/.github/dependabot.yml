@@ -10,10 +10,6 @@ updates:
       day: "monday"
       time: "06:00"
     open-pull-requests-limit: 10
-    reviewers:
-      - "${template_approvers}"
-    assignees:
-      - "${template_approvers}"
     commit-message:
       prefix: "deps"
       prefix-development: "deps-dev"
@@ -39,10 +35,6 @@ updates:
       day: "monday"
       time: "06:00"
     open-pull-requests-limit: 5
-    reviewers:
-      - "${template_approvers}"
-    assignees:
-      - "${template_approvers}"
     commit-message:
       prefix: "ci"
       include: "scope"
@@ -60,10 +52,6 @@ updates:
       day: "monday"
       time: "06:00"
     open-pull-requests-limit: 3
-    reviewers:
-      - "${template_approvers}"
-    assignees:
-      - "${template_approvers}"
     commit-message:
       prefix: "docker"
       include: "scope"
