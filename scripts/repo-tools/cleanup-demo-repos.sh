@@ -9,16 +9,44 @@
 
 set -euo pipefail
 
-# Configuration
-ORG_NAME="${ORG_NAME:-GofiGeeksOrg}"
+# Configuration (prefer values from .env via scripts/load-env.sh)
+ORG_NAME="${ORG_NAME:-${GITHUB_ORGANIZATION:-GofiGeeksOrg}}"
 GITHUB_TOKEN="${GITHUB_TOKEN:-}"
 DRY_RUN="${DRY_RUN:-true}"
 CONFIRM_DELETE="${CONFIRM_DELETE:-false}"
+ALL_REPOS="${ALL_REPOS:-false}"
 
 # GitHub App configuration for token generation
-APP_ID="${APP_ID:-1094298}"
-INSTALLATION_ID="${INSTALLATION_ID:-58299244}"
-PEM_FILE="${PEM_FILE:-GofiGeeksOrg.pem}"
+APP_ID="${GITHUB_APP_ID:-1094298}"
+INSTALLATION_ID="${GITHUB_APP_INSTALLATION_ID:-58299244}"
+PEM_FILE="${GITHUB_APP_PEM_FILE:-GofiGeeksOrg.pem}"
+
+# Try to load environment from repo root .env using scripts/load-env.sh
+load_env_if_available() {
+    local script_dir repo_root loader
+    script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    repo_root="$(cd "$script_dir/../.." && pwd)"
+    loader="$repo_root/scripts/load-env.sh"
+    if [[ -f "$repo_root/.env" && -f "$loader" ]]; then
+        # shellcheck disable=SC2164
+        pushd "$repo_root" >/dev/null
+        # shellcheck disable=SC1090
+        source "$loader" >/dev/null 2>&1 || true
+        popd >/dev/null || true
+        # After loading, prefer env vars if they are now present
+        ORG_NAME="${ORG_NAME:-${GITHUB_ORGANIZATION:-$ORG_NAME}}"
+        APP_ID="${GITHUB_APP_ID:-$APP_ID}"
+        INSTALLATION_ID="${GITHUB_APP_INSTALLATION_ID:-$INSTALLATION_ID}"
+        PEM_FILE="${GITHUB_APP_PEM_FILE:-$PEM_FILE}"
+        # Resolve PEM_FILE to absolute if relative and exists under repo root
+        if [[ -n "$PEM_FILE" && "${PEM_FILE#/}" == "$PEM_FILE" && -f "$repo_root/$PEM_FILE" ]]; then
+            PEM_FILE="$repo_root/$PEM_FILE"
+        fi
+    fi
+}
+
+# Load env early
+load_env_if_available
 
 # Colors for output
 RED='\033[0;31m'
@@ -39,16 +67,18 @@ OPTIONS:
     -t, --token       GitHub token with repo:delete permissions (auto-generated from GitHub App)
     -d, --delete      Actually delete repositories (default: dry run)
     -c, --confirm     Skip interactive confirmation (dangerous!)
+    -A, --all         Target ALL repositories in the org (ignores demo property)
     -h, --help        Show this help message
 
 ENVIRONMENT VARIABLES:
-    ORG_NAME          GitHub organization name (default: GofiGeeksOrg)
+    ORG_NAME / GITHUB_ORGANIZATION   GitHub organization name (default: GofiGeeksOrg)
     GITHUB_TOKEN      GitHub token (if not provided, will use GitHub App)
     DRY_RUN           Set to 'false' to enable deletion (default: true)
     CONFIRM_DELETE    Set to 'true' to skip confirmation prompts (default: false)
-    APP_ID            GitHub App ID (default: 1094298)
-    INSTALLATION_ID   GitHub App Installation ID (default: 58299244)
-    PEM_FILE          Path to GitHub App private key (default: GofiGeeksOrg.pem)
+    ALL_REPOS         Set to 'true' to target ALL repositories (default: false)
+    GITHUB_APP_ID                 GitHub App ID (default: 1094298)
+    GITHUB_APP_INSTALLATION_ID    GitHub App Installation ID (default: 58299244)
+    GITHUB_APP_PEM_FILE           Path to GitHub App private key (default: GofiGeeksOrg.pem)
 
 EXAMPLES:
     # Dry run (list demo repos without deleting) - uses GitHub App automatically
@@ -72,6 +102,15 @@ EXAMPLES:
     # Using environment variables
     ORG_NAME=myorg DRY_RUN=false $0
 
+    # Delete ALL repos (dry run first)
+    $0 --all
+
+    # Actually delete ALL repos with confirmation
+    $0 --all --delete
+
+    # Non-interactive delete ALL repos (dangerous!)
+    $0 --all --delete --confirm
+
 EOF
 }
 
@@ -94,7 +133,8 @@ get_github_token() {
     # Get the directory of this script to find github_app_token.sh
     local script_dir
     script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-    local token_script="$script_dir/github_app_token.sh"
+    # Token script lives in scripts/terraform-integration/github_app_token.sh relative to repo root
+    local token_script="$script_dir/../terraform-integration/github_app_token.sh"
     
     if [[ ! -f "$token_script" ]]; then
         echo -e "${RED}[$(date +'%Y-%m-%d %H:%M:%S')] ERROR:${NC} 🔴 GitHub App token script not found: $token_script" >&2
@@ -105,6 +145,7 @@ get_github_token() {
     local token
     if ! token=$(APP_ID="$APP_ID" INSTALLATION_ID="$INSTALLATION_ID" PEM_FILE="$PEM_FILE" "$token_script"); then
         echo -e "${RED}[$(date +'%Y-%m-%d %H:%M:%S')] ERROR:${NC} 🔴 Failed to generate GitHub token using GitHub App" >&2
+        echo -e "${RED}[$(date +'%Y-%m-%d %H:%M:%S')] ERROR:${NC} Debug: APP_ID='$APP_ID' INSTALLATION_ID='$INSTALLATION_ID' PEM_FILE='$PEM_FILE' helper='$token_script'" >&2
         exit 1
     fi
     
@@ -150,6 +191,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         -c|--confirm)
             CONFIRM_DELETE="true"
+            shift
+            ;;
+        -A|--all)
+            ALL_REPOS="true"
             shift
             ;;
         -h|--help)
@@ -202,7 +247,19 @@ get_demo_repos() {
             break
         fi
         
-        # Check each repository for demo custom property
+        # If ALL_REPOS is true, collect all repo names without checking custom properties
+        if [[ "$ALL_REPOS" == "true" ]]; then
+            while read -r repo_name; do
+                if [[ -n "$repo_name" && "$repo_name" != "null" ]]; then
+                    demo_repos+=("$repo_name")
+                    echo -e "${GREEN}[$(date +'%Y-%m-%d %H:%M:%S')] SUCCESS:${NC} 🎯 Queued repository: $repo_name" >&2
+                fi
+            done < <(echo "$repos" | jq -r '.[].name')
+            ((page++))
+            continue
+        fi
+
+        # Otherwise, check each repository for demo custom property
         while read -r repo_name; do
             if [[ -n "$repo_name" && "$repo_name" != "null" ]]; then
                 echo -e "${BLUE}[$(date +'%Y-%m-%d %H:%M:%S')]${NC} 🔍 Checking custom properties for repository: $repo_name" >&2
@@ -273,6 +330,12 @@ main() {
         echo -e "${YELLOW}[$(date +'%Y-%m-%d %H:%M:%S')] WARNING:${NC} ⚠️  DELETION MODE ENABLED. Repositories will be permanently deleted!"
     fi
     
+    if [[ "$ALL_REPOS" == "true" ]]; then
+        warn "ALL REPOS MODE: The script will target EVERY repository in '$ORG_NAME' (ignoring the 'demo' custom property)."
+    else
+        log "Filtering by custom property: demo=yes"
+    fi
+
     # Get demo repositories
     local demo_repos
     readarray -t demo_repos < <(get_demo_repos)

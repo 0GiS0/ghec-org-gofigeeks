@@ -73,6 +73,11 @@ resource "github_repository" "backstage" {
       status = "enabled"
     }
   }
+
+  # Prevent delete
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 # Reusable Workflows Repository

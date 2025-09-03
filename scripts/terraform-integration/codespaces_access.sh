@@ -45,7 +45,7 @@ STATUS=$(printf '%s' "$RESP_ALL" | tail -n1)
 BODY=$(printf '%s' "$RESP_ALL" | sed '$d')
 log "RESULT status=$STATUS"
 
-if [ "$STATUS" != 204 ] && [ "$STATUS" != 200 ]; then
+if [ "$STATUS" != 204 ] && [ "$STATUS" != 200 ] && [ "$STATUS" != 304 ]; then
   SNIP=$(echo "$BODY" | head -c 400 | tr '\n' ' ')
   log "ERROR status=$STATUS body_snip=$SNIP"
   echo "ERROR: Failed to set Codespaces access (HTTP $STATUS)" >&2
