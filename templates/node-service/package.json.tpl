@@ -1,7 +1,7 @@
 {
-  "name": "${{values.name | replace("-", "_")}}",
+  "name": "BACKSTAGE_ENTITY_NAME",
   "version": "1.0.0",
-  "description": "${{values.description}}",
+  "description": "BACKSTAGE_ENTITY_DESCRIPTION",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -28,8 +28,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "${{values.repoUrl}}"
+    "url": "BACKSTAGE_REPO_URL"
   },
-  "author": "${{values.owner}}",
+  "author": "BACKSTAGE_AUTHOR",
   "license": "MIT"
 }
