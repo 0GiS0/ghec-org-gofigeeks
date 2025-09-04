@@ -5,7 +5,7 @@
 # Required env vars:
 #   APP_ID            GitHub App ID
 #   INSTALLATION_ID   Installation ID for the org
-#   PEM_FILE          Path to private key (.pem)
+#   PEM_CONTENT       Private key content (PEM format) OR PEM_FILE path
 # Optional env vars:
 #   LOG_FILE          Append logs here
 #   GITHUB_API_URL    Override API base (default https://api.github.com)
@@ -23,15 +23,36 @@ if [ -n "${GITHUB_TOKEN:-}" ]; then
   exit 0
 fi
 
-if [ -z "${APP_ID:-}" ] || [ -z "${INSTALLATION_ID:-}" ] || [ -z "${PEM_FILE:-}" ]; then
-  echo "ERROR: APP_ID, INSTALLATION_ID, and PEM_FILE are required (or preset GITHUB_TOKEN)" >&2
-  log "FATAL missing-env app_id='${APP_ID:-}' install_id='${INSTALLATION_ID:-}' pem='${PEM_FILE:-}'"
+if [ -z "${APP_ID:-}" ] || [ -z "${INSTALLATION_ID:-}" ]; then
+  echo "ERROR: APP_ID and INSTALLATION_ID are required (or preset GITHUB_TOKEN)" >&2
+  log "FATAL missing-env app_id='${APP_ID:-}' install_id='${INSTALLATION_ID:-}'"
   exit 1
 fi
 
-if [ ! -f "$PEM_FILE" ]; then
-  echo "ERROR: PEM_FILE '$PEM_FILE' not found" >&2
-  log "FATAL missing-pem path='$PEM_FILE'"
+if [ -z "${PEM_CONTENT:-}" ] && [ -z "${PEM_FILE:-}" ]; then
+  echo "ERROR: Either PEM_CONTENT or PEM_FILE must be provided" >&2
+  log "FATAL missing-pem-data"
+  exit 1
+fi
+
+# Handle PEM content vs file
+if [ -n "${PEM_CONTENT:-}" ]; then
+  # Create temporary file with PEM content for OpenSSL
+  TEMP_PEM=$(mktemp)
+  echo "$PEM_CONTENT" > "$TEMP_PEM"
+  PEM_PATH="$TEMP_PEM"
+  CLEANUP_TEMP=true
+elif [ -n "${PEM_FILE:-}" ]; then
+  if [ ! -f "$PEM_FILE" ]; then
+    echo "ERROR: PEM_FILE '$PEM_FILE' not found" >&2
+    log "FATAL missing-pem path='$PEM_FILE'"
+    exit 1
+  fi
+  PEM_PATH="$PEM_FILE"
+  CLEANUP_TEMP=false
+else
+  echo "ERROR: Neither PEM_CONTENT nor PEM_FILE provided" >&2
+  log "FATAL no-pem-data"
   exit 1
 fi
 
@@ -43,8 +64,13 @@ PAYLOAD_JWT='{"iat":'$IAT',"exp":'$EXP',"iss":"'$APP_ID'"}'
 b64() { echo -n "$1" | base64 -w0 | tr -d '=' | tr '/+' '_-'; }
 HEADER_B64=$(b64 "$HEADER")
 PAYLOAD_B64=$(b64 "$PAYLOAD_JWT")
-SIGNATURE=$(echo -n "$HEADER_B64.$PAYLOAD_B64" | openssl dgst -sha256 -sign "$PEM_FILE" | base64 -w0 | tr -d '=' | tr '/+' '_-')
+SIGNATURE=$(echo -n "$HEADER_B64.$PAYLOAD_B64" | openssl dgst -sha256 -sign "$PEM_PATH" | base64 -w0 | tr -d '=' | tr '/+' '_-')
 JWT="$HEADER_B64.$PAYLOAD_B64.$SIGNATURE"
+
+# Clean up temporary file if created
+if [ "$CLEANUP_TEMP" = true ] && [ -f "$TEMP_PEM" ]; then
+  rm -f "$TEMP_PEM"
+fi
 
 log "STEP request-installation-token install_id=$INSTALLATION_ID"
 RESP=$(curl -sS -X POST \

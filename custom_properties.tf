@@ -38,7 +38,7 @@ resource "null_resource" "org_custom_properties" {
       PROPERTY_PAYLOAD = local.custom_properties_payloads[each.key]
       APP_ID           = var.github_app_id
       INSTALLATION_ID  = var.github_app_installation_id
-      PEM_FILE         = abspath(var.github_app_pem_file)
+      PEM_CONTENT      = var.github_app_private_key
       LOG_FILE         = "/tmp/custom-properties-${each.key}.log"
       NON_FATAL_404    = var.custom_properties_non_fatal_404 ? "true" : "false"
     }
@@ -64,7 +64,7 @@ resource "null_resource" "wait_org_custom_properties" {
       ORG_NAME            = var.github_organization
       APP_ID              = var.github_app_id
       INSTALLATION_ID     = var.github_app_installation_id
-      PEM_FILE            = abspath(var.github_app_pem_file)
+      PEM_CONTENT         = var.github_app_private_key
       LOG_FILE            = "/tmp/wait-custom-properties.log"
       REQUIRED_PROPERTIES = join(",", keys(var.organization_custom_properties))
     }

@@ -2,7 +2,7 @@
 # Wait until required organization custom properties are visible
 # Exits 0 when all properties exist, 1 on timeout or error.
 # Env vars: ORG_NAME, REQUIRED_PROPERTIES (comma-separated list) or defaults to service-tier,team-owner
-#           APP_ID, INSTALLATION_ID, PEM_FILE for token (unless GITHUB_TOKEN preset)
+#           APP_ID, INSTALLATION_ID, PEM_CONTENT for token (unless GITHUB_TOKEN preset)
 # Optional: TIMEOUT_SECONDS (default 30), SLEEP_SECONDS (default 2), LOG_FILE
 set -euo pipefail
 REQUIRED_PROPERTIES=${REQUIRED_PROPERTIES:-service-tier,team-owner}
@@ -15,7 +15,7 @@ log(){ echo "$(date -Is) $*" | tee -a "$LOG_FILE" >&2; }
 
 if [ -z "${GITHUB_TOKEN:-}" ]; then
   log "acquire-token"
-  GITHUB_TOKEN=$(APP_ID="$APP_ID" INSTALLATION_ID="$INSTALLATION_ID" PEM_FILE="$PEM_FILE" LOG_FILE="$LOG_FILE" "$SCRIPT_DIR/github_app_token.sh") || {
+  GITHUB_TOKEN=$(APP_ID="$APP_ID" INSTALLATION_ID="$INSTALLATION_ID" PEM_CONTENT="$PEM_CONTENT" LOG_FILE="$LOG_FILE" "$SCRIPT_DIR/github_app_token.sh") || {
     log "ERROR token acquisition failed"; exit 1; }
 fi
 

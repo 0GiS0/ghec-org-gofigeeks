@@ -4,7 +4,7 @@
 # Env vars required:
 #   ORG_NAME, PAYLOAD_JSON (JSON body with visibility & selected_usernames logic already prepared)
 #   DESIRED_VIS (for logging only)
-#   APP_ID / INSTALLATION_ID / PEM_FILE (or preset GITHUB_TOKEN) for auth
+#   APP_ID / INSTALLATION_ID / PEM_CONTENT (or preset GITHUB_TOKEN) for auth
 # Optional:
 #   LOG_FILE (default /tmp/codespaces-org-access.log)
 #   GITHUB_API_URL (override API base)
@@ -25,7 +25,7 @@ log "START org=$ORG_NAME vis=${DESIRED_VIS:-unknown}"
 # Acquire token if not provided
 if [ -z "${GITHUB_TOKEN:-}" ]; then
   log "STEP acquire-token"
-  GITHUB_TOKEN=$(APP_ID="$APP_ID" INSTALLATION_ID="$INSTALLATION_ID" PEM_FILE="$PEM_FILE" LOG_FILE="$LOG_FILE" "$SCRIPT_DIR/github_app_token.sh") || {
+  GITHUB_TOKEN=$(APP_ID="$APP_ID" INSTALLATION_ID="$INSTALLATION_ID" PEM_CONTENT="$PEM_CONTENT" LOG_FILE="$LOG_FILE" "$SCRIPT_DIR/github_app_token.sh") || {
     log "FATAL token-acquisition"
     echo "ERROR: Failed to acquire token" >&2
     exit 1

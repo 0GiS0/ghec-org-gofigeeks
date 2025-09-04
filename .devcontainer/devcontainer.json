@@ -10,10 +10,7 @@
   },
   "remoteUser": "vscode",
   "init": true,
-  "containerEnv": {
-    "TF_IN_AUTOMATION": "1",
-    "TF_INPUT": "0"
-  },
+  "containerEnv": {},
   "mounts": [
     "source=devcontainer-docker,target=/var/lib/docker,type=volume"
   ],

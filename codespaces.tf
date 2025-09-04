@@ -29,7 +29,7 @@ resource "null_resource" "org_codespaces_access" {
       DESIRED_VIS     = var.codespaces_visibility
       APP_ID          = var.github_app_id
       INSTALLATION_ID = var.github_app_installation_id
-      PEM_FILE        = abspath(var.github_app_pem_file)
+      PEM_CONTENT     = var.github_app_private_key
       LOG_FILE        = "/tmp/codespaces-org-access.log"
     }
   }

@@ -3,7 +3,7 @@
 # Exits 0 on success or tolerated (non-fatal) failure when NON_FATAL_404=true.
 # Required env vars:
 #   ORG_NAME, PROPERTY_NAME, PROPERTY_PAYLOAD (JSON body for creation/update)
-#   APP_ID, INSTALLATION_ID, PEM_FILE (GitHub App creds) OR pre-set GITHUB_TOKEN
+#   APP_ID, INSTALLATION_ID, PEM_CONTENT (GitHub App creds) OR pre-set GITHUB_TOKEN
 #   NON_FATAL_404 (true/false)
 # Optional: LOG_FILE (defaults to /tmp/custom-properties-$PROPERTY_NAME.log)
 #
@@ -21,7 +21,7 @@ mkdir -p "$(dirname "$LOG_FILE")" || true
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 if [ -z "${GITHUB_TOKEN:-}" ]; then
   echo "$(date -Is) STEP acquire-token" >>"$LOG_FILE"
-  GITHUB_TOKEN=$(APP_ID="$APP_ID" INSTALLATION_ID="$INSTALLATION_ID" PEM_FILE="$PEM_FILE" LOG_FILE="$LOG_FILE" "$SCRIPT_DIR/github_app_token.sh") || {
+  GITHUB_TOKEN=$(APP_ID="$APP_ID" INSTALLATION_ID="$INSTALLATION_ID" PEM_CONTENT="$PEM_CONTENT" LOG_FILE="$LOG_FILE" "$SCRIPT_DIR/github_app_token.sh") || {
     echo "$(date -Is) ERROR token-acquisition" >>"$LOG_FILE"
     echo "ERROR: Failed to acquire token" >&2
     exit 1

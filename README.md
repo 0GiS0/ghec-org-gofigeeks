@@ -13,7 +13,21 @@ Configura tu organización de GitHub Enterprise Cloud con Terraform en minutos. 
 ./scripts/setup.sh
 ```
 
-### 2. Configuración manual
+### 2. Backend de Azure Storage (Recomendado para producción)
+
+```bash
+# Configurar backend remoto con Azure Storage
+./scripts/azure-backend.sh init
+
+# Ejecutar plan y aplicar cambios
+./scripts/azure-backend.sh plan
+./scripts/azure-backend.sh apply
+
+# Ver ayuda completa de comandos
+./scripts/azure-backend.sh help
+```
+
+### 3. Configuración manual (backend local)
 
 ```bash
 # 1. Copiar variables de entorno
@@ -26,7 +40,7 @@ nano .env
 source scripts/load-env.sh
 
 # 4. Inicializar Terraform
-terraform init
+terraform init 
 terraform plan
 terraform apply
 ```

@@ -1,8 +1,13 @@
 # Scripts de Automatización
 
-Este directorio contiene scripts organizados en dos categorías principales:
+Este directorio contiene scripts organizados en categorías especializadas:
 
 ## 📁 Estructura del Directorio
+
+### Scripts Principales
+- `azure-backend.sh` - **NUEVO** - Gestión automatizada del backend de Azure Storage para Terraform
+- `setup.sh` - Configuración inicial del proyecto
+- `load-env.sh` - Carga de variables de entorno
 
 ### `terraform-integration/`
 Scripts que extienden la funcionalidad de Terraform para trabajar con APIs de GitHub que no están completamente soportadas por el provider oficial.
@@ -27,6 +32,24 @@ Herramientas para el mantenimiento, validación y limpieza del repositorio de c�
 **Uso**: Estos scripts se ejecutan manualmente durante el desarrollo para mantener la calidad del código.
 
 ## 🚀 Inicio Rápido
+
+### Para Azure Storage Backend
+```bash
+# Configurar backend de Azure Storage
+./scripts/azure-backend.sh init
+
+# Ejecutar plan
+./scripts/azure-backend.sh plan
+
+# Aplicar cambios
+./scripts/azure-backend.sh apply
+
+# Ver configuración actual
+./scripts/azure-backend.sh show-config
+
+# Ayuda completa
+./scripts/azure-backend.sh help
+```
 
 ### Para Desarrollo Diario
 ```bash
