@@ -18,13 +18,26 @@ variable "github_app_installation_id" {
 }
 
 variable "github_app_pem_file" {
-  description = "Path to the GitHub App private key PEM file"
+  description = "Path to the GitHub App private key PEM file (for local execution)"
   type        = string
   sensitive   = true
+  default     = ""
 
   validation {
-    condition     = fileexists(abspath(var.github_app_pem_file))
+    condition     = var.github_app_pem_file == "" || fileexists(abspath(var.github_app_pem_file))
     error_message = "The GitHub App PEM file path is invalid or not readable."
+  }
+}
+
+variable "github_app_private_key" {
+  description = "GitHub App private key content (for Terraform Cloud execution)"
+  type        = string
+  sensitive   = true
+  default     = ""
+
+  validation {
+    condition     = var.github_app_private_key != "" || var.github_app_pem_file != ""
+    error_message = "Either github_app_private_key (for Terraform Cloud) or github_app_pem_file (for local) must be provided."
   }
 }
 
