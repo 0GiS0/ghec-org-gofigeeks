@@ -113,11 +113,6 @@ variable "template_repositories" {
       topics      = ["backstage", "template", "dotnet", "csharp", "service"]
       type        = "service"
     }
-    "backstage-template-gateway" = {
-      description = "Backstage template for API Gateway"
-      topics      = ["backstage", "template", "gateway", "api"]
-      type        = "service"
-    }
     "backstage-template-ai-assistant" = {
       description = "Backstage template for AI Assistant services"
       topics      = ["backstage", "template", "ai", "assistant", "service"]
@@ -127,16 +122,6 @@ variable "template_repositories" {
       description = "Backstage template for Astro frontend applications"
       topics      = ["backstage", "template", "astro", "frontend"]
       type        = "website"
-    }
-    "backstage-template-helm-base" = {
-      description = "Backstage template for Helm charts"
-      topics      = ["backstage", "template", "helm", "kubernetes"]
-      type        = "resource"
-    }
-    "backstage-template-env-live" = {
-      description = "Backstage template for environment configurations"
-      topics      = ["backstage", "template", "environment", "config"]
-      type        = "resource"
     }
   }
 }
@@ -335,24 +320,12 @@ variable "template_repository_custom_properties" {
       service_tier = "tier-3"
       team_owner   = "platform-team"
     }
-    "backstage-template-gateway" = {
-      service_tier = "tier-2"
-      team_owner   = "platform-team"
-    }
     "backstage-template-ai-assistant" = {
       service_tier = "tier-3"
       team_owner   = "platform-team"
     }
     "backstage-template-astro-frontend" = {
       service_tier = "tier-3"
-      team_owner   = "platform-team"
-    }
-    "backstage-template-helm-base" = {
-      service_tier = "tier-2"
-      team_owner   = "platform-team"
-    }
-    "backstage-template-env-live" = {
-      service_tier = "tier-2"
       team_owner   = "platform-team"
     }
   }
