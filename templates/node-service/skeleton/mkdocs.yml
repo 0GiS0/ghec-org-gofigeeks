@@ -1,0 +1,66 @@
+site_name: "BACKSTAGE_ENTITY_NAME"
+site_description: "Service documentation for BACKSTAGE_ENTITY_NAME"
+site_url: "BACKSTAGE_REPO_URL"
+repo_url: "BACKSTAGE_REPO_URL"
+repo_name: "BACKSTAGE_ENTITY_NAME"
+
+nav:
+  - Introduction: index.md
+  - Quick Start: guide/quickstart.md
+  - Architecture:
+      - Overview: architecture/overview.md
+      - Decisions (ADR): architecture/adr/index.md
+  - API: api/index.md
+  - Operations:
+      - Local Run: operations/local.md
+      - Observability: operations/observability.md
+  - References: reference/index.md
+
+theme:
+  name: material
+  language: en
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+  features:
+    - navigation.sections
+    - navigation.tabs
+    - navigation.top
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - search.highlight
+    - search.suggest
+
+plugins:
+  - search
+  - mermaid2
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - footnotes
+  - tables
+  - toc:
+      permalink: true
+  - attr_list
+  - def_list
+  - md_in_html
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: BACKSTAGE_REPO_URL
+  generator: false

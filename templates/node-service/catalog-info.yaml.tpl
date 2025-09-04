@@ -176,6 +176,18 @@ spec:
             find: "BACKSTAGE_ENTITY_NAME"
             replaceWith: $${{ parameters.name }}
 
+    - id: Replace_mkdocs
+      name: 🔄 Replace BACKSTAGE_ENTITY_NAME in mkdocs.yml
+      action: roadiehq:utils:fs:replace
+      input:
+        files:
+          - file: "./mkdocs.yml"
+            find: "BACKSTAGE_ENTITY_NAME"
+            replaceWith: $${{ parameters.name }}
+          - file: "./mkdocs.yml"
+            find: "BACKSTAGE_REPO_URL"
+            replaceWith: $${{ parameters.repoUrl }}            
+
     - id: publish
       name: 🚀 Publish to GitHub
       action: publish:github

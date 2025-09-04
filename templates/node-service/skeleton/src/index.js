@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/health", (req, res) => {
   res.status(200).json({
     status: "OK",
-    service: "${{values.name}}",
+    service: "BACKSTAGE_ENTITY_NAME",
     timestamp: new Date().toISOString(),
     version: "1.0.0",
   });
@@ -26,7 +26,7 @@ app.get("/health", (req, res) => {
 // API routes
 app.get("/api/hello", (req, res) => {
   res.json({
-    message: "Hello from BACKSTAGE_ENTITY_NAME",
+    message: "Hello from BACKSTAGE_ENTITY_NAME!",
     timestamp: new Date().toISOString(),
   });
 });
@@ -47,7 +47,7 @@ app.use("/api/excursions", excursionRoutes);
 // Root endpoint with API information
 app.get("/", (req, res) => {
   res.json({
-    service: "${{values.name}}",
+    service: "BACKSTAGE_ENTITY_NAME",
     message: "Welcome to the Excursions API",
     version: "1.0.0",
     endpoints: {
@@ -78,7 +78,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 404 handler (Express 5: evitar usar '*' que rompe con path-to-regexp v8)
+// 404 handler (Express 5: avoid using '*' which breaks with path-to-regexp v8)
 app.use((req, res) => {
   res.status(404).json({
     error: "Not Found",
@@ -86,12 +86,14 @@ app.use((req, res) => {
   });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 BACKSTAGE_ENTITY_NAME server running on port ${PORT}`);
-  console.log(`📋 Health check: http://localhost:${PORT}/health`);
-  console.log(`🔧 API endpoints: http://localhost:${PORT}/api/hello`);
-  console.log(`🎯 Excursions API: http://localhost:${PORT}/api/excursions`);
-});
+// Start server only if not in test environment
+if (process.env.NODE_ENV !== "test" && require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`🚀 BACKSTAGE_ENTITY_NAME server running on port ${PORT}`);
+    console.log(`📋 Health check: http://localhost:${PORT}/health`);
+    console.log(`🔧 API endpoints: http://localhost:${PORT}/api/hello`);
+    console.log(`🎯 Excursions API: http://localhost:${PORT}/api/excursions`);
+  });
+}
 
 module.exports = app;

@@ -38,6 +38,12 @@ locals {
       commit_message = "Add Node.js service skeleton .gitignore"
     }
 
+    # ESLint configuration
+    "skeleton/eslint.config.js" = {
+      source_file    = "${path.module}/templates/node-service/skeleton/eslint.config.js"
+      commit_message = "Add ESLint configuration for Node.js service skeleton"
+    }
+
     # Application files
     "skeleton/package.json" = {
       source_file    = "${path.module}/templates/node-service/skeleton/package.json"
@@ -72,7 +78,47 @@ locals {
       commit_message = "Add Node.js service skeleton excursions routes"
     }
 
-    # Documentation and metadata
+    # Skeleton documentation
+    "skeleton/docs/index.md" = {
+      source_file    = "${path.module}/templates/node-service/skeleton/docs/index.md"
+      commit_message = "Add Node.js service skeleton documentation index"
+    }
+    "skeleton/docs/api/index.md" = {
+      source_file    = "${path.module}/templates/node-service/skeleton/docs/api/index.md"
+      commit_message = "Add Node.js service skeleton API documentation"
+    }
+    "skeleton/docs/reference/index.md" = {
+      source_file    = "${path.module}/templates/node-service/skeleton/docs/reference/index.md"
+      commit_message = "Add Node.js service skeleton reference documentation"
+    }
+    "skeleton/docs/architecture/overview.md" = {
+      source_file    = "${path.module}/templates/node-service/skeleton/docs/architecture/overview.md"
+      commit_message = "Add Node.js service skeleton architecture overview"
+    }
+    "skeleton/docs/architecture/adr/index.md" = {
+      source_file    = "${path.module}/templates/node-service/skeleton/docs/architecture/adr/index.md"
+      commit_message = "Add Node.js service skeleton ADR index"
+    }
+    "skeleton/docs/guide/quickstart.md" = {
+      source_file    = "${path.module}/templates/node-service/skeleton/docs/guide/quickstart.md"
+      commit_message = "Add Node.js service skeleton quickstart guide"
+    }
+    "skeleton/docs/operations/local.md" = {
+      source_file    = "${path.module}/templates/node-service/skeleton/docs/operations/local.md"
+      commit_message = "Add Node.js service skeleton local operations guide"
+    }
+    "skeleton/docs/operations/observability.md" = {
+      source_file    = "${path.module}/templates/node-service/skeleton/docs/operations/observability.md"
+      commit_message = "Add Node.js service skeleton observability guide"
+    }
+
+    # Skeleton mkdocs configuration
+    "skeleton/mkdocs.yml" = {
+      source_file    = "${path.module}/templates/node-service/skeleton/mkdocs.yml"
+      commit_message = "Add Node.js service skeleton mkdocs configuration"
+    }
+
+    # Template-level documentation and metadata
     "README.md" = {
       source_file    = "${path.module}/templates/node-service/README.md"
       commit_message = "Add Node.js service template documentation"

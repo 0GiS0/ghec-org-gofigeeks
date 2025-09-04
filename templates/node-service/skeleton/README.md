@@ -12,16 +12,19 @@ ${{values.description}}
 ### Development
 
 1. **Install dependencies:**
+
    ```bash
    npm install
    ```
 
 2. **Start development server:**
+
    ```bash
    npm run dev
    ```
 
 3. **Run tests:**
+
    ```bash
    npm test
    ```
@@ -55,6 +58,48 @@ This project includes a dev container configuration. Open in VS Code and use "De
 ```bash
 npm start
 ```
+
+## 📚 Documentation (MkDocs)
+
+Project documentation lives in `docs/` and is published using MkDocs Material.
+
+### Install documentation dependencies
+
+```bash
+pip install -r requirements-docs.txt
+```
+
+### Serve locally
+
+```bash
+npm run docs:serve
+```
+
+Open: http://localhost:8000
+
+### Build static site
+
+```bash
+npm run docs:build
+```
+
+Output is generated in `site/`.
+
+### Suggested structure
+
+```
+docs/
+  index.md
+  guide/quickstart.md
+  architecture/overview.md
+  architecture/adr/
+  api/index.md
+  operations/local.md
+  operations/observability.md
+  reference/index.md
+```
+
+Keep this content up to date as part of your Definition of Done.
 
 ## 📝 Architecture
 
