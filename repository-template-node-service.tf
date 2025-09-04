@@ -34,12 +34,8 @@ locals {
 
     # Development configuration
     "skeleton/.gitignore" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/.gitignore.tpl"
+      source_file    = "${path.module}/templates/node-service/skeleton/.gitignore"
       commit_message = "Add Node.js service skeleton .gitignore"
-    }
-    "skeleton/.devcontainer/devcontainer.json" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/.devcontainer/devcontainer.json.tpl"
-      commit_message = "Add Node.js service devcontainer configuration"
     }
 
     # Application files
@@ -47,22 +43,32 @@ locals {
       source_file    = "${path.module}/templates/node-service/skeleton/package.json"
       commit_message = "Add Node.js service skeleton package.json"
     }
+    "skeleton/package-lock.json" = {
+      source_file    = "${path.module}/templates/node-service/skeleton/package-lock.json"
+      commit_message = "Add Node.js service skeleton package-lock.json"
+    }
     "skeleton/src/index.js" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/src/index.js.tpl"
+      source_file    = "${path.module}/templates/node-service/skeleton/src/index.js"
       commit_message = "Add Node.js service skeleton main file"
+    }
+
+    # API and testing files
+    "skeleton/api.http" = {
+      source_file    = "${path.module}/templates/node-service/skeleton/api.http"
+      commit_message = "Add Node.js service skeleton API testing file"
     }
 
     # Business logic files
     "skeleton/src/models/Excursion.js" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/src/models/Excursion.js.tpl"
+      source_file    = "${path.module}/templates/node-service/skeleton/src/models/Excursion.js"
       commit_message = "Add Node.js service skeleton Excursion model"
     }
     "skeleton/src/controllers/ExcursionController.js" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/src/controllers/ExcursionController.js.tpl"
+      source_file    = "${path.module}/templates/node-service/skeleton/src/controllers/ExcursionController.js"
       commit_message = "Add Node.js service skeleton Excursion controller"
     }
     "skeleton/src/routes/excursions.js" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/src/routes/excursions.js.tpl"
+      source_file    = "${path.module}/templates/node-service/skeleton/src/routes/excursions.js"
       commit_message = "Add Node.js service skeleton excursions routes"
     }
 
@@ -87,6 +93,35 @@ locals {
 
   # Template files that need template processing - using consistent structure
   node_service_template_files = local.node_service_enabled ? {
+    # Skeleton template files that need variable substitution
+    "skeleton/.env.example" = {
+      source_file      = "${path.module}/templates/node-service/skeleton/.env.example.tpl"
+      commit_message   = "Add Node.js service skeleton environment variables template"
+      use_templatefile = false
+      template_vars    = {}
+    }
+    "skeleton/README.md" = {
+      source_file      = "${path.module}/templates/node-service/skeleton/README.md"
+      commit_message   = "Add Node.js service skeleton README"
+      use_templatefile = false
+      template_vars    = {}
+    }
+    "skeleton/tests/api.test.js" = {
+      source_file      = "${path.module}/templates/node-service/skeleton/tests/api.test.js"
+      commit_message   = "Add Node.js service skeleton API tests"
+      use_templatefile = false
+      template_vars    = {}
+    }
+
+    # Devcontainer configuration template
+    "skeleton/.devcontainer/devcontainer.json" = {
+      source_file      = "${path.module}/templates/node-service/skeleton/.devcontainer/devcontainer.json"
+      commit_message   = "Add Node.js service devcontainer configuration"
+      use_templatefile = false
+      template_vars    = {}
+    }
+
+    # Catalog info files
     "skeleton/catalog-info.yaml" = {
       source_file      = "${path.module}/templates/node-service/skeleton/catalog-info.yaml"
       commit_message   = "Add Node.js service skeleton catalog-info.yaml"

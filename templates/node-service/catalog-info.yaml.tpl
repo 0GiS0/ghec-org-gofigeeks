@@ -122,7 +122,7 @@ spec:
           system: $${{ parameters.system }}
 
     - id: Replace entity name in package.json
-      name: 🔄 Replace
+      name: 🔄 Replace BACKSTAGE_ENTITY_NAME in package.json
       action: roadiehq:utils:fs:replace
       input:
         files:
@@ -130,8 +130,18 @@ spec:
             find: "BACKSTAGE_ENTITY_NAME"
             replaceWith: $${{ parameters.name | replace("-", "_") }}
 
+    - id: Replace entity name in package-lock.json
+      name: 🔄 Replace BACKSTAGE_ENTITY_NAME in package-lock.json
+      action: roadiehq:utils:fs:replace
+      input:
+        files:
+          - file: "./package-lock.json"
+            find: "BACKSTAGE_ENTITY_NAME"
+            replaceWith: $${{ parameters.name | replace("-", "_") }}
+
+
     - id: Replace description in package.json
-      name: 🔄 Replace
+      name: 🔄 Replace BACKSTAGE_ENTITY_DESCRIPTION in package.json
       action: roadiehq:utils:fs:replace
       input:
         files:
@@ -139,8 +149,8 @@ spec:
             find: "BACKSTAGE_ENTITY_DESCRIPTION"
             replaceWith: $${{ parameters.description }}
 
-    - id: Replace author in package.json
-      name: 🔄 Replace
+    - id: Replace BACKSTAGE_AUTHOR in package.json
+      name: 🔄 Replace author in package.json
       action: roadiehq:utils:fs:replace
       input:
         files:
@@ -148,14 +158,23 @@ spec:
             find: "BACKSTAGE_AUTHOR"
             replaceWith: $${{ parameters.owner }}
 
-    - id: Replace repo URL in package.json
-      name: 🔄 Replace
+    - id: Replace BACKSTAGE_REPO_URL in package.json
+      name: 🔄 Replace URL in package.json
       action: roadiehq:utils:fs:replace
       input:
         files:
           - file: "./package.json"
             find: "BACKSTAGE_REPO_URL"
             replaceWith: $${{ parameters.repoUrl }}
+
+    - id: Replace_indexjs
+      name: 🔄 Replace BACKSTAGE_ENTITY_NAME in index.js
+      action: roadiehq:utils:fs:replace
+      input:
+        files:
+          - file: "./src/index.js"
+            find: "BACKSTAGE_ENTITY_NAME"
+            replaceWith: $${{ parameters.name }}
 
     - id: publish
       name: 🚀 Publish to GitHub
