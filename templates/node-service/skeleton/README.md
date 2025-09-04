@@ -4,19 +4,19 @@
 
 ## 🧬 Template Superpowers
 
-| Capability               | Description                                                                                                                      |
-| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
-| Dev Container + Postgres | `.devcontainer/compose.yml` spins up `app` (Node 20) and `db` (Postgres) plus an init script (`init.sh`) applying schema + seed. |
-| Ready-to-use API         | Express controllers & routes (`src/controllers`, `src/routes`) with a sample `excursions` feature.                               |
-| Integrated Database      | Connection env vars pre-configured (`PGHOST=db`, `PGDATABASE=app_db`). Automatic schema + seed for instant data.                 |
-| Unit & Integration Tests | Jest + Supertest (`tests/api.test.js`) with coverage (`coverage/`).                                                              |
-| Lint & Quality Gate      | ESLint (`eslint.config.js`) locally & in CI.                                                                                     |
-| Automated CI             | `.github/workflows/ci.yml` runs lint, tests, coverage artifact.                                                                  |
-| Security (GHAS)          | Dependabot + Code Scanning (CodeQL default org setup).                                                                           |
-| Living Documentation     | MkDocs (`mkdocs.yml`, `docs/`) covering quickstart, architecture, API, operations, reference.                                    |
-| Opinionated Structure    | Clear layout: `src/`, `tests/`, `docs/`, `coverage/`, `.devcontainer/`.                                                          |
-| Environment Example      | `.env.example` ready to copy.                                                                                                    |
-| Observability Ready      | Placeholders for logging / tracing in `.env.example`.                                                                            |
+| Capability               | Description                                                                                                                       |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| Dev Container + Postgres | `.devcontainer/compose.yml` spins up `app` (Node 20) and `db` (Postgres) plus an init script (`init.sh`) applying schema + seed.  |
+| Ready-to-use API         | Express controllers & routes (`src/controllers`, `src/routes`) with a sample `excursions` feature.                                |
+| Integrated Database      | Connection env vars pre-configured (`PGHOST=db`, `PGDATABASE=app_db`). Automatic schema + seed for instant data.                  |
+| Unit & Integration Tests | Jest + Supertest (`tests/api.test.js`) with coverage (`coverage/`) and ephemeral PostgreSQL via Testcontainers (no shared state). |
+| Lint & Quality Gate      | ESLint (`eslint.config.js`) locally & in CI.                                                                                      |
+| Automated CI             | `.github/workflows/ci.yml` runs lint, tests, coverage artifact.                                                                   |
+| Security (GHAS)          | Dependabot + Code Scanning (CodeQL default org setup).                                                                            |
+| Living Documentation     | MkDocs (`mkdocs.yml`, `docs/`) covering quickstart, architecture, API, operations, reference.                                     |
+| Opinionated Structure    | Clear layout: `src/`, `tests/`, `docs/`, `coverage/`, `.devcontainer/`.                                                           |
+| Environment Example      | `.env.example` ready to copy.                                                                                                     |
+| Observability Ready      | Placeholders for logging / tracing in `.env.example`.                                                                             |
 
 ### Core Structure
 
