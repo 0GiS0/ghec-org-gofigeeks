@@ -1,6 +1,8 @@
 {
   "name": "${{values.name}}-devcontainer",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "dockerComposeFile": ["compose.yml"],
+  "service": "app",
+  "workspaceFolder": "/workspace",
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
@@ -14,24 +16,27 @@
         "bradlc.vscode-tailwindcss",
         "github.copilot",
         "github.copilot-chat",
-        "humao.rest-client"
+        "humao.rest-client",
+        "cweijan.vscode-postgresql-client2",
+        "redhat.vscode-yaml"
       ],
       "settings": {
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "esbenp.prettier-vscode",
         "editor.codeActionsOnSave": {
-          "source.fixAll.eslint": true
+          "source.fixAll.eslint": "always"
         }
       }
     }
   },
-  "postCreateCommand": "npm install",
-  "remoteUser": "node",
-  "forwardPorts": [3000],
+  "forwardPorts": [4000],
   "portsAttributes": {
-    "3000": {
+    "4000": {
       "label": "${{values.name}} API",
       "onAutoForward": "notify"
     }
-  }
+  },
+  "postCreateCommand": "npm install",
+  "postStartCommand": "bash .devcontainer/db/init.sh",
+  "remoteUser": "node"
 }

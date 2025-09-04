@@ -1,6 +1,6 @@
 ### ${{values.name}} API Tests
 ### Base URL for development
-@baseUrl = http://localhost:3000
+@baseUrl = http://localhost:4000
 
 ### Health Check
 GET {{baseUrl}}/health
@@ -21,20 +21,25 @@ GET {{baseUrl}}/api/excursions
 GET {{baseUrl}}/api/excursions/1
 
 ### Create new excursion
+# @name createExcursion
 POST {{baseUrl}}/api/excursions
 Content-Type: application/json
 
 {
-  "name": "Test Adventure",
-  "description": "A test excursion for API validation",
-  "location": "Test Location",
-  "price": 50.0,
-  "duration": 3,
-  "maxParticipants": 10
+  "name": "Observación de estrellas en el Teide",
+  "description": "Excursión nocturna al Parque Nacional del Teide para observar el cielo estrellado con telescopios profesionales y guía astronómico.",
+  "location": "Carretera del Teide, km 37, San Cristóbal de La Laguna",
+  "price": 40.0,
+  "duration": 1,
+  "maxParticipants": 25
 }
 
+###
+
+@excursionId = {{ createExcursion.response.body.id }}
+
 ### Update excursion
-PUT {{baseUrl}}/api/excursions/1
+PUT {{baseUrl}}/api/excursions/{{excursionId}}
 Content-Type: application/json
 
 {
@@ -47,7 +52,7 @@ Content-Type: application/json
 }
 
 ### Delete excursion
-DELETE {{baseUrl}}/api/excursions/1
+DELETE {{baseUrl}}/api/excursions/{{excursionId}}
 
 ### Test 404 endpoint
 GET {{baseUrl}}/api/nonexistent

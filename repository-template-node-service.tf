@@ -3,9 +3,7 @@
 
 locals {
   # Template-specific configuration
-  node_service_key = "backstage-template-node-service"
-
-  # Check if the Node.js service template is enabled
+  node_service_key     = "backstage-template-node-service"
   node_service_enabled = contains(keys(var.template_repositories), local.node_service_key)
 
   # Common commit configuration
@@ -14,175 +12,88 @@ locals {
     commit_email  = "terraform@${var.github_organization}.com"
   }
 
-  # Template-specific file mappings
-  node_service_files = local.node_service_enabled ? {
-    # Dependabot configurations
-    "skeleton/.github/dependabot.yml" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/.github/dependabot.yml"
-      commit_message = "Add Dependabot configuration for npm dependencies to skeleton"
-    }
-    ".github/dependabot.yml" = {
-      source_file    = "${path.module}/templates/node-service/.github/dependabot.yml"
-      commit_message = "Add Dependabot configuration for template repository"
-    }
+  # Dynamically list all skeleton files (fileset returns files only)
+  node_service_skeleton_all = local.node_service_enabled ? fileset(path.module, "templates/node-service/skeleton/**") : []
 
-    # CI/CD workflow
-    "skeleton/.github/workflows/ci.yml" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/.github/workflows/ci.yml"
-      commit_message = "Add CI workflow for Node.js service template to skeleton"
-    }
+  # Exclude unwanted directories (node_modules) to avoid committing dependencies
+  node_service_skeleton_all_filtered = [
+    for f in local.node_service_skeleton_all : f
+    if length(regexall("/node_modules/", f)) == 0
+    && length(regexall("/coverage/", f)) == 0
+  ]
 
-    # Development configuration
-    "skeleton/.gitignore" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/.gitignore"
-      commit_message = "Add Node.js service skeleton .gitignore"
-    }
+  # Separate template (.tpl) files vs regular files (after filtering)
+  node_service_skeleton_template_raw = [for f in local.node_service_skeleton_all_filtered : f if endswith(f, ".tpl")]
+  node_service_skeleton_regular_raw  = [for f in local.node_service_skeleton_all_filtered : f if !endswith(f, ".tpl")]
 
-    # ESLint configuration
-    "skeleton/eslint.config.js" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/eslint.config.js"
-      commit_message = "Add ESLint configuration for Node.js service skeleton"
+  # Map for regular skeleton files (destination keeps skeleton/ prefix)
+  node_service_skeleton_regular_map = { for f in local.node_service_skeleton_regular_raw :
+    replace(f, "templates/node-service/", "") => {
+      source_file    = "${path.module}/${f}"
+      commit_message = "Sync Node.js skeleton file ${replace(f, "templates/node-service/", "")}" # generic to avoid churn
     }
+  }
 
-    # Application files
-    "skeleton/package.json" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/package.json"
-      commit_message = "Add Node.js service skeleton package.json"
-    }
-    "skeleton/package-lock.json" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/package-lock.json"
-      commit_message = "Add Node.js service skeleton package-lock.json"
-    }
-    "skeleton/src/index.js" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/src/index.js"
-      commit_message = "Add Node.js service skeleton main file"
-    }
-
-    # API and testing files
-    "skeleton/api.http" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/api.http"
-      commit_message = "Add Node.js service skeleton API testing file"
-    }
-
-    # Business logic files
-    "skeleton/src/models/Excursion.js" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/src/models/Excursion.js"
-      commit_message = "Add Node.js service skeleton Excursion model"
-    }
-    "skeleton/src/controllers/ExcursionController.js" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/src/controllers/ExcursionController.js"
-      commit_message = "Add Node.js service skeleton Excursion controller"
-    }
-    "skeleton/src/routes/excursions.js" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/src/routes/excursions.js"
-      commit_message = "Add Node.js service skeleton excursions routes"
-    }
-
-    # Skeleton documentation
-    "skeleton/docs/index.md" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/docs/index.md"
-      commit_message = "Add Node.js service skeleton documentation index"
-    }
-    "skeleton/docs/api/index.md" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/docs/api/index.md"
-      commit_message = "Add Node.js service skeleton API documentation"
-    }
-    "skeleton/docs/reference/index.md" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/docs/reference/index.md"
-      commit_message = "Add Node.js service skeleton reference documentation"
-    }
-    "skeleton/docs/architecture/overview.md" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/docs/architecture/overview.md"
-      commit_message = "Add Node.js service skeleton architecture overview"
-    }
-    "skeleton/docs/architecture/adr/index.md" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/docs/architecture/adr/index.md"
-      commit_message = "Add Node.js service skeleton ADR index"
-    }
-    "skeleton/docs/guide/quickstart.md" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/docs/guide/quickstart.md"
-      commit_message = "Add Node.js service skeleton quickstart guide"
-    }
-    "skeleton/docs/operations/local.md" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/docs/operations/local.md"
-      commit_message = "Add Node.js service skeleton local operations guide"
-    }
-    "skeleton/docs/operations/observability.md" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/docs/operations/observability.md"
-      commit_message = "Add Node.js service skeleton observability guide"
-    }
-
-    # Skeleton mkdocs configuration
-    "skeleton/mkdocs.yml" = {
-      source_file    = "${path.module}/templates/node-service/skeleton/mkdocs.yml"
-      commit_message = "Add Node.js service skeleton mkdocs configuration"
-    }
-
-    # Template-level documentation and metadata
-    "README.md" = {
-      source_file    = "${path.module}/templates/node-service/README.md"
-      commit_message = "Add Node.js service template documentation"
-    }
-    "docs/index.md" = {
-      source_file    = "${path.module}/templates/node-service/docs/index.md"
-      commit_message = "Add Node.js service template documentation index"
-    }
-    "docs/template-usage.md" = {
-      source_file    = "${path.module}/templates/node-service/docs/template-usage.md"
-      commit_message = "Add Node.js service template usage guide"
-    }
-    "mkdocs.yml" = {
-      source_file    = "${path.module}/templates/node-service/mkdocs.yml"
-      commit_message = "Add Node.js service template mkdocs configuration"
-    }
-  } : {}
-
-  # Template files that need template processing - using consistent structure
-  node_service_template_files = local.node_service_enabled ? {
-    # Skeleton template files that need variable substitution
-    "skeleton/.env.example" = {
-      source_file      = "${path.module}/templates/node-service/skeleton/.env.example.tpl"
-      commit_message   = "Add Node.js service skeleton environment variables template"
-      use_templatefile = false
-      template_vars    = {}
-    }
-    "skeleton/README.md" = {
-      source_file      = "${path.module}/templates/node-service/skeleton/README.md"
-      commit_message   = "Add Node.js service skeleton README"
-      use_templatefile = false
-      template_vars    = {}
-    }
-    "skeleton/tests/api.test.js" = {
-      source_file      = "${path.module}/templates/node-service/skeleton/tests/api.test.js"
-      commit_message   = "Add Node.js service skeleton API tests"
-      use_templatefile = false
-      template_vars    = {}
-    }
-
-    # Devcontainer configuration template
-    "skeleton/.devcontainer/devcontainer.json" = {
-      source_file      = "${path.module}/templates/node-service/skeleton/.devcontainer/devcontainer.json"
-      commit_message   = "Add Node.js service devcontainer configuration"
-      use_templatefile = false
-      template_vars    = {}
-    }
-
-    # Catalog info files
-    "skeleton/catalog-info.yaml" = {
-      source_file      = "${path.module}/templates/node-service/skeleton/catalog-info.yaml"
-      commit_message   = "Add Node.js service skeleton catalog-info.yaml"
-      use_templatefile = false
-      template_vars    = {}
-    }
-    "catalog-info.yaml" = {
-      source_file      = "${path.module}/templates/node-service/catalog-info.yaml.tpl"
-      commit_message   = "Add Node.js service template catalog-info.yaml for Backstage"
+  # Map for templated skeleton files (.tpl) removing extension in destination
+  node_service_skeleton_template_map = { for f in local.node_service_skeleton_template_raw :
+    replace(replace(f, "templates/node-service/", ""), ".tpl", "") => {
+      source_file      = "${path.module}/${f}"
+      commit_message   = "Add templated Node.js skeleton file ${replace(replace(f, "templates/node-service/", ""), ".tpl", "")}"
       use_templatefile = true
       template_vars = {
         github_organization = var.github_organization
       }
     }
+  }
+
+  # Explicit template-level (non-skeleton) regular files
+  node_service_template_level_files = local.node_service_enabled ? {
+    "README.md" = {
+      source_file    = "${path.module}/templates/node-service/README.md"
+      commit_message = "Sync Node.js service template README"
+    }
+    "docs/index.md" = {
+      source_file    = "${path.module}/templates/node-service/docs/index.md"
+      commit_message = "Sync Node.js service template docs index"
+    }
+    "docs/template-usage.md" = {
+      source_file    = "${path.module}/templates/node-service/docs/template-usage.md"
+      commit_message = "Sync Node.js service template usage guide"
+    }
+    "mkdocs.yml" = {
+      source_file    = "${path.module}/templates/node-service/mkdocs.yml"
+      commit_message = "Sync Node.js service template mkdocs configuration"
+    }
+    ".github/dependabot.yml" = {
+      source_file    = "${path.module}/templates/node-service/.github/dependabot.yml"
+      commit_message = "Sync Node.js service template dependabot"
+    }
   } : {}
+
+  # Combine skeleton regular + template-level regular files
+  node_service_files = local.node_service_enabled ? merge(
+    local.node_service_skeleton_regular_map,
+    local.node_service_template_level_files
+  ) : {}
+
+  # Explicit non-.tpl skeleton files that still require template processing (none currently) + template-level templated files
+  node_service_template_files = local.node_service_enabled ? merge(
+    local.node_service_skeleton_template_map,
+    {
+      # Backstage root catalog-info remains templated
+      "catalog-info.yaml" = {
+        source_file      = "${path.module}/templates/node-service/catalog-info.yaml.tpl"
+        commit_message   = "Add Node.js service template catalog-info.yaml for Backstage"
+        use_templatefile = true
+        template_vars = {
+          github_organization = var.github_organization
+        }
+      }
+    },
+    {
+      # Example environment file stays non-templated but we include it here if in future becomes templated; keep in regular map otherwise
+    }
+  ) : {}
 }
 
 # Regular file resources (direct file content)

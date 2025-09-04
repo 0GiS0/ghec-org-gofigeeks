@@ -1,142 +1,117 @@
 # ${{values.name}}
 
-${{values.description}}
+> Production-ready Node.js template: instant developer environment with Express API, Postgres (Dev Container), tests, linting, docs, CI, and continuous security scanning.
 
-## 🚀 Quick Start
+## 🧬 Template Superpowers
 
-### Prerequisites
+| Capability               | Description                                                                                                                      |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| Dev Container + Postgres | `.devcontainer/compose.yml` spins up `app` (Node 20) and `db` (Postgres) plus an init script (`init.sh`) applying schema + seed. |
+| Ready-to-use API         | Express controllers & routes (`src/controllers`, `src/routes`) with a sample `excursions` feature.                               |
+| Integrated Database      | Connection env vars pre-configured (`PGHOST=db`, `PGDATABASE=app_db`). Automatic schema + seed for instant data.                 |
+| Unit & Integration Tests | Jest + Supertest (`tests/api.test.js`) with coverage (`coverage/`).                                                              |
+| Lint & Quality Gate      | ESLint (`eslint.config.js`) locally & in CI.                                                                                     |
+| Automated CI             | `.github/workflows/ci.yml` runs lint, tests, coverage artifact.                                                                  |
+| Security (GHAS)          | Dependabot + Code Scanning (CodeQL default org setup).                                                                           |
+| Living Documentation     | MkDocs (`mkdocs.yml`, `docs/`) covering quickstart, architecture, API, operations, reference.                                    |
+| Opinionated Structure    | Clear layout: `src/`, `tests/`, `docs/`, `coverage/`, `.devcontainer/`.                                                          |
+| Environment Example      | `.env.example` ready to copy.                                                                                                    |
+| Observability Ready      | Placeholders for logging / tracing in `.env.example`.                                                                            |
 
-- Node.js 18 or higher
-- npm or yarn
+### Core Structure
 
-### Development
-
-1. **Install dependencies:**
-
-   ```bash
-   npm install
-   ```
-
-2. **Start development server:**
-
-   ```bash
-   npm run dev
-   ```
-
-3. **Run tests:**
-
-   ```bash
-   npm test
-   ```
-
-4. **Check code quality:**
-   ```bash
-   npm run lint
-   ```
-
-### API Endpoints
-
-- `GET /health` - Health check endpoint
-- `GET /api/hello` - Hello world endpoint
-- `GET /api/status` - Service status endpoint
-
-### Environment Variables
-
-Create a `.env` file in the root directory:
-
-```env
-PORT=3000
-NODE_ENV=development
+```
+.devcontainer/
+.github/workflows/ci.yml
+src/
+  controllers/
+  models/
+  routes/
+  index.js
+tests/
+docs/
+.env.example
 ```
 
-### Docker Development
+### 1-Minute Onboarding
 
-This project includes a dev container configuration. Open in VS Code and use "Dev Containers: Reopen in Container".
+```bash
+# Inside VS Code -> Reopen in Container
+yarn install # or npm install
+yarn dev     # or npm run dev
+open http://localhost:3000
+```
 
-### Production Deployment
+Quality & feedback:
+
+```bash
+yarn test        # or npm test
+yarn lint        # or npm run lint
+```
+
+### Environment & Database
+
+Copy `.env.example` to `.env` when running outside the Dev Container. Inside the container defaults are already injected:
+
+```
+PGHOST=db
+PGPORT=5432
+PGDATABASE=app_db
+PGUSER=app_user
+PGPASSWORD=app_password
+```
+
+The init script `.devcontainer/db/init.sh` applies `schema.sql` + `seed.sql` only once (idempotent logic ensured in SQL). Replace with migrations later if needed.
+
+### Documentation
+
+Full documentation lives in `docs/` and is built with MkDocs Material.
+
+- Quickstart: `docs/guide/quickstart.md`
+- Architecture: `docs/architecture/overview.md`
+- API: `docs/api/`
+- Operations: `docs/operations/`
+- Reference: `docs/reference/`
+
+Local docs server:
+
+```bash
+npm run docs:serve
+# or
+mkdocs serve
+```
+
+### Production Run
 
 ```bash
 npm start
 ```
 
-## 📚 Documentation (MkDocs)
+### Security & Maintenance
 
-Project documentation lives in `docs/` and is published using MkDocs Material.
+- Dependabot automates dependency updates
+- GitHub Advanced Security (CodeQL) scanning enabled via org defaults (no extra workflow needed)
+- Extend with policies / IaC scanning without modifying core template
 
-### Install documentation dependencies
+---
 
-```bash
-pip install -r requirements-docs.txt
-```
+${{values.description}}
 
-### Serve locally
+## API Sample Endpoints
 
-```bash
-npm run docs:serve
-```
+(For discovery; move or expand in `docs/api/` when evolving.)
 
-Open: http://localhost:8000
+- `GET /health`
+- `GET /api/hello`
+- `GET /api/status`
 
-### Build static site
+## Contributing / Next Steps
 
-```bash
-npm run docs:build
-```
+1. Create a new feature branch `feat/<name>`
+2. Commit with conventional messages (optional but recommended)
+3. Open PR – CI will validate lint + tests
+4. Update docs alongside code changes
 
-Output is generated in `site/`.
+## License
 
-### Suggested structure
-
-```
-docs/
-  index.md
-  guide/quickstart.md
-  architecture/overview.md
-  architecture/adr/
-  api/index.md
-  operations/local.md
-  operations/observability.md
-  reference/index.md
-```
-
-Keep this content up to date as part of your Definition of Done.
-
-## 📝 Architecture
-
-This is a simple Express.js service with:
-
-- Express.js web framework
-- CORS and Helmet for security
-- Environment variable configuration
-- Health check endpoints
-- Error handling middleware
-- Jest for testing
-- ESLint for code quality
-
-## 🧪 Testing
-
-Run the test suite:
-
-```bash
-npm test
-```
-
-Watch mode for development:
-
-```bash
-npm run test:watch
-```
-
-## 📦 Dependencies
-
-- **express**: Web framework
-- **cors**: Cross-origin resource sharing
-- **helmet**: Security middleware
-- **dotenv**: Environment variable management
-
-## 🛠️ Development Dependencies
-
-- **nodemon**: Development server with hot reload
-- **jest**: Testing framework
-- **eslint**: Code linting
-- **supertest**: HTTP testing library
+Specify your license here (e.g., MIT) or add a `LICENSE` file.

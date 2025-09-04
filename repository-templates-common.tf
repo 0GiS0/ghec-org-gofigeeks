@@ -121,7 +121,8 @@ resource "github_repository_file" "template_ci" {
 
 # MkDocs configuration file for each template repository
 resource "github_repository_file" "template_mkdocs" {
-  for_each = var.template_repositories
+  # Excluimos backstage-template-node-service porque tiene un mkdocs.yml especializado
+  for_each = { for k, v in var.template_repositories : k => v if k != "backstage-template-node-service" }
 
   repository = github_repository.templates[each.key].name
   branch     = "main"
