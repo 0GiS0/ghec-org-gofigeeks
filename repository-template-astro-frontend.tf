@@ -195,3 +195,60 @@ resource "github_repository_file" "astro_frontend_template_readme" {
 
   depends_on = [github_repository.templates]
 }
+
+# Template documentation - main index
+resource "github_repository_file" "astro_frontend_docs_index" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-astro-frontend"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "docs/index.md"
+  content             = file("${path.module}/templates/astro-frontend/docs/index.md")
+  commit_message      = "Add Astro frontend template documentation index"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Template documentation - usage guide
+resource "github_repository_file" "astro_frontend_docs_usage" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-astro-frontend"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "docs/template-usage.md"
+  content             = file("${path.module}/templates/astro-frontend/docs/template-usage.md")
+  commit_message      = "Add Astro frontend template usage guide"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Template mkdocs.yml configuration
+resource "github_repository_file" "astro_frontend_mkdocs" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-astro-frontend"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "mkdocs.yml"
+  content             = file("${path.module}/templates/astro-frontend/mkdocs.yml")
+  commit_message      = "Add Astro frontend template mkdocs configuration"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}

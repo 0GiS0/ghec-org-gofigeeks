@@ -97,3 +97,60 @@ resource "github_repository_file" "domain_template_skeleton_gitignore" {
 
   depends_on = [github_repository.templates]
 }
+
+# Template documentation - main index
+resource "github_repository_file" "domain_docs_index" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-domain"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "docs/index.md"
+  content             = file("${path.module}/templates/domain/docs/index.md")
+  commit_message      = "Add Domain template documentation index"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Template documentation - usage guide
+resource "github_repository_file" "domain_docs_usage" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-domain"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "docs/template-usage.md"
+  content             = file("${path.module}/templates/domain/docs/template-usage.md")
+  commit_message      = "Add Domain template usage guide"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Template mkdocs.yml configuration
+resource "github_repository_file" "domain_mkdocs" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-domain"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "mkdocs.yml"
+  content             = file("${path.module}/templates/domain/mkdocs.yml")
+  commit_message      = "Add Domain template mkdocs configuration"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}

@@ -306,3 +306,60 @@ resource "github_repository_file" "dotnet_service_template_readme" {
 
   depends_on = [github_repository.templates]
 }
+
+# Template documentation - main index
+resource "github_repository_file" "dotnet_service_docs_index" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-dotnet-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "docs/index.md"
+  content             = file("${path.module}/templates/dotnet-service/docs/index.md")
+  commit_message      = "Add .NET service template documentation index"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Template documentation - usage guide
+resource "github_repository_file" "dotnet_service_docs_usage" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-dotnet-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "docs/template-usage.md"
+  content             = file("${path.module}/templates/dotnet-service/docs/template-usage.md")
+  commit_message      = "Add .NET service template usage guide"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Template mkdocs.yml configuration
+resource "github_repository_file" "dotnet_service_mkdocs" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-dotnet-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "mkdocs.yml"
+  content             = file("${path.module}/templates/dotnet-service/mkdocs.yml")
+  commit_message      = "Add .NET service template mkdocs configuration"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}

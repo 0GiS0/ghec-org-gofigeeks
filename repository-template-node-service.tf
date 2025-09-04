@@ -71,6 +71,18 @@ locals {
       source_file    = "${path.module}/templates/node-service/README.md"
       commit_message = "Add Node.js service template documentation"
     }
+    "docs/index.md" = {
+      source_file    = "${path.module}/templates/node-service/docs/index.md"
+      commit_message = "Add Node.js service template documentation index"
+    }
+    "docs/template-usage.md" = {
+      source_file    = "${path.module}/templates/node-service/docs/template-usage.md"
+      commit_message = "Add Node.js service template usage guide"
+    }
+    "mkdocs.yml" = {
+      source_file    = "${path.module}/templates/node-service/mkdocs.yml"
+      commit_message = "Add Node.js service template mkdocs configuration"
+    }
   } : {}
 
   # Template files that need template processing - using consistent structure
