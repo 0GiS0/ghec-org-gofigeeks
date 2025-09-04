@@ -8,10 +8,12 @@ resource "github_repository_file" "system_template_catalog" {
     if key == "backstage-template-system"
   }
 
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "catalog-info.yaml"
-  content             = file("${path.module}/templates/system/catalog-info.yaml")
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "catalog-info.yaml"
+  content = templatefile("${path.module}/templates/system/catalog-info.yaml.tpl", {
+    github_organization = var.github_organization
+  })
   commit_message      = "Add System template catalog-info.yaml for Backstage"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
