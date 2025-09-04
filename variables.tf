@@ -28,6 +28,34 @@ variable "github_app_private_key" {
   }
 }
 
+# GitHub Security Configuration Variables
+variable "default_security_configuration_name" {
+  description = "Name of the code security configuration to set as default for the organization"
+  type        = string
+  default     = "GitHub recommended"
+
+  validation {
+    condition     = length(var.default_security_configuration_name) > 0
+    error_message = "The default_security_configuration_name must not be empty."
+  }
+}
+
+variable "default_security_configuration_scope" {
+  description = "Scope for the default security configuration (public, private, or public_and_private)"
+  type        = string
+  default     = "all"
+
+  validation {
+    condition = contains([
+      "all",
+      "none",
+      "public",
+      "private_and_internal"
+    ], var.default_security_configuration_scope)
+    error_message = "The default_security_configuration_scope must be one of: public, private, public_and_private."
+  }
+}
+
 # Team Configuration Variables
 variable "parent_team_name" {
   description = "Name of the parent team for all sub-teams"

@@ -186,7 +186,16 @@ spec:
             replaceWith: $${{ parameters.name }}
           - file: "./mkdocs.yml"
             find: "BACKSTAGE_REPO_URL"
-            replaceWith: $${{ parameters.repoUrl }}            
+            replaceWith: $${{ parameters.repoUrl }}
+
+    - id: Replace_in_tests
+      name: 🔄 Replace BACKSTAGE_ENTITY_NAME in tests
+      action: roadiehq:utils:fs:replace
+      input:
+        files:
+          - file: "./tests/**/*.js"
+            find: "BACKSTAGE_ENTITY_NAME"
+            replaceWith: $${{ parameters.name }}    
 
     - id: publish
       name: 🚀 Publish to GitHub

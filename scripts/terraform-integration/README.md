@@ -51,6 +51,38 @@ PEM_FILE="/path/to/app.pem" \
 - `LOG_FILE`: Ubicación del log (default: `/tmp/custom-properties-{PROPERTY_NAME}.log`)
 - `NON_FATAL_404`: Si "true", errores 404 no fallan el script
 
+### `set_default_security_config.sh`
+**Propósito**: Establece una configuración de seguridad específica como predeterminada para la organización.
+
+**Uso**:
+```bash
+# Usando GitHub App authentication (recomendado)
+GITHUB_ORGANIZATION="tu_org" \
+GITHUB_APP_ID="123456" \
+GITHUB_APP_INSTALLATION_ID="789012" \
+GITHUB_APP_PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----..." \
+./set_default_security_config.sh "GitHub recommended" "public_and_private"
+
+# Los parámetros son opcionales:
+# - CONFIG_NAME: Nombre de la configuración (default: "GitHub recommended")
+# - SCOPE: "public", "private", o "public_and_private" (default: "public_and_private")
+```
+
+**Funcionalidades**:
+- Busca automáticamente la configuración especificada por nombre
+- La establece como predeterminada para repositorios según el scope definido
+- Verifica que la configuración se aplicó correctamente
+- Proporciona salida detallada del proceso
+- Usa autenticación GitHub App (consistente con el resto del proyecto)
+
+**Variables de entorno requeridas**:
+- `GITHUB_ORGANIZATION`: Nombre de la organización GitHub
+- `GITHUB_APP_ID`: ID de la GitHub App
+- `GITHUB_APP_INSTALLATION_ID`: ID de instalación de la GitHub App
+- `GITHUB_APP_PRIVATE_KEY`: Clave privada de la GitHub App en formato PEM
+
+**Integración con Terraform**: Este script se ejecuta automáticamente a través del recurso `null_resource.github_default_security_config` definido en `github-security-config.tf`.
+
 ### `codespaces_access.sh`
 **Propósito**: Configura el acceso a Codespaces a nivel organizacional.
 

@@ -10,6 +10,14 @@ github_app_id              = "123456"
 github_app_installation_id = "123456789"
 github_app_pem_file        = "path/to/your/github-app-private-key.pem"
 
+# Security Configuration Settings
+# Name of the code security configuration to set as default (leave empty to skip)
+default_security_configuration_name = "GitHub recommended"
+
+# Scope for the default security configuration
+# Options: "public", "private", or "public_and_private" 
+default_security_configuration_scope = "public_and_private"
+
 # Parent Team Configuration
 parent_team_name = "canary-trips"
 
