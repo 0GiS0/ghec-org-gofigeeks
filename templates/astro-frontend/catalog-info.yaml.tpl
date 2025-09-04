@@ -4,15 +4,16 @@ kind: Template
 metadata:
   name: astro-frontend
   title: Astro Frontend
-  description: Create a new frontend application with Astro, TypeScript, and modern web practices
+  description: Create a new Astro frontend application with TypeScript and best practices
   annotations:
     backstage.io/techdocs-ref: dir:.
   tags:
     - astro
-    - frontend
     - typescript
-    - web
+    - frontend
     - static-site
+    - web
+    - recommended
 spec:
   owner: platform-team
   type: service
@@ -100,7 +101,7 @@ spec:
           ui:field: RepoUrlPicker
           ui:options:
             allowedOwners:
-              - ${{ github_organization }}
+              - ${github_organization}
             allowedHosts:
               - github.com
   steps:
@@ -112,46 +113,46 @@ spec:
         copyWithoutTemplating:
           - .github/workflows/*
         values:
-          name: ${{ parameters.name }}
-          owner: ${{ parameters.owner }}
-          description: ${{ parameters.description }}
-          destination: ${{ parameters.repoUrl | parseRepoUrl }}
-          repoUrl: ${{ parameters.repoUrl }}
-          serviceTier: ${{ parameters.serviceTier }}
-          teamOwner: ${{ parameters.teamOwner }}
-          system: ${{ parameters.system }}
+          name: $${ parameters.name }}
+          owner: $${ parameters.owner }}
+          description: $${ parameters.description }}
+          destination: $${ parameters.repoUrl | parseRepoUrl }}
+          repoUrl: $${ parameters.repoUrl }}
+          serviceTier: $${ parameters.serviceTier }}
+          teamOwner: $${ parameters.teamOwner }}
+          system: $${ parameters.system }}
 
     - id: publish
       name: Publish to GitHub
       action: publish:github
       input:
-        repoUrl: ${{ parameters.repoUrl }}
-        description: ${{ parameters.description }}
+        repoUrl: $${ parameters.repoUrl }}
+        description: $${ parameters.description }}
         topics:
           [
             "backstage-include",
-            "${{ github_organization }}",
-            "astro",
-            "frontend",
+            "${github_organization}",
+            "python",
+            "fastapi",
           ]
         defaultBranch: main
         gitCommitMessage: Create Astro frontend from template
         customProperties:
-          service-tier: ${{ parameters.serviceTier }}
-          team-owner: ${{ parameters.teamOwner }}
-          demo: ${{ parameters.demo }}
+          service-tier: $${ parameters.serviceTier }}
+          team-owner: $${ parameters.teamOwner }}
+          demo: $${ parameters.demo }}
 
     - id: register
       name: Register
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        repoContentsUrl: $${ steps["publish"].output.repoContentsUrl }}
         catalogInfoPath: "/catalog-info.yaml"
 
   output:
     links:
       - title: Repository
-        url: ${{ steps['publish'].output.remoteUrl }}
+        url: $${ steps["publish"].output.remoteUrl }}
       - title: Open in catalog
         icon: catalog
-        entityRef: ${{ steps['register'].output.entityRef }}
+        entityRef: $${ steps["register"].output.entityRef }}

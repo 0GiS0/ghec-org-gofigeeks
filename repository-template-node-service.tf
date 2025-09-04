@@ -76,13 +76,13 @@ locals {
   # Template files that need template processing - using consistent structure
   node_service_template_files = local.node_service_enabled ? {
     "skeleton/catalog-info.yaml" = {
-      source_file      = "${path.module}/templates/node-service/skeleton/catalog-info.yaml.tpl"
+      source_file      = "${path.module}/templates/node-service/skeleton/catalog-info.yaml"
       commit_message   = "Add Node.js service skeleton catalog-info.yaml"
       use_templatefile = false
       template_vars    = {}
     }
     "catalog-info.yaml" = {
-      source_file      = "${path.module}/templates/node-service/catalog-info.yaml"
+      source_file      = "${path.module}/templates/node-service/catalog-info.yaml.tpl"
       commit_message   = "Add Node.js service template catalog-info.yaml for Backstage"
       use_templatefile = true
       template_vars = {

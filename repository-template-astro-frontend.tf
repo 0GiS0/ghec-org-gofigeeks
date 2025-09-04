@@ -133,3 +133,65 @@ resource "github_repository_file" "astro_frontend_dependabot" {
 
   depends_on = [github_repository.templates]
 }
+
+# Template catalog-info.yaml (for Backstage template itself)
+resource "github_repository_file" "astro_frontend_template_catalog" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-astro-frontend"
+  }
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "catalog-info.yaml"
+  content = templatefile(
+    "${path.module}/templates/astro-frontend/catalog-info.yaml.tpl",
+    {
+      github_organization = var.github_organization
+    }
+  )
+  commit_message      = "Add Astro frontend template catalog-info.yaml for Backstage"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Skeleton catalog-info.yaml (for generated projects)
+resource "github_repository_file" "astro_frontend_skeleton_catalog" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-astro-frontend"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/catalog-info.yaml"
+  content             = file("${path.module}/templates/astro-frontend/skeleton/catalog-info.yaml")
+  commit_message      = "Add Astro frontend skeleton catalog-info.yaml"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Template README (documentation)
+resource "github_repository_file" "astro_frontend_template_readme" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-astro-frontend"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "README.md"
+  content             = file("${path.module}/templates/astro-frontend/README.md")
+  commit_message      = "Add Astro frontend template documentation"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}

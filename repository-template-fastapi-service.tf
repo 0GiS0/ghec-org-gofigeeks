@@ -164,7 +164,7 @@ resource "github_repository_file" "fastapi_service_catalog_info" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/catalog-info.yaml"
-  content             = file("${path.module}/templates/fastapi-service/skeleton/catalog-info.yaml.tpl")
+  content             = file("${path.module}/templates/fastapi-service/skeleton/catalog-info.yaml")
   commit_message      = "Add FastAPI service skeleton Backstage catalog info"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -409,6 +409,49 @@ resource "github_repository_file" "fastapi_service_dependabot" {
   file                = ".github/dependabot.yml"
   content             = file("${path.module}/templates/fastapi-service/skeleton/.github/dependabot.yml")
   commit_message      = "Add Dependabot configuration for pip dependencies"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Template catalog-info.yaml (for Backstage template itself)
+resource "github_repository_file" "fastapi_service_template_catalog" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "catalog-info.yaml"
+  content = templatefile(
+    "${path.module}/templates/fastapi-service/catalog-info.yaml.tpl",
+    {
+      github_organization = var.github_organization
+    }
+  )
+  commit_message      = "Add FastAPI service template catalog-info.yaml for Backstage"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Template README (documentation)
+resource "github_repository_file" "fastapi_service_template_readme" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-fastapi-service"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "README.md"
+  content             = file("${path.module}/templates/fastapi-service/README.md")
+  commit_message      = "Add FastAPI service template documentation"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
   overwrite_on_create = true

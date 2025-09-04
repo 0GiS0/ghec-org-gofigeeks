@@ -2,22 +2,22 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: dotnet-service
-  title: .NET Service
-  description: Create a new .NET microservice with ASP.NET Core, C#, and best practices
+  name: fastapi-service
+  title: FastAPI Service
+  description: Create a new FastAPI microservice with Python, async support, and best practices
   annotations:
     backstage.io/techdocs-ref: dir:.
   tags:
-    - dotnet
-    - csharp
-    - aspnet-core
+    - python
+    - fastapi
+    - async
     - microservice
     - recommended
 spec:
   owner: platform-team
   type: service
   parameters:
-    - title: Complete the form to create a new .NET Service
+    - title: Complete the form to create a new FastAPI Service
       required:
         - name
         - description
@@ -42,7 +42,7 @@ spec:
           ui:options:
             inputProps:
               maxLength: 340
-              placeholder: "Enter a clear, concise description of this .NET service..."
+              placeholder: "Enter a clear, concise description of this FastAPI service..."
           ui:widget: textarea
         owner:
           title: Select in which group the component will be created
@@ -100,7 +100,7 @@ spec:
           ui:field: RepoUrlPicker
           ui:options:
             allowedOwners:
-              - ${{ github_organization }}
+              - ${github_organization}
             allowedHosts:
               - github.com
   steps:
@@ -112,46 +112,46 @@ spec:
         copyWithoutTemplating:
           - .github/workflows/*
         values:
-          name: ${{ parameters.name }}
-          owner: ${{ parameters.owner }}
-          description: ${{ parameters.description }}
-          destination: ${{ parameters.repoUrl | parseRepoUrl }}
-          repoUrl: ${{ parameters.repoUrl }}
-          serviceTier: ${{ parameters.serviceTier }}
-          teamOwner: ${{ parameters.teamOwner }}
-          system: ${{ parameters.system }}
+          name: $${parameters.name}
+          owner: $${parameters.owner}
+          description: $${parameters.description}
+          destination: $${parameters.repoUrl | parseRepoUrl}
+          repoUrl: $${parameters.repoUrl}
+          serviceTier: $${parameters.serviceTier}
+          teamOwner: $${parameters.teamOwner}
+          system: $${parameters.system}
 
     - id: publish
       name: Publish to GitHub
       action: publish:github
       input:
-        repoUrl: ${{ parameters.repoUrl }}
-        description: ${{ parameters.description }}
+        repoUrl: $$${{{ parameters.repoUrl }}
+        description: $$${{{ parameters.description }}
         topics:
           [
             "backstage-include",
-            "${{ github_organization }}",
-            "dotnet",
-            "csharp",
+            "${github_organization}",
+            "python",
+            "fastapi",
           ]
         defaultBranch: main
-        gitCommitMessage: Create .NET service from template
+        gitCommitMessage: Create FastAPI service from template
         customProperties:
-          service-tier: ${{ parameters.serviceTier }}
-          team-owner: ${{ parameters.teamOwner }}
-          demo: ${{ parameters.demo }}
+          service-tier: $${{{ parameters.serviceTier }}
+          team-owner: $${{{ parameters.teamOwner }}
+          demo: $${{{ parameters.demo }}
 
     - id: register
       name: Register
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        repoContentsUrl: $${{ steps["publish"].output.repoContentsUrl }}
         catalogInfoPath: "/catalog-info.yaml"
 
   output:
     links:
       - title: Repository
-        url: ${{ steps['publish'].output.remoteUrl }}
+        url: $${{ steps["publish"].output.remoteUrl }}
       - title: Open in catalog
         icon: catalog
-        entityRef: ${{ steps['register'].output.entityRef }}
+        entityRef: $${{ steps["register"].output.entityRef }}

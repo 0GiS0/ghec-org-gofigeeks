@@ -3,21 +3,22 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: ai-assistant
-  title: AI Assistant
-  description: Create a new AI assistant service with Python, LLM integration, and best practices
+  title: AI Assistant Service
+  description: Create a new AI Assistant service with Python, FastAPI, and AI capabilities
   annotations:
     backstage.io/techdocs-ref: dir:.
   tags:
+    - python
     - ai
     - assistant
-    - python
-    - llm
-    - machine-learning
+    - fastapi
+    - microservice
+    - recommended
 spec:
   owner: platform-team
   type: service
   parameters:
-    - title: Complete the form to create a new AI Assistant
+    - title: Complete the form to create a new AI Assistant Service
       required:
         - name
         - description
@@ -42,7 +43,7 @@ spec:
           ui:options:
             inputProps:
               maxLength: 340
-              placeholder: "Enter a clear, concise description of this AI assistant..."
+              placeholder: "Enter a clear, concise description of this AI Assistant service..."
           ui:widget: textarea
         owner:
           title: Select in which group the component will be created
@@ -61,7 +62,7 @@ spec:
           title: Service Tier
           type: string
           description: Service tier classification for operational support
-          default: experimental
+          default: tier-3
           enum:
             - tier-1
             - tier-2
@@ -100,7 +101,7 @@ spec:
           ui:field: RepoUrlPicker
           ui:options:
             allowedOwners:
-              - ${{ github_organization }}
+              - ${github_organization}
             allowedHosts:
               - github.com
   steps:
@@ -112,47 +113,46 @@ spec:
         copyWithoutTemplating:
           - .github/workflows/*
         values:
-          name: ${{ parameters.name }}
-          owner: ${{ parameters.owner }}
-          description: ${{ parameters.description }}
-          destination: ${{ parameters.repoUrl | parseRepoUrl }}
-          repoUrl: ${{ parameters.repoUrl }}
-          serviceTier: ${{ parameters.serviceTier }}
-          teamOwner: ${{ parameters.teamOwner }}
-          system: ${{ parameters.system }}
+          name: $${ parameters.name }}
+          owner: $${ parameters.owner }}
+          description: $${ parameters.description }}
+          destination: $${ parameters.repoUrl | parseRepoUrl }}
+          repoUrl: $${ parameters.repoUrl }}
+          serviceTier: $${ parameters.serviceTier }}
+          teamOwner: $${ parameters.teamOwner }}
+          system: $${ parameters.system }}
 
     - id: publish
       name: Publish to GitHub
       action: publish:github
       input:
-        repoUrl: ${{ parameters.repoUrl }}
-        description: ${{ parameters.description }}
+        repoUrl: $${ parameters.repoUrl }}
+        description: $${ parameters.description }}
         topics:
           [
             "backstage-include",
-            "${{ github_organization }}",
-            "ai",
-            "assistant",
+            "${github_organization}",
             "python",
+            "fastapi",
           ]
         defaultBranch: main
-        gitCommitMessage: Create AI assistant from template
+        gitCommitMessage: Create AI Assistant service from template
         customProperties:
-          service-tier: ${{ parameters.serviceTier }}
-          team-owner: ${{ parameters.teamOwner }}
-          demo: ${{ parameters.demo }}
+          service-tier: $${ parameters.serviceTier }}
+          team-owner: $${ parameters.teamOwner }}
+          demo: $${ parameters.demo }}
 
     - id: register
       name: Register
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        repoContentsUrl: $${ steps["publish"].output.repoContentsUrl }}
         catalogInfoPath: "/catalog-info.yaml"
 
   output:
     links:
       - title: Repository
-        url: ${{ steps['publish'].output.remoteUrl }}
+        url: $${ steps["publish"].output.remoteUrl }}
       - title: Open in catalog
         icon: catalog
-        entityRef: ${{ steps['register'].output.entityRef }}
+        entityRef: $${ steps["register"].output.entityRef }}

@@ -1,19 +1,11 @@
----
 version: 2
-
 updates:
-  # GitHub Actions dependencies only
+  # GitHub Actions dependencies
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
-      day: "monday"
-      time: "09:00"
-    open-pull-requests-limit: 3
+    open-pull-requests-limit: 10
     commit-message:
-      prefix: "github-actions"
+      prefix: "chore"
       include: "scope"
-    labels:
-      - "dependencies"
-      - "github-actions"
-      - "template"

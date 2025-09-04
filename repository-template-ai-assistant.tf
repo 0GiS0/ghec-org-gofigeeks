@@ -133,3 +133,65 @@ resource "github_repository_file" "ai_assistant_dependabot" {
 
   depends_on = [github_repository.templates]
 }
+
+# Template catalog-info.yaml (for Backstage template itself)
+resource "github_repository_file" "ai_assistant_template_catalog" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-ai-assistant"
+  }
+
+  repository = github_repository.templates[each.key].name
+  branch     = "main"
+  file       = "catalog-info.yaml"
+  content = templatefile(
+    "${path.module}/templates/ai-assistant/catalog-info.yaml.tpl",
+    {
+      github_organization = var.github_organization
+    }
+  )
+  commit_message      = "Add AI assistant template catalog-info.yaml for Backstage"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Skeleton catalog-info.yaml (for generated projects)
+resource "github_repository_file" "ai_assistant_skeleton_catalog" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-ai-assistant"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "skeleton/catalog-info.yaml"
+  content             = file("${path.module}/templates/ai-assistant/skeleton/catalog-info.yaml")
+  commit_message      = "Add AI assistant skeleton catalog-info.yaml"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}
+
+# Template README (documentation)
+resource "github_repository_file" "ai_assistant_template_readme" {
+  for_each = {
+    for key, value in var.template_repositories : key => value
+    if key == "backstage-template-ai-assistant"
+  }
+
+  repository          = github_repository.templates[each.key].name
+  branch              = "main"
+  file                = "README.md"
+  content             = file("${path.module}/templates/ai-assistant/README.md")
+  commit_message      = "Add AI assistant template documentation"
+  commit_author       = "Terraform"
+  commit_email        = "terraform@${var.github_organization}.com"
+  overwrite_on_create = true
+
+  depends_on = [github_repository.templates]
+}

@@ -2,22 +2,22 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: node-service
-  title: Node.js Service
-  description: Create a new Node.js microservice with TypeScript, Express, and best practices
+  name: dotnet-service
+  title: .NET Service
+  description: Create a new .NET microservice with ASP.NET Core, C#, and best practices
   annotations:
     backstage.io/techdocs-ref: dir:.
   tags:
-    - nodejs
-    - typescript
-    - express
+    - dotnet
+    - csharp
+    - aspnet-core
     - microservice
     - recommended
 spec:
   owner: platform-team
   type: service
   parameters:
-    - title: Complete the form to create a new Node.js Service
+    - title: Complete the form to create a new .NET Service
       required:
         - name
         - description
@@ -42,7 +42,7 @@ spec:
           ui:options:
             inputProps:
               maxLength: 340
-              placeholder: "Enter a clear, concise description of this Node.js service..."
+              placeholder: "Enter a clear, concise description of this .NET service..."
           ui:widget: textarea
         owner:
           title: Select in which group the component will be created
@@ -112,82 +112,46 @@ spec:
         copyWithoutTemplating:
           - .github/workflows/*
         values:
-          name: $${{ parameters.name }}
-          owner: $${{ parameters.owner }}
-          description: $${{ parameters.description }}
-          destination: $${{ parameters.repoUrl | parseRepoUrl }}
-          repoUrl: $${{ parameters.repoUrl }}
-          serviceTier: $${{ parameters.serviceTier }}
-          teamOwner: $${{ parameters.teamOwner }}
-          system: $${{ parameters.system }}
-
-    - id: Replace entity name in package.json
-      name: Replace
-      action: roadiehq:utils:fs:replace
-      input:
-        files:
-          - file: "./package.json"
-            find: "BACKSTAGE_ENTITY_NAME"
-            replaceWith: $${{ parameters.name | replace("-", "_") }}
-
-    - id: Replace description in package.json
-      name: Replace
-      action: roadiehq:utils:fs:replace
-      input:
-        files:
-          - file: "./package.json"
-            find: "BACKSTAGE_ENTITY_DESCRIPTION"
-            replaceWith: $${{ parameters.description }}
-
-    - id: Replace author in package.json
-      name: Replace
-      action: roadiehq:utils:fs:replace
-      input:
-        files:
-          - file: "./package.json"
-            find: "BACKSTAGE_AUTHOR"
-            replaceWith: $${{ parameters.owner }}
-
-    - id: Replace repo URL in package.json
-      name: Replace
-      action: roadiehq:utils:fs:replace
-      input:
-        files:
-          - file: "./package.json"
-            find: "BACKSTAGE_REPO_URL"
-            replaceWith: $${{ parameters.repoUrl }}
+          name: $${ parameters.name }}
+          owner: $${ parameters.owner }}
+          description: $${ parameters.description }}
+          destination: $${ parameters.repoUrl | parseRepoUrl }}
+          repoUrl: $${ parameters.repoUrl }}
+          serviceTier: $${ parameters.serviceTier }}
+          teamOwner: $${ parameters.teamOwner }}
+          system: $${ parameters.system }}
 
     - id: publish
       name: Publish to GitHub
       action: publish:github
       input:
-        repoUrl: $${{ parameters.repoUrl }}
-        description: $${{ parameters.description }}
+        repoUrl: $${ parameters.repoUrl }}
+        description: $${ parameters.description }}
         topics:
           [
             "backstage-include",
             "${github_organization}",
-            "nodejs",
-            "typescript",
+            "dotnet",
+            "csharp",
           ]
         defaultBranch: main
-        gitCommitMessage: Create Node.js service from template
+        gitCommitMessage: Create .NET service from template
         customProperties:
-          service-tier: $${{ parameters.serviceTier }}
-          team-owner: $${{ parameters.teamOwner }}
-          demo: $${{ parameters.demo }}
+          service-tier: $${ parameters.serviceTier }}
+          team-owner: $${ parameters.teamOwner }}
+          demo: $${ parameters.demo }}
 
     - id: register
       name: Register
       action: catalog:register
       input:
-        repoContentsUrl: $${{ steps['publish'].output.repoContentsUrl }}
+        repoContentsUrl: $${ steps["publish"].output.repoContentsUrl }}
         catalogInfoPath: "/catalog-info.yaml"
 
   output:
     links:
       - title: Repository
-        url: $${{ steps['publish'].output.remoteUrl }}
+        url: $${ steps["publish"].output.remoteUrl }}
       - title: Open in catalog
         icon: catalog
-        entityRef: $${{ steps['register'].output.entityRef }}
+        entityRef: $${ steps["register"].output.entityRef }}
