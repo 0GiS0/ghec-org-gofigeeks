@@ -8,6 +8,10 @@ data "github_organization" "current" {
 
 // Organization security settings
 resource "github_organization_settings" "org_settings" {
+
+  members_can_create_public_pages       = false
+  members_can_fork_private_repositories = false
+
   # Required fields
   billing_email = var.github_organization_billing_email
 
