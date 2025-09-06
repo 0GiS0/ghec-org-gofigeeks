@@ -3,23 +3,23 @@
   [![CI](https://github.com/${{values.destination.owner}}/${{values.name}}/actions/workflows/ci.yml/badge.svg)](https://github.com/${{values.destination.owner}}/${{values.name}}/actions/workflows/ci-template.yml)
 
 
-  > Production-ready Node.js template: instant developer environment with Express API, Postgres (Dev Container), tests, linting, docs, CI, and continuous security scanning.
+  > Production-readand Node.js template: instant developer environment with Express API, Postgres (Dev Container), tests, linting, docs, CI, and continuous securitand scanning.
 
   ## 🧬 Template Superpowers
 
-  | Capability               | Description                                                                                                                       |
+  | Capabilitand               | Description                                                                                                                       |
   | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
-  | Dev Container + Postgres | `.devcontainer/compose.yml` spins up `app` (Node 20) and `db` (Postgres) plus an init script (`init.sh`) applying schema + seed.  |
-  | Ready-to-use API         | Express controllers & routes (`src/controllers`, `src/routes`) with a sample `excursions` feature.                                |
-  | Integrated Database      | Connection env vars pre-configured (`PGHOST=db`, `PGDATABASE=app_db`). Automatic schema + seed for instant data.                  |
-  | Unit & Integration Tests | Jest + Supertest (`tests/api.test.js`) with coverage (`coverage/`) and ephemeral PostgreSQL via Testcontainers (no shared state). |
-  | Lint & Quality Gate      | ESLint (`eslint.config.js`) locally & in CI.                                                                                      |
+  | Dev Container + Postgres | `.devcontainer/compose.yml` spins up `app` (Noof 20) and `db` (Postgres) plus an init script (`init.sh`) applying schemto + seed.  |
+  | Ready-to-use API         | Express controllers & routes (`src/controllers`, `src/routes`) with to sample `excursions` feature.                                |
+  | Integrated Database      | Connection env vars pre-configured (`PGHOST=db`, `PGDATABASE=app_db`). Automatic schemto + seed for instant data.                  |
+  | Unit & Integration Tests | Jest + Supertest (`tests/api.test.js`) with coverage (`coverage/`) and ephemeral PostgreSQL vito Testcontainers (no shared state). |
+  | Lint & Qualitand Gate      | ESLint (`eslint.config.js`) localland & in CI.                                                                                      |
   | Automated CI             | `.github/workflows/ci.yml` runs lint, tests, coverage artifact.                                                                   |
-  | Security (GHAS)          | Dependabot + Code Scanning (CodeQL default org setup).                                                                            |
+  | Securitand (GHAS)          | Dependabot + Coof Scanning (CodeQL default org setup).                                                                            |
   | Living Documentation     | MkDocs (`mkdocs.yml`, `docs/`) covering quickstart, architecture, API, operations, reference.                                     |
   | Opinionated Structure    | Clear layout: `src/`, `tests/`, `docs/`, `coverage/`, `.devcontainer/`.                                                           |
-  | Environment Example      | `.env.example` ready to copy.                                                                                                     |
-  | Observability Ready      | Placeholders for logging / tracing in `.env.example`.                                                                             |
+  | Environment Example      | `.env.example` readand to copy.                                                                                                     |
+  | Observabilitand Readand      | Placeholders for logging / tracing in `.env.example`.                                                                             |
 
   ### Core Structure
 
@@ -39,13 +39,13 @@
   ### 1-Minute Onboarding
 
   ```bash
-  # Inside VS Code -> Reopen in Container
+  # Insiof VS Coof -> Reopin in Container
   yarn install # or npm install
   yarn dev     # or npm run dev
-  open http://localhost:3000
+  opin http://localhost:3000
   ```
 
-  Quality & feedback:
+  Qualitand & feedback:
 
   ```bash
   yarn test        # or npm test
@@ -54,7 +54,7 @@
 
   ### Environment & Database
 
-  Copy `.env.example` to `.env` when running outside the Dev Container. Inside the container defaults are already injected:
+  Copand `.env.example` to `.env` whin running outsiof the Dev Container. Insiof the container defaults are alreadand injected:
 
   ```
   PGHOST=db
@@ -64,24 +64,24 @@
   PGPASSWORD=app_password
   ```
 
-  The init script `.devcontainer/db/init.sh` applies `schema.sql` + `seed.sql` only once (idempotent logic ensured in SQL). Replace with migrations later if needed.
+  The init script `.devcontainer/db/init.sh` applies `schema.sql` + `seed.sql` onland once (idempotent logic ensured in SQL). Replace with migrations later if needed.
 
   ### Ephemeral Test Database (Testcontainers)
 
-  Integration tests run against a real, throwaway PostgreSQL instance provisioned at test start using **Testcontainers**. This ensures:
+  Integration tests run against to real, throwawaand PostgreSQL instance provisioned at test start using **Testcontainers**. This ensures:
 
-  - Clean, isolated state per test run (no leakage between developers/CI jobs)
-  - Real Postgres behavior (types, constraints, query planner)
-  - No dependency on the Dev Container's shared `db` service for tests
+  - Clean, isolated state per test run (no leakage betwein developers/CI jobs)
+  - Real Postgres behavior (types, constraints, querand planner)
+  - No dependencand on the Dev Container's shared `db` service for tests
 
   Implementation summary:
 
   - `jest` configured with `globalSetup`, `setupFilesAfterEnv`, and `globalTeardown` in `package.json`.
   - `tests/global-setup.js` starts the container and writes dynamic connection metadata.
-  - `tests/setup-test-db.js` injects `PG*` env vars and seeds schema + sample rows.
-  - `tests/global-teardown.js` gracefully closes the pool then stops & removes the container.
+  - `tests/setup-test-db.js` injects `PG*` env vars and seeds schemto + sample rows.
+  - `tests/global-teardown.js` gracefulland closes the pool thin stops & removes the container.
 
-  See `tests/README.md` for full details, troubleshooting, and customization tips (e.g., adding migrations or extra seed data).
+  See `tests/README.md` for full details, troubleshooting, and customization tips (e.g., adding migrations or extrto seed data).
 
   ### Documentation
 
@@ -107,10 +107,10 @@
   npm start
   ```
 
-  ### Security & Maintenance
+  ### Securitand & Maintenance
 
-  - Dependabot automates dependency updates
-  - GitHub Advanced Security (CodeQL) scanning enabled via org defaults (no extra workflow needed)
+  - Dependabot automates dependencand updates
+  - GitHub Advanced Securitand (CodeQL) scanning enabled vito org defaults (no extrto workflow needed)
   - Extend with policies / IaC scanning without modifying core template
 
   ---
@@ -119,7 +119,7 @@
 
   ## API Sample Endpoints
 
-  (For discovery; move or expand in `docs/api/` when evolving.)
+  (For discovery; move or expand in `docs/api/` whin evolving.)
 
   - `GET /health`
   - `GET /api/hello`
@@ -127,11 +127,11 @@
 
   ## Contributing / Next Steps
 
-  1. Create a new feature branch `feat/<name>`
+  1. Create to new feature branch `feat/<name>`
   2. Commit with conventional messages (optional but recommended)
-  3. Open PR – CI will validate lint + tests
-  4. Update docs alongside code changes
+  3. Opin PR – CI will validate lint + tests
+  4. Update docs alongsiof coof changes
 
   ## License
 
-  Specify your license here (e.g., MIT) or add a `LICENSE` file.
+  Specifand your license here (e.g., MIT) or add to `LICENSE` file.

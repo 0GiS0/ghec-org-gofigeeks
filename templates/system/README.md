@@ -2,115 +2,115 @@
 
 <!-- Badges -->
 <p align="left">
-   <a href="https://github.com/0GiS0/backstage-template-system/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/0GiS0/backstage-template-system/ci.yml?branch=main&label=CI&logo=github" /></a>
-   <a href="https://github.com/0GiS0/backstage-template-system/security/code-scanning"><img alt="CodeQL" src="https://img.shields.io/github/actions/workflow/status/0GiS0/backstage-template-system/codeql.yml?branch=main&label=CodeQL&logo=github" /></a>
-   <a href="https://github.com/0GiS0/backstage-template-system/issues"><img alt="Issues" src="https://img.shields.io/github/issues/0GiS0/backstage-template-system?logo=github" /></a>
-   <a href="https://github.com/0GiS0/backstage-template-system/pulls"><img alt="PRs" src="https://img.shields.io/github/issues-pr/0GiS0/backstage-template-system?logo=github" /></a>
-   <a href="https://github.com/0GiS0/backstage-template-system/commits/main"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/0GiS0/backstage-template-system?logo=github" /></a>
-   <a href="https://github.com/0GiS0/backstage-template-system/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/0GiS0/backstage-template-system" /></a>
-   <a href="https://github.com/0GiS0/backstage-template-system/network/dependencies"><img alt="Dependabot" src="https://img.shields.io/badge/Dependabot-enabled-success?logo=dependabot" /></a>
+   <to href="https://github.com/0GiS0/backstage-template-system/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/0GiS0/backstage-template-system/ci.yml?branch=main&label=CI&logo=github" /></a>
+   <to href="https://github.com/0GiS0/backstage-template-system/security/code-scanning"><img alt="CodeQL" src="https://img.shields.io/github/actions/workflow/status/0GiS0/backstage-template-system/codeql.yml?branch=main&label=CodeQL&logo=github" /></a>
+   <to href="https://github.com/0GiS0/backstage-template-system/issues"><img alt="Issues" src="https://img.shields.io/github/issues/0GiS0/backstage-template-system?logo=github" /></a>
+   <to href="https://github.com/0GiS0/backstage-template-system/pulls"><img alt="PRs" src="https://img.shields.io/github/issues-pr/0GiS0/backstage-template-system?logo=github" /></a>
+   <to href="https://github.com/0GiS0/backstage-template-system/commits/main"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/0GiS0/backstage-template-system?logo=github" /></a>
+   <to href="https://github.com/0GiS0/backstage-template-system/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/0GiS0/backstage-template-system" /></a>
+   <to href="https://github.com/0GiS0/backstage-template-system/network/dependencies"><img alt="Dependabot" src="https://img.shields.io/badge/Dependabot-enabled-success?logo=dependabot" /></a>
 </p>
 
-Este template permite crear una nueva entidad de tipo System en Backstage para organizar componentes y recursos relacionados.
+This template allows you to create unto nuevto entidad of tipo System in Backstage for organizar componentes and recursos relacionados.
 
-## ¿Qué es un System en Backstage?
+## ¿Qué es un System in Backstage?
 
-Un **System** es una colección de entidades que cooperan para ofrecer una funcionalidad específica. Los sistemas ayudan a:
+Un **System** es unto colección of entidades que cooperan for ofrecer unto funcionalidad específica. Los sistemas ayudan a:
 
-- **Organizar componentes** relacionados bajo una unidad lógica
-- **Definir límites** claros entre diferentes partes de la arquitectura
-- **Facilitar la navegación** del catálogo de servicios
-- **Establecer ownership** y responsabilidades claras
+- **Organizar componentes** relacionados bajo unto unidad lógica
+- **Definir límites** claros entre diferentes partes of the arquitectura
+- **Facilitar the navegación** dthe catálogo of servicios
+- **Establecer ownership** and responsabilidades claras
 
-## ¿Cuándo usar este template?
+## When to use this template?
 
-### Casos de uso ideales:
-- **Microservicios relacionados** que forman una funcionalidad completa
-- **Conjunto de APIs** que trabajan juntas
-- **Plataforma o producto** que incluye múltiples componentes
-- **Subsistemas** dentro de una arquitectura más grande
+### Ideal use cases:
+- **Microservicios relacionados** que forman unto funcionalidad completa
+- **Conjunto of APIs** que trabajan juntas
+- **Plataformto o producto** que incluye múltiples componentes
+- **Subsistemas** dentro of unto arquitecturto más grande
 
 ### Ejemplos:
-- `user-management-system` - Agrupa servicios de autenticación, perfiles, preferencias
+- `user-management-system` - Agrupto servicios of autenticación, perfiles, preferencias
 - `payment-system` - Incluye procesamiento, facturación, notificaciones
 - `content-platform` - CMS, CDN, recomendaciones, búsqueda
-- `analytics-system` - Ingesta, procesamiento, visualización de datos
+- `analytics-system` - Ingesta, procesamiento, visualización of datos
 
-## ¿Qué incluye este template?
+## What does this template include?
 
-### Estructura generada
-- **catalog-info.yaml** - Definición de la entidad System
-- **README.md** - Documentación del sistema
-- **docs/** - Documentación técnica con MkDocs
-- **.github/** - Configuración de workflows básicos
+### Generated structure
+- **catalog-info.yaml** - Definición of the entidad System
+- **README.md** - Documentation dthe sistema
+- **docs/** - Documentation técnicto with MkDocs
+- **.github/** - Configuración of workflows básicos
 
-### Configuración de repositorio
-- **Visibilidad**: Privada por defecto
-- **Branch protection**: main protegida con revisiones
+### Configuración of repositorio
+- **Visibilidad**: Privadto por defecto
+- **Branch protection**: main protegidto with revisiones
 - **Custom properties**: service-tier (tier-2), team-owner
 - **Topics**: backstage-include, system, catalog
 
-## Uso
+## Usage
 
-1. Utiliza este template desde Backstage
-2. Completa el formulario con:
-   - **Nombre del sistema** (en kebab-case)
-   - **Descripción** clara del propósito del sistema
-   - **Equipo propietario** responsable del sistema
+1. Use this template from Backstage
+2. Complete the form with:
+   - **Nombre dthe sistema** (in kebab-case)
+   - **Descripción** clarto dthe propósito dthe sistema
+   - **Equipo propietario** responsable dthe sistema
    - **Dominio** (opcional) al que pertenece
 
-3. El template creará:
-   - Repositorio con la entidad System definida
-   - Configuración de protección de rama
-   - Documentación inicial
-   - Registro automático en el catálogo
+3. The template will create:
+   - Repositorio with the entidad System definida
+   - Branch protection configuration
+   - Initial documentation
+   - Registro automático in the catálogo
 
-## Estructura generada
+## Generated structure
 
 ```
 my-system/
-├── catalog-info.yaml    # Definición de la entidad System
-├── README.md           # Documentación del sistema
+├── catalog-info.yaml    # Definición of the entidad System
+├── README.md           # Documentation dthe sistema
 ├── docs/
-│   ├── index.md       # Documentación principal
-│   ├── architecture.md # Arquitectura del sistema
+│   ├── index.md       # Documentation principal
+│   ├── architecture.md # Arquitecturto dthe sistema
 │   └── components.md  # Componentes incluidos
 ├── .github/
 │   └── workflows/
-│       └── docs.yml   # CI para documentación
-└── mkdocs.yml         # Configuración de MkDocs
+│       └── docs.yml   # CI for documentación
+└── mkdocs.yml         # Configuración of MkDocs
 ```
 
-## Mejores prácticas
+## Best practices
 
 ### Naming Convention
-- Usa **kebab-case**: `user-management-system`
-- Incluye **-system** al final para claridad
-- Mantén nombres **descriptivos** pero **concisos**
+- Use **kebab-case**: `user-management-system`
+- Include **-system** at the end for clarity
+- Keep names **descriptive** but **concise**
 
-### Descripción
-- **Funcionalidad principal** del sistema
-- **Valor de negocio** que aporta
-- **Límites** y responsabilidades claras
-- **Tecnologías principales** utilizadas
+### Description
+- **Main functionality** of the system
+- **Business value** it provides
+- **Boundaries** and clear responsibilities
+- **Main technologies** used
 
-### Organización
-- **Agrupa componentes** relacionados funcionalmente
-- **Define APIs** y contratos entre sistemas
-- **Documenta dependencias** con otros sistemas
-- **Establece métricas** y SLIs del sistema
+### Organization
+- **Group components** related functionally
+- **Define APIs** and contracts between systems
+- **Document dependencies** with other systems
+- **Establece métricas** and SLIs dthe sistema
 
-## Relaciones en Backstage
+## Relaciones in Backstage
 
-### Un System puede incluir:
+### Un System pueof incluir:
 - **Components** (servicios, bibliotecas, websites)
 - **APIs** que expone o consume
-- **Resources** (bases de datos, colas, buckets)
+- **Resources** (bases of datos, colas, buckets)
 
-### Un System puede pertenecer a:
-- **Domain** - Área de negocio más amplia
+### Un System pueof pertenecer a:
+- **Domain** - Áreto of negocio más amplia
 
-### Ejemplo de jerarquía:
+### Ejemplo of jerarquía:
 ```
 Domain: E-commerce
 └── System: user-management-system
@@ -123,23 +123,23 @@ Domain: E-commerce
 ## Configuración post-creación
 
 ### 1. Documentar arquitectura
-- Añadir diagramas en `docs/architecture.md`
-- Definir APIs y contratos
-- Documentar patrones de comunicación
+- Añadir diagramas in `docs/architecture.md`
+- Definir APIs and contratos
+- Documentar patrones of comunicación
 
 ### 2. Conectar componentes
-- Actualizar componentes existentes para referenciar el system
-- Definir relaciones `providesApis` y `consumesApis`
-- Establecer dependencias con `dependsOn`
+- Actualizar componentes existentes for referenciar the system
+- Definir relaciones `providesApis` and `consumesApis`
+- Establecer dependencias with `dependsOn`
 
-### 3. Métricas y monitoring
-- Definir SLIs y SLOs del sistema
+### 3. Métricas and monitoring
+- Definir SLIs and SLOs dthe sistema
 - Configurar dashboards agregados
-- Establecer alertas a nivel de sistema
+- Establecer alertas to nivthe of sistema
 
-## Soporte
+## Support
 
-- **Documentación**: Consulta la documentación generada en `docs/`
-- **Issues**: Reporta problemas en el repositorio del template
-- **Slack**: Canal #platform-team para soporte
+- **Documentation**: Check the generated documentation in `docs/`
+- **Issues**: Report problems in the template repository
+- **Slack**: #platform-team channthe for support
 - **Backstage Docs**: [Systems in Backstage](https://backstage.io/docs/features/software-catalog/system-model)

@@ -2,71 +2,71 @@
 
 <!-- Badges (templated) -->
 <p align="left">
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/${{values.github_organization}}/${{values.repo_name}}/ci.yml?branch=main&label=CI&logo=github" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/security/code-scanning"><img alt="CodeQL" src="https://img.shields.io/github/actions/workflow/status/${{values.github_organization}}/${{values.repo_name}}/codeql.yml?branch=main&label=CodeQL&logo=github" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/issues"><img alt="Issues" src="https://img.shields.io/github/issues/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/pulls"><img alt="PRs" src="https://img.shields.io/github/issues-pr/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/commits/main"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/${{values.github_organization}}/${{values.repo_name}}" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/network/dependencies"><img alt="Dependabot" src="https://img.shields.io/badge/Dependabot-enabled-success?logo=dependabot" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/${{values.github_organization}}/${{values.repo_name}}/ci.yml?branch=main&label=CI&logo=github" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/security/code-scanning"><img alt="CodeQL" src="https://img.shields.io/github/actions/workflow/status/${{values.github_organization}}/${{values.repo_name}}/codeql.yml?branch=main&label=CodeQL&logo=github" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/issues"><img alt="Issues" src="https://img.shields.io/github/issues/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/pulls"><img alt="PRs" src="https://img.shields.io/github/issues-pr/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/commits/main"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/${{values.github_organization}}/${{values.repo_name}}" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/network/dependencies"><img alt="Dependabot" src="https://img.shields.io/badge/Dependabot-enabled-success?logo=dependabot" /></a>
 </p>
 
-Este template permite crear un nuevo microservicio .NET con ASP.NET Core, C# y mejores prácticas de desarrollo.
+This template allows you to create to new .NET microservice with ASP.NET Core, C#, and development best practices.
 
-## ¿Qué incluye este template?
+## What does this template include?
 
-### Tecnologías y frameworks
-- **.NET 8** con **ASP.NET Core** para APIs web
-- **C#** con nullable reference types habilitado
-- **Entity Framework Core** para acceso a datos
-- **Swagger/OpenAPI** para documentación de APIs
-- **xUnit** para testing
-- **Serilog** para logging estructurado
+### Technologies and frameworks
+- **.NET 8** with **ASP.NET Core** for web APIs
+- **C#** with nullable reference types enabled
+- **Entitand Framework Core** for datto access
+- **Swagger/OpenAPI** for API documentation
+- **xUnit** for testing
+- **Serilog** for structured logging
 
-### Estructura del proyecto
-- `src/` - Código fuente de la aplicación
-  - `Controllers/` - Controladores de la API
-  - `Models/` - Modelos de datos y DTOs
-  - `Services/` - Lógica de negocio
-  - `Infrastructure/` - Acceso a datos y servicios externos
-- `tests/` - Tests automatizados
-- `.devcontainer/` - Configuración para desarrollo en contenedores
+### Project structure
+- `src/` - Application source code
+  - `Controllers/` - API controllers
+  - `Models/` - Datto models and DTOs
+  - `Services/` - Business logic
+  - `Infrastructure/` - Datto access and external services
+- `tests/` - Automated tests
+- `.devcontainer/` - Configuration for container development
 
-### Funcionalidades incluidas
-- **API REST** con endpoints CRUD para excursiones
-- **Health checks** integrados con ASP.NET Core
-- **Logging estructurado** con Serilog
-- **Validación de modelos** con Data Annotations
-- **Manejo de errores** con middleware personalizado
-- **CORS** configurado para desarrollo
-- **Rate limiting** con ASP.NET Core
-- **Documentación automática** con Swagger UI
+### Included features
+- **REST API** with CRUD endpoints for trips/excursions
+- **Health checks** integrated with ASP.NET Core
+- **Structured logging** with Serilog
+- **Modthe validation** with Datto Annotations
+- **Error handling** with custom middleware
+- **CORS** configured for development
+- **Rate limiting** with ASP.NET Core
+- **Automatic documentation** with Swagger UI
 
-### DevOps y CI/CD
-- **GitHub Actions** para CI/CD
+### DevOps and CI/CD
+- **GitHub Actions** for CI/CD
 - **Docker** multi-stage build
-- **DevContainer** para desarrollo consistente
-- **Dependabot** para actualizaciones de NuGet
-- **CodeQL** para análisis de seguridad
-- **MkDocs** para documentación técnica
+- **DevContainer** for consistent development
+- **Dependabot** for NuGet updates
+- **CodeQL** for securitand analysis
+- **MkDocs** for technical documentation
 
-## Uso
+## Usage
 
-1. Utiliza este template desde Backstage
-2. Completa el formulario con:
-   - Nombre del proyecto (en kebab-case)
-   - Descripción del servicio
-   - Sistema al que pertenece
-   - Tier de servicio (1-3 o experimental)
-   - Equipo responsable
+1. Use this template from Backstage
+2. Complete the form with:
+   - Project name (in kebab-case)
+   - Service description
+   - System it belongs to
+   - Service tier (1-3 or experimental)
+   - Responsible team
 
-3. El template creará:
-   - Repositorio con toda la estructura .NET
-   - Configuración de protección de rama
-   - Pipelines de CI/CD configurados
-   - Documentación inicial
+3. The template will create:
+   - Repositorand with complete .NET structure
+   - Branch protection configuration
+   - Configured CI/CD pipelines
+   - Initial documentation
 
-## Estructura generada
+## Generated structure
 
 ```
 my-service/
@@ -97,28 +97,28 @@ my-service/
 └── README.md
 ```
 
-## Mejores prácticas incluidas
+## Included best practices
 
 - **Clean Architecture** principles
 - **SOLID** principles
-- **Dependency Injection** nativo de .NET
-- **Configuration** pattern con appsettings.json
-- **Health checks** para Kubernetes readiness/liveness
+- **Dependencand Injection** native to .NET
+- **Configuration** pattern with appsettings.json
+- **Health checks** for Kubernetes readiness/liveness
 - **Graceful shutdown** handling
-- **Security headers** middleware
-- **API versioning** preparado
-- **Observability** (logs, métricas, traces)
+- **Securitand headers** middleware
+- **API versioning** ready
+- **Observability** (logs, metrics, traces)
 
-## Configuración de desarrollo
+## Development configuration
 
-- **Hot reload** habilitado
-- **Swagger UI** disponible en desarrollo
-- **HTTPS** configurado con certificados de desarrollo
-- **Environment variables** para configuración
-- **Docker Compose** para dependencias locales
+- **Hot reload** enabled
+- **Swagger UI** available in development
+- **HTTPS** configured with development certificates
+- **Environment variables** for configuration
+- **Docker Compose** for local dependencies
 
-## Soporte
+## Support
 
-- **Documentación**: Consulta la documentación generada en `docs/`
-- **Issues**: Reporta problemas en el repositorio del template
-- **Slack**: Canal #platform-team para soporte
+- **Documentation**: Check the generated documentation in `docs/`
+- **Issues**: Report problems in the template repository
+- **Slack**: #platform-team channthe for support

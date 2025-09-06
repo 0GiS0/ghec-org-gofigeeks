@@ -2,62 +2,62 @@
 
 [![Template CI/CD](https://github.com/${github_organization}/${repository_name}/actions/workflows/ci-template.yml/badge.svg)](https://github.com/${github_organization}/${repository_name}/actions/workflows/ci-template.yml)
 
-Este template permite crear un nuevo microservicio Node.js con TypeScript, Express y mejores prácticas de desarrollo.
+This template allows you to create a new Node.js microservice with TypeScript, Express, and development best practices.
 
-## ¿Qué incluye este template?
+## What does this template include?
 
-### Tecnologías y frameworks
-- **Node.js** con **TypeScript** para tipado estático
-- **Express.js** como framework web
-- **ESLint** y **Prettier** para calidad de código
-- **Jest** para testing
-- **Supertest** para testing de APIs
-- **Swagger/OpenAPI** para documentación de APIs
+### Technologies and frameworks
+- **Node.js** with **TypeScript** for static typing
+- **Express.js** as web framework
+- **ESLint** and **Prettier** for code quality
+- **Jest** for testing
+- **Supertest** for API testing
+- **Swagger/OpenAPI** for API documentation
 
-### Estructura del proyecto
-- `src/` - Código fuente de la aplicación
-  - `controllers/` - Controladores de la API
-  - `models/` - Modelos de datos
-  - `routes/` - Definición de rutas
-  - `middleware/` - Middlewares personalizados
-- `tests/` - Tests automatizados
-- `.devcontainer/` - Configuración para desarrollo en contenedores
-- `.github/workflows/` - Pipelines de CI/CD
+### Project structure
+- `src/` - Application source code
+  - `controllers/` - API controllers
+  - `models/` - Data models
+  - `routes/` - Route definitions
+  - `middleware/` - Custom middlewares
+- `tests/` - Automated tests
+- `.devcontainer/` - Configuration for container development
+- `.github/workflows/` - CI/CD pipelines
 
-### Funcionalidades incluidas
-- **API REST** con endpoints CRUD para excursiones
-- **Health checks** para monitoreo
-- **Logging estructurado** con Winston
-- **Validación de datos** con Joi
-- **Manejo de errores** centralizado
-- **Rate limiting** para protección
-- **CORS** configurado
-- **Documentación automática** con Swagger
+### Included features
+- **REST API** with CRUD endpoints for trips/excursions
+- **Health checks** for monitoring
+- **Structured logging** with Winston
+- **Data validation** with Joi
+- **Centralized error handling**
+- **Rate limiting** for protection
+- **CORS** configured
+- **Automatic documentation** with Swagger
 
-### DevOps y CI/CD
-- **GitHub Actions** para CI/CD
-- **Docker** y **DevContainer** para desarrollo
-- **Dependabot** para actualizaciones automáticas
-- **CodeQL** para análisis de seguridad
-- **MkDocs** para documentación técnica
+### DevOps and CI/CD
+- **GitHub Actions** for CI/CD
+- **Docker** and **DevContainer** for development
+- **Dependabot** for automatic updates
+- **CodeQL** for security analysis
+- **MkDocs** for technical documentation
 
-## Uso
+## Usage
 
-1. Utiliza este template desde Backstage
-2. Completa el formulario con:
-   - Nombre del proyecto (en kebab-case)
-   - Descripción del servicio
-   - Sistema al que pertenece
-   - Tier de servicio (1-3 o experimental)
-   - Equipo responsable
+1. Use this template from Backstage
+2. Complete the form with:
+   - Project name (in kebab-case)
+   - Service description
+   - System it belongs to
+   - Service tier (1-3 or experimental)
+   - Responsible team
 
-3. El template creará:
-   - Repositorio con toda la estructura
-   - Configuración de protección de rama
-   - Pipelines de CI/CD configurados
-   - Documentación inicial
+3. The template will create:
+   - Repository with complete structure
+   - Branch protection configuration
+   - Configured CI/CD pipelines
+   - Initial documentation
 
-## Estructura generada
+## Generated structure
 
 ```
 my-service/
@@ -88,39 +88,39 @@ my-service/
 └── README.md
 ```
 
-## Mejores prácticas incluidas
+## Included best practices
 
 - **12 Factor App** principles
 - **RESTful API** design
 - **Error handling** patterns
-- **Security headers** y middlewares
+- **Security headers** and middlewares
 - **Environment configuration**
 - **Graceful shutdown**
-- **Health checks** para Kubernetes
-- **Observability** (logs, métricas)
+- **Health checks** for Kubernetes
+- **Observability** (logs, metrics)
 
-## Soporte
+## Support
 
-- **Documentación**: Consulta la documentación generada en `docs/`
-- **Issues**: Reporta problemas en el repositorio del template
-- **Slack**: Canal #platform-team para soporte
+- **Documentation**: Check the generated documentation in `docs/`
+- **Issues**: Report problems in the template repository
+- **Slack**: #platform-team channel for support
 
 ### Static Badges Regeneration
 
-El workflow `Generate Badges` actualiza los SVG en `badges/` cuando:
+The `Generate Badges` workflow updates SVGs in `badges/` when:
 
-- Se hace push a `main`
-- Se crea/edita/cierra/reabre/elimina un issue
-- Finaliza el workflow de CI `Template CI/CD`
-- Se ejecuta manualmente (workflow_dispatch)
+- Push to `main`
+- Issue is created/edited/closed/reopened/deleted
+- `Template CI/CD` workflow finishes
+- Manually executed (workflow_dispatch)
 
-Si añades nuevos badges:
-1. Edita `.github/workflows/generate_badges.yml` y genera un nuevo archivo SVG (ej: `coverage.svg`).
-2. Añade la referencia en este README: `![Coverage](./badges/coverage.svg)`.
-3. Dispara el workflow manualmente para generarlo.
+If you add new badges:
+1. Edit `.github/workflows/generate_badges.yml` and generate a new SVG file (e.g., `coverage.svg`).
+2. Add the reference in this README: `![Coverage](./badges/coverage.svg)`.
+3. Trigger the workflow manually to generate it.
 
-Los badges existentes:
-- `ci-status.svg`: Última conclusión del workflow CI (success, failure, running...)
-- `issues-open.svg`: Número actual de issues abiertos (colores por umbrales)
+Existing badges:
+- `ci-status.svg`: Latest CI workflow conclusion (success, failure, running...)
+- `issues-open.svg`: Current number of open issues (colors by thresholds)
 
-> Consejo: Evita enlazar a Shields.io directamente en repos privados; las peticiones externas pueden exponer metadatos o fallar tras autenticación.
+> Tip: Avoid linking directly to Shields.io in private repos; external requests may expose metadata or fail after authentication.

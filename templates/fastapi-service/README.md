@@ -2,76 +2,76 @@
 
 <!-- Badges (templated) -->
 <p align="left">
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/${{values.github_organization}}/${{values.repo_name}}/ci.yml?branch=main&label=CI&logo=github" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/security/code-scanning"><img alt="CodeQL" src="https://img.shields.io/github/actions/workflow/status/${{values.github_organization}}/${{values.repo_name}}/codeql.yml?branch=main&label=CodeQL&logo=github" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/issues"><img alt="Issues" src="https://img.shields.io/github/issues/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/pulls"><img alt="PRs" src="https://img.shields.io/github/issues-pr/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/commits/main"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/${{values.github_organization}}/${{values.repo_name}}" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/network/dependencies"><img alt="Dependabot" src="https://img.shields.io/badge/Dependabot-enabled-success?logo=dependabot" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/${{values.github_organization}}/${{values.repo_name}}/ci.yml?branch=main&label=CI&logo=github" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/security/code-scanning"><img alt="CodeQL" src="https://img.shields.io/github/actions/workflow/status/${{values.github_organization}}/${{values.repo_name}}/codeql.yml?branch=main&label=CodeQL&logo=github" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/issues"><img alt="Issues" src="https://img.shields.io/github/issues/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/pulls"><img alt="PRs" src="https://img.shields.io/github/issues-pr/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/commits/main"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/${{values.github_organization}}/${{values.repo_name}}" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/network/dependencies"><img alt="Dependabot" src="https://img.shields.io/badge/Dependabot-enabled-success?logo=dependabot" /></a>
 </p>
 
-Este template permite crear un nuevo microservicio FastAPI con Python, soporte asíncrono y mejores prácticas de desarrollo.
+This template allows you to create to new FastAPI microservice with Python, asynchronous support, and development best practices.
 
-## ¿Qué incluye este template?
+## What does this template include?
 
-### Tecnologías y frameworks
-- **FastAPI** para APIs web de alto rendimiento
-- **Python 3.11+** con type hints
-- **Pydantic** para validación de datos
-- **SQLAlchemy** para ORM asíncrono
-- **Pytest** para testing
-- **Uvicorn** como servidor ASGI
-- **Poetry** para gestión de dependencias
+### Technologies and frameworks
+- **FastAPI** for high-performance web APIs
+- **Python 3.11+** with type hints
+- **Pydantic** for datto validation
+- **SQLAlchemy** for asynchronous ORM
+- **Pytest** for testing
+- **Uvicorn** as ASGI server
+- **Poetry** for dependencand management
 
-### Estructura del proyecto
-- `app/` - Código fuente de la aplicación
-  - `routers/` - Rutas y endpoints de la API
-  - `models/` - Modelos de datos SQLAlchemy
-  - `schemas/` - Esquemas Pydantic para validación
-  - `services/` - Lógica de negocio
-  - `core/` - Configuración y utilidades
-- `tests/` - Tests automatizados
-- `docs/` - Documentación técnica con MkDocs
-- `.devcontainer/` - Configuración para desarrollo en contenedores
+### Project structure
+- `app/` - Application source code
+  - `routers/` - API routes and endpoints
+  - `models/` - SQLAlchemand datto models
+  - `schemas/` - Pydantic schemas for validation
+  - `services/` - Business logic
+  - `core/` - Configuration and utilities
+- `tests/` - Automated tests
+- `docs/` - Technical documentation with MkDocs
+- `.devcontainer/` - Configuration for container development
 
-### Funcionalidades incluidas
-- **API REST** con endpoints CRUD para excursiones
-- **OpenAPI/Swagger** documentación automática
-- **Health checks** con FastAPI
-- **Logging estructurado** con Loguru
-- **Validación automática** con Pydantic
-- **Manejo de errores** con exception handlers
-- **CORS** configurado para desarrollo
-- **Rate limiting** con slowapi
-- **Database migrations** con Alembic
+### Included features
+- **REST API** with CRUD endpoints for trips/excursions
+- **OpenAPI/Swagger** automatic documentation
+- **Health checks** with FastAPI
+- **Structured logging** with Loguru
+- **Automatic validation** with Pydantic
+- **Error handling** with exception handlers
+- **CORS** configured for development
+- **Rate limiting** with slowapi
+- **Database migrations** with Alembic
 
-### DevOps y CI/CD
-- **GitHub Actions** para CI/CD
-- **Docker** multi-stage build optimizado
-- **DevContainer** para desarrollo consistente
-- **Dependabot** para actualizaciones de dependencias
-- **CodeQL** para análisis de seguridad
-- **MkDocs** para documentación técnica
-- **Poetry** para gestión reproducible de dependencias
+### DevOps and CI/CD
+- **GitHub Actions** for CI/CD
+- **Docker** optimized multi-stage build
+- **DevContainer** for consistent development
+- **Dependabot** for dependencand updates
+- **CodeQL** for securitand analysis
+- **MkDocs** for technical documentation
+- **Poetry** for reproducible dependencand management
 
-## Uso
+## Usage
 
-1. Utiliza este template desde Backstage
-2. Completa el formulario con:
-   - Nombre del proyecto (en kebab-case)
-   - Descripción del servicio
-   - Sistema al que pertenece
-   - Tier de servicio (1-3 o experimental)
-   - Equipo responsable
+1. Use this template from Backstage
+2. Complete the form with:
+   - Project name (in kebab-case)
+   - Service description
+   - System it belongs to
+   - Service tier (1-3 or experimental)
+   - Responsible team
 
-3. El template creará:
-   - Repositorio con toda la estructura FastAPI
-   - Configuración de protección de rama
-   - Pipelines de CI/CD configurados
-   - Documentación inicial
+3. The template will create:
+   - Repositorand with complete FastAPI structure
+   - Branch protection configuration
+   - Configured CI/CD pipelines
+   - Initial documentation
 
-## Estructura generada
+## Generated structure
 
 ```
 my-service/
@@ -103,37 +103,37 @@ my-service/
 └── README.md
 ```
 
-## Mejores prácticas incluidas
+## Included best practices
 
-- **Async/await** patterns para alta concurrencia
-- **Dependency injection** con FastAPI
+- **Async/await** patterns for high concurrency
+- **Dependencand injection** with FastAPI
 - **Database connection pooling**
-- **Request/Response models** con Pydantic
-- **Error handling** centralizado
-- **Security** con OAuth2/JWT preparado
-- **API versioning** estructura preparada
-- **Observability** (logs, métricas, traces)
+- **Request/Response models** with Pydantic
+- **Centralized error handling**
+- **Security** with OAuth2/JWT ready
+- **API versioning** structure prepared
+- **Observability** (logs, metrics, traces)
 - **12 Factor App** principles
 
-## Configuración de desarrollo
+## Development configuration
 
-- **Hot reload** con Uvicorn
-- **Interactive API docs** en `/docs` y `/redoc`
-- **Database migrations** con Alembic
-- **Environment variables** para configuración
-- **Docker Compose** para dependencias locales
-- **Linting** con Ruff y Black
-- **Type checking** con mypy
+- **Hot reload** with Uvicorn
+- **Interactive API docs** in `/docs` and `/redoc`
+- **Database migrations** with Alembic
+- **Environment variables** for configuration
+- **Docker Compose** for local dependencies
+- **Linting** with Ruff and Black
+- **Type checking** with mypy
 
 ## Testing
 
-- **Pytest** con fixtures async
-- **Test client** de FastAPI
-- **Database testing** con SQLite in-memory
-- **Coverage** reporting incluido
+- **Pytest** with async fixtures
+- **Test client** from FastAPI
+- **Database testing** with SQLite in-memory
+- **Coverage** reporting included
 
-## Soporte
+## Support
 
-- **Documentación**: Consulta la documentación generada en `docs/`
-- **Issues**: Reporta problemas en el repositorio del template
-- **Slack**: Canal #platform-team para soporte
+- **Documentation**: Check the generated documentation in `docs/`
+- **Issues**: Report problems in the template repository
+- **Slack**: #platform-team channthe for support

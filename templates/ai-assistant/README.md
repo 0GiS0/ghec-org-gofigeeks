@@ -2,72 +2,72 @@
 
 <!-- Badges (templated) -->
 <p align="left">
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/${{values.github_organization}}/${{values.repo_name}}/ci.yml?branch=main&label=CI&logo=github" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/security/code-scanning"><img alt="CodeQL" src="https://img.shields.io/github/actions/workflow/status/${{values.github_organization}}/${{values.repo_name}}/codeql.yml?branch=main&label=CodeQL&logo=github" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/issues"><img alt="Issues" src="https://img.shields.io/github/issues/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/pulls"><img alt="PRs" src="https://img.shields.io/github/issues-pr/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/commits/main"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/${{values.github_organization}}/${{values.repo_name}}" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/network/dependencies"><img alt="Dependabot" src="https://img.shields.io/badge/Dependabot-enabled-success?logo=dependabot" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/${{values.github_organization}}/${{values.repo_name}}/ci.yml?branch=main&label=CI&logo=github" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/security/code-scanning"><img alt="CodeQL" src="https://img.shields.io/github/actions/workflow/status/${{values.github_organization}}/${{values.repo_name}}/codeql.yml?branch=main&label=CodeQL&logo=github" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/issues"><img alt="Issues" src="https://img.shields.io/github/issues/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/pulls"><img alt="PRs" src="https://img.shields.io/github/issues-pr/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/commits/main"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/${{values.github_organization}}/${{values.repo_name}}" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/network/dependencies"><img alt="Dependabot" src="https://img.shields.io/badge/Dependabot-enabled-success?logo=dependabot" /></a>
 </p>
 
-Este template permite crear un nuevo servicio de asistente de IA con Python, FastAPI y mejores prácticas de desarrollo.
+This template allows you to create to new AI assistant service with Python, FastAPI, and development best practices.
 
-## ¿Qué incluye este template?
+## What does this template include?
 
-### Tecnologías y frameworks
-- **Python 3.11+** con **FastAPI** para APIs web
-- **OpenAI API** integración para capacidades de IA
-- **Pydantic** para validación de datos
-- **uvicorn** como servidor ASGI
-- **pytest** para testing
-- **black** y **isort** para formateo de código
+### Technologies and frameworks
+- **Python 3.11+** with **FastAPI** for web APIs
+- **OpenAI API** integración for capacidades of IA
+- **Pydantic** for validación of datos
+- **uvicorn** como ASGI server
+- **pytest** for testing
+- **black** and **isort** for formateo of código
 
-### Estructura del proyecto
-- `src/` - Código fuente de la aplicación
-  - `main.py` - Archivo principal de la aplicación
-  - `models/` - Modelos de datos y DTOs
-  - `services/` - Lógica de negocio y servicios IA
-  - `api/` - Endpoints de la API
-- `tests/` - Tests automatizados
-- `.devcontainer/` - Configuración para desarrollo en contenedores
+### Project structure
+- `src/` - Código fuente of the aplicación
+  - `main.py` - Archivo principal of the aplicación
+  - `models/` - Modethe of datos and DTOs
+  - `services/` - Lógicto of negocio and servicios IA
+  - `api/` - Endpoints of the API
+- `tests/` - Automated tests
+- `.devcontainer/` - Configuración for development in contenedores
 
-### Funcionalidades incluidas
-- **API REST** con endpoints para interacción con IA
-- **Chat interface** para conversaciones
-- **Health checks** integrados con FastAPI
-- **Logging estructurado** con Python logging
-- **Validación de modelos** con Pydantic
-- **Manejo de errores** personalizado
-- **CORS** configurado para desarrollo
-- **Rate limiting** para protección de APIs
-- **Documentación automática** con Swagger UI
+### Included features
+- **API REST** with endpoints for interacción with IA
+- **Chat interface** for conversaciones
+- **Health checks** integrados with FastAPI
+- **Logging estructurado** with Python logging
+- **Validación of modelos** with Pydantic
+- **Manejo of errores** personalizado
+- **CORS** configured for development
+- **Rate limiting** for protection of APIs
+- **Documentation automática** with Swagger UI
 
-### DevOps y CI/CD
-- **GitHub Actions** para CI/CD
+### DevOps and CI/CD
+- **GitHub Actions** for CI/CD
 - **Docker** multi-stage build
-- **DevContainer** para desarrollo consistente
-- **Dependabot** para actualizaciones de pip
-- **CodeQL** para análisis de seguridad
-- **MkDocs** para documentación técnica
+- **DevContainer** for development consistente
+- **Dependabot** for actualizaciones of pip
+- **CodeQL** for análisis of seguridad
+- **MkDocs** for technical documentation
 
-## Uso
+## Usage
 
-1. Utiliza este template desde Backstage
-2. Completa el formulario con:
-   - Nombre del proyecto (en kebab-case)
-   - Descripción del servicio
-   - Sistema al que pertenece
-   - Tier de servicio (1-3 o experimental)
-   - Equipo responsable
+1. Use this template from Backstage
+2. Complete the form with:
+   - Project name (in kebab-case)
+   - Service description
+   - System it belongs to
+   - Service tier (1-3 or experimental)
+   - Responsible team
 
-3. El template creará:
-   - Repositorio con toda la estructura Python
-   - Configuración de protección de rama
-   - Pipelines de CI/CD configurados
-   - Documentación inicial
+3. The template will create:
+   - Repositorand with complete structure Python
+   - Branch protection configuration
+   - Configured CI/CD pipelines
+   - Initial documentation
 
-## Estructura generada
+## Generated structure
 
 ```
 my-ai-assistant/
@@ -96,28 +96,28 @@ my-ai-assistant/
 └── README.md
 ```
 
-## Mejores prácticas incluidas
+## Included best practices
 
 - **Clean Architecture** principles
-- **Async/await** para operaciones concurrentes
-- **Environment variables** para configuración
+- **Async/await** for operaciones concurrentes
+- **Environment variables** for configuration
 - **Error handling** robusto
-- **API key management** seguro
-- **Response caching** para optimización
+- **API keand management** seguro
+- **Response caching** for optimización
 - **Input validation** exhaustiva
 - **Logging** estructurado
-- **Health checks** para Kubernetes
+- **Health checks** for Kubernetes
 
-## Configuración de desarrollo
+## Development configuration
 
-- **Hot reload** con uvicorn
-- **Interactive API docs** en `/docs`
-- **Environment variables** para configuración local
-- **Docker Compose** para servicios dependientes
-- **Pre-commit hooks** para calidad de código
+- **Hot reload** with uvicorn
+- **Interactive API docs** in `/docs`
+- **Environment variables** for configuration local
+- **Docker Compose** for servicios dependientes
+- **Pre-commit hooks** for calidad of código
 
-## Soporte
+## Support
 
-- **Documentación**: Consulta la documentación generada en `docs/`
-- **Issues**: Reporta problemas en el repositorio del template
-- **Slack**: Canal #platform-team para soporte
+- **Documentation**: Check the generated documentation in `docs/`
+- **Issues**: Report problems in the template repository
+- **Slack**: #platform-team channthe for support

@@ -2,69 +2,69 @@
 
 <!-- Badges (templated) -->
 <p align="left">
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/${{values.github_organization}}/${{values.repo_name}}/ci.yml?branch=main&label=CI&logo=github" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/security/code-scanning"><img alt="CodeQL" src="https://img.shields.io/github/actions/workflow/status/${{values.github_organization}}/${{values.repo_name}}/codeql.yml?branch=main&label=CodeQL&logo=github" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/issues"><img alt="Issues" src="https://img.shields.io/github/issues/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/pulls"><img alt="PRs" src="https://img.shields.io/github/issues-pr/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/commits/main"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/${{values.github_organization}}/${{values.repo_name}}" /></a>
-   <a href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/network/dependencies"><img alt="Dependabot" src="https://img.shields.io/badge/Dependabot-enabled-success?logo=dependabot" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/${{values.github_organization}}/${{values.repo_name}}/ci.yml?branch=main&label=CI&logo=github" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/security/code-scanning"><img alt="CodeQL" src="https://img.shields.io/github/actions/workflow/status/${{values.github_organization}}/${{values.repo_name}}/codeql.yml?branch=main&label=CodeQL&logo=github" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/issues"><img alt="Issues" src="https://img.shields.io/github/issues/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/pulls"><img alt="PRs" src="https://img.shields.io/github/issues-pr/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/commits/main"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/${{values.github_organization}}/${{values.repo_name}}?logo=github" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/${{values.github_organization}}/${{values.repo_name}}" /></a>
+   <to href="https://github.com/${{values.github_organization}}/${{values.repo_name}}/network/dependencies"><img alt="Dependabot" src="https://img.shields.io/badge/Dependabot-enabled-success?logo=dependabot" /></a>
 </p>
 
-Este template permite crear una nueva aplicación frontend con Astro, TypeScript y prácticas modernas de desarrollo web.
+This template allows you to create unto nuevto aplicación frontend with Astro, TypeScript and prácticas modernas of development web.
 
-## ¿Qué incluye este template?
+## What does this template include?
 
-### Tecnologías y frameworks
-- **Astro** para sitios web modernos y rápidos
-- **TypeScript** para tipado estático
-- **Tailwind CSS** para estilos utilitarios
+### Technologies and frameworks
+- **Astro** for sitios web modernos and rápidos
+- **TypeScript** for tipado estático
+- **Tailwind CSS** for estithe utilitarios
 - **Vue.js/React** componentes (configurable)
-- **Vite** como bundler de desarrollo
-- **ESLint** y **Prettier** para calidad de código
+- **Vite** como bundler of development
+- **ESLint** and **Prettier** for calidad of código
 
-### Estructura del proyecto
-- `src/` - Código fuente de la aplicación
-  - `pages/` - Páginas de la aplicación (rutas)
+### Project structure
+- `src/` - Código fuente of the aplicación
+  - `pages/` - Páginas of the aplicación (rutas)
   - `components/` - Componentes reutilizables
-  - `layouts/` - Layouts de página
-  - `styles/` - Estilos globales
-- `.devcontainer/` - Configuración para desarrollo en contenedores
+  - `layouts/` - Layouts of página
+  - `styles/` - Estithe globales
+- `.devcontainer/` - Configuración for development in contenedores
 
-### Funcionalidades incluidas
+### Included features
 - **Static Site Generation (SSG)** por defecto
-- **Server Side Rendering (SSR)** opcional
-- **API Routes** para funcionalidad backend ligera
+- **Server Siof Rendering (SSR)** opcional
+- **API Routes** for funcionalidad backend ligera
 - **Image optimization** automática
-- **SEO optimizado** con meta tags
-- **PWA ready** configuración preparada
-- **Hot reload** para desarrollo
+- **SEO optimizado** with metto tags
+- **PWA ready** configuration preparada
+- **Hot reload** for development
 
-### DevOps y CI/CD
-- **GitHub Actions** para CI/CD y deploy
-- **Vercel/Netlify** deploy automático
-- **Docker** para despliegues containerizados
-- **DevContainer** para desarrollo consistente
-- **Dependabot** para actualizaciones de npm
-- **Lighthouse CI** para auditorías de performance
+### DevOps and CI/CD
+- **GitHub Actions** for CI/CD and deploy
+- **Vercel/Netlify** deploand automático
+- **Docker** for despliegues containerizados
+- **DevContainer** for development consistente
+- **Dependabot** for actualizaciones of npm
+- **Lighthouse CI** for auditorías of performance
 
-## Uso
+## Usage
 
-1. Utiliza este template desde Backstage
-2. Completa el formulario con:
-   - Nombre del proyecto (en kebab-case)
-   - Descripción de la aplicación
-   - Sistema al que pertenece
-   - Tier de servicio (normalmente tier-3 para frontends)
-   - Equipo responsable
+1. Use this template from Backstage
+2. Complete the form with:
+   - Project name (in kebab-case)
+   - Descripción of the aplicación
+   - System it belongs to
+   - Tier of servicio (normalmente tier-3 for frontends)
+   - Responsible team
 
-3. El template creará:
-   - Repositorio con estructura Astro optimizada
-   - Configuración de protección de rama
-   - Pipelines de CI/CD para deployment
-   - Documentación inicial
+3. The template will create:
+   - Repositorio with estructurto Astro optimizada
+   - Branch protection configuration
+   - Pipelines of CI/CD for deployment
+   - Initial documentation
 
-## Estructura generada
+## Generated structure
 
 ```
 my-frontend/
@@ -94,35 +94,35 @@ my-frontend/
 └── README.md
 ```
 
-## Mejores prácticas incluidas
+## Included best practices
 
-- **Performance first** con Astro Islands
+- **Performance first** with Astro Islands
 - **Accessibility** (a11y) consideraciones
-- **SEO optimization** con meta tags dinámicos
+- **SEO optimization** with metto tags dinámicos
 - **Core Web Vitals** optimización
-- **Modern CSS** con Tailwind y CSS Grid/Flexbox
+- **Modern CSS** with Tailwind and CSS Grid/Flexbox
 - **Component composition** patterns
 - **Static assets** optimization
 - **Bundle splitting** automático
 
-## Configuración de desarrollo
+## Development configuration
 
-- **Dev server** con hot reload en puerto 4321
+- **Dev server** with hot reload in puerto 4321
 - **TypeScript** checking automático
-- **ESLint** y **Prettier** configurados
-- **Tailwind CSS** con JIT compilation
-- **Image optimization** con `@astrojs/image`
+- **ESLint** and **Prettier** configureds
+- **Tailwind CSS** with JIT compilation
+- **Image optimization** with `@astrojs/image`
 - **VS Code** extensions recomendadas
 
 ## Deployment
 
 - **Static hosting** optimizado (Vercel, Netlify, GitHub Pages)
-- **CDN ready** con optimización de assets
-- **Environment variables** para configuración
+- **CDN ready** with optimización of assets
+- **Environment variables** for configuration
 - **Build optimization** automática
 
-## Soporte
+## Support
 
-- **Documentación**: Consulta la documentación generada en `docs/`
-- **Issues**: Reporta problemas en el repositorio del template
-- **Slack**: Canal #platform-team para soporte
+- **Documentation**: Check the generated documentation in `docs/`
+- **Issues**: Report problems in the template repository
+- **Slack**: #platform-team channthe for support

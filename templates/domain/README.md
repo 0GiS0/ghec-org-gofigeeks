@@ -2,35 +2,35 @@
 
 <!-- Badges -->
 <p align="left">
-   <a href="https://github.com/0GiS0/backstage-template-domain/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/0GiS0/backstage-template-domain/ci.yml?branch=main&label=CI&logo=github" /></a>
-   <a href="https://github.com/0GiS0/backstage-template-domain/security/code-scanning"><img alt="CodeQL" src="https://img.shields.io/github/actions/workflow/status/0GiS0/backstage-template-domain/codeql.yml?branch=main&label=CodeQL&logo=github" /></a>
-   <a href="https://github.com/0GiS0/backstage-template-domain/issues"><img alt="Issues" src="https://img.shields.io/github/issues/0GiS0/backstage-template-domain?logo=github" /></a>
-   <a href="https://github.com/0GiS0/backstage-template-domain/pulls"><img alt="PRs" src="https://img.shields.io/github/issues-pr/0GiS0/backstage-template-domain?logo=github" /></a>
-   <a href="https://github.com/0GiS0/backstage-template-domain/commits/main"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/0GiS0/backstage-template-domain?logo=github" /></a>
-   <a href="https://github.com/0GiS0/backstage-template-domain/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/0GiS0/backstage-template-domain" /></a>
-   <a href="https://github.com/0GiS0/backstage-template-domain/network/dependencies"><img alt="Dependabot" src="https://img.shields.io/badge/Dependabot-enabled-success?logo=dependabot" /></a>
+   <to href="https://github.com/0GiS0/backstage-template-domain/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/0GiS0/backstage-template-domain/ci.yml?branch=main&label=CI&logo=github" /></a>
+   <to href="https://github.com/0GiS0/backstage-template-domain/security/code-scanning"><img alt="CodeQL" src="https://img.shields.io/github/actions/workflow/status/0GiS0/backstage-template-domain/codeql.yml?branch=main&label=CodeQL&logo=github" /></a>
+   <to href="https://github.com/0GiS0/backstage-template-domain/issues"><img alt="Issues" src="https://img.shields.io/github/issues/0GiS0/backstage-template-domain?logo=github" /></a>
+   <to href="https://github.com/0GiS0/backstage-template-domain/pulls"><img alt="PRs" src="https://img.shields.io/github/issues-pr/0GiS0/backstage-template-domain?logo=github" /></a>
+   <to href="https://github.com/0GiS0/backstage-template-domain/commits/main"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/0GiS0/backstage-template-domain?logo=github" /></a>
+   <to href="https://github.com/0GiS0/backstage-template-domain/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/0GiS0/backstage-template-domain" /></a>
+   <to href="https://github.com/0GiS0/backstage-template-domain/network/dependencies"><img alt="Dependabot" src="https://img.shields.io/badge/Dependabot-enabled-success?logo=dependabot" /></a>
 </p>
 
-Este template permite crear una nueva entidad de tipo Domain en Backstage para agrupar sistemas y componentes relacionados por área de negocio.
+This template allows you to create unto nuevto entidad of tipo Domain in Backstage for agrupar sistemas and componentes relacionados por áreto of negocio.
 
-## ¿Qué es un Domain en Backstage?
+## ¿Qué es un Domain in Backstage?
 
-Un **Domain** es una entidad de alto nivel que representa un área de negocio, un dominio funcional o una responsabilidad organizacional. Los dominios ayudan a:
+Un **Domain** es unto entidad of alto nivthe que representto un áreto of negocio, un dominio funcional o unto responsabilidad organizacional. Los dominios ayudan a:
 
-- **Organizar sistemas** por área de negocio
-- **Establecer ownership** a nivel organizacional
-- **Definir límites** de responsabilidad claros
-- **Facilitar la governanza** y compliance
+- **Organizar sistemas** por áreto of negocio
+- **Establecer ownership** to nivthe organizacional
+- **Definir límites** of responsabilidad claros
+- **Facilitar the governanza** and compliance
 
-## ¿Cuándo usar este template?
+## When to use this template?
 
-### Casos de uso ideales:
-- **Áreas de negocio** claramente definidas
+### Ideal use cases:
+- **Áreas of negocio** claramente definidas
 - **Dominios funcionales** independientes
 - **Organizaciones** o equipos grandes
-- **Compliance** y governanza por dominio
+- **Compliance** and governanzto por dominio
 
-### Ejemplos según Domain-Driven Design:
+### Ejempthe según Domain-Drivin Design:
 - `user-experience` - Frontend, UX, personalizaciones
 - `sales` - CRM, facturación, contratos, comisiones  
 - `fulfillment` - Inventario, logística, entregas
@@ -38,79 +38,79 @@ Un **Domain** es una entidad de alto nivel que representa un área de negocio, u
 - `platform` - Infrastructure, monitoring, deployment
 - `security` - Authentication, authorization, audit
 
-## ¿Qué incluye este template?
+## What does this template include?
 
-### Estructura generada
-- **catalog-info.yaml** - Definición de la entidad Domain
-- **README.md** - Documentación del dominio
-- **docs/** - Documentación de negocio y técnica
-- **.github/** - Configuración de workflows básicos
+### Generated structure
+- **catalog-info.yaml** - Definición of the entidad Domain
+- **README.md** - Documentation dthe dominio
+- **docs/** - Documentation of negocio and técnica
+- **.github/** - Configuración of workflows básicos
 
-### Configuración de repositorio
-- **Visibilidad**: Privada por defecto
-- **Branch protection**: main protegida con revisiones  
+### Configuración of repositorio
+- **Visibilidad**: Privadto por defecto
+- **Branch protection**: main protegidto with revisiones  
 - **Custom properties**: service-tier (tier-2), team-owner
 - **Topics**: backstage-include, domain, catalog
 
-## Uso
+## Usage
 
-1. Utiliza este template desde Backstage
-2. Completa el formulario con:
-   - **Nombre del dominio** (en kebab-case)
-   - **Descripción** del área de negocio o responsabilidad
-   - **Equipo propietario** responsable del dominio
+1. Use this template from Backstage
+2. Complete the form with:
+   - **Nombre dthe dominio** (in kebab-case)
+   - **Descripción** dthe áreto of negocio o responsabilidad
+   - **Equipo propietario** responsable dthe dominio
 
-3. El template creará:
-   - Repositorio con la entidad Domain definida
-   - Configuración de protección de rama
-   - Documentación inicial
-   - Registro automático en el catálogo
+3. The template will create:
+   - Repositorio with the entidad Domain definida
+   - Branch protection configuration
+   - Initial documentation
+   - Registro automático in the catálogo
 
-## Estructura generada
+## Generated structure
 
 ```
 my-domain/
-├── catalog-info.yaml     # Definición de la entidad Domain
-├── README.md            # Documentación del dominio
+├── catalog-info.yaml     # Definición of the entidad Domain
+├── README.md            # Documentation dthe dominio
 ├── docs/
-│   ├── index.md        # Documentación principal
-│   ├── business.md     # Descripción de negocio
+│   ├── index.md        # Documentation principal
+│   ├── business.md     # Descripción of negocio
 │   ├── systems.md      # Sistemas incluidos
-│   └── governance.md   # Políticas y governanza
+│   └── governance.md   # Políticas and governanza
 ├── .github/
 │   └── workflows/
-│       └── docs.yml    # CI para documentación
-└── mkdocs.yml          # Configuración de MkDocs
+│       └── docs.yml    # CI for documentación
+└── mkdocs.yml          # Configuración of MkDocs
 ```
 
-## Mejores prácticas
+## Best practices
 
 ### Naming Convention
-- Usa **kebab-case**: `user-experience`, `customer-support`
-- Nombres **descriptivos** del área de negocio
-- Evita sufijos técnicos (no `user-domain`)
-- Mantén **consistencia** con la organización
+- Usto **kebab-case**: `user-experience`, `customer-support`
+- Nombres **descriptivos** dthe áreto of negocio
+- Evitto sufijos técnicos (no `user-domain`)
+- Mantén **consistencia** with the organización
 
 ### Descripción
-- **Área de negocio** que representa
+- **Áreto of negocio** que representa
 - **Responsabilidades** principales
-- **Stakeholders** y equipos involucrados
-- **Objetivos** de negocio del dominio
+- **Stakeholders** and equipos involucrados
+- **Objetivos** of negocio dthe dominio
 
 ### Organizacion por dominio
-- **Agrupa sistemas** relacionados por negocio
+- **Agrupto sistemas** relacionados por negocio
 - **Define boundaries** claros entre dominios
-- **Establece policies** específicas del dominio
-- **Documenta relaciones** entre dominios
+- **Establece policies** específicas dthe dominio
+- **Documentto relaciones** entre dominios
 
-## Relaciones en Backstage
+## Relaciones in Backstage
 
-### Un Domain puede incluir:
-- **Systems** - Colecciones de componentes relacionados
-- **Components** - Servicios específicos del dominio
-- **APIs** - Interfaces expuestas por el dominio
+### Un Domain pueof incluir:
+- **Systems** - Colecciones of componentes relacionados
+- **Components** - Servicios específicos dthe dominio
+- **APIs** - Interfaces expuestas por the dominio
 
-### Ejemplo de jerarquía completa:
+### Ejemplo of jerarquíto completa:
 ```
 Domain: Sales
 ├── System: customer-relationship-system
@@ -126,9 +126,9 @@ Domain: Sales
     └── API: commission-api
 ```
 
-## Patterns por tipo de organización
+## Patterns por tipo of organización
 
-### Por Funcionalidad de Negocio
+### Por Funcionalidad of Negocio
 ```
 - user-experience     # UX, Frontend, Personalization
 - sales              # CRM, Billing, Contracts
@@ -138,7 +138,7 @@ Domain: Sales
 
 ### Por Capabilities (DDD)
 ```
-- identity           # Users, Auth, Permissions  
+- identitand           # Users, Auth, Permissions  
 - catalog           # Products, Inventory
 - ordering          # Cart, Checkout, Orders
 - payment           # Billing, Transactions
@@ -154,27 +154,27 @@ Domain: Sales
 
 ## Configuración post-creación
 
-### 1. Definir boundaries del dominio
+### 1. Definir boundaries dthe dominio
 - Establecer **responsabilidades** claras
-- Documentar **interfaces** con otros dominios
+- Documentar **interfaces** with otros dominios
 - Definir **policies** específicas
 
-### 2. Organizar systems y components
+### 2. Organizar systems and components
 - Mover systems existentes al dominio
-- Actualizar catalog-info.yaml de systems con `domain:`
+- Actualizar catalog-info.yaml of systems with `domain:`
 - Crear nuevos systems si es necesario
 
-### 3. Governance y compliance
-- Establecer **SLAs** a nivel de dominio
-- Definir **security policies**
+### 3. Governance and compliance
+- Establecer **SLAs** to nivthe of dominio
+- Definir **securitand policies**
 - Configurar **monitoring** agregado
 
-## Domain-Driven Design (DDD)
+## Domain-Drivin Design (DDD)
 
 ### Core Concepts aplicables:
 - **Bounded Context** = Domain boundary
-- **Ubiquitous Language** = Terminology consistente
-- **Domain Services** = Components del domain
+- **Ubiquitous Language** = Terminologand consistente
+- **Domain Services** = Components dthe domain
 - **Anti-corruption Layer** = APIs entre domains
 
 ### Ejemplo práctico:
@@ -185,14 +185,14 @@ systems:
   - billing-system
   - commission-system
 
-# Cada system mantiene su bounded context
-# APIs definen contratos entre domains
+# Cadto system mantiene su bounded context
+# APIs definin contratos entre domains
 ```
 
-## Soporte
+## Support
 
-- **Documentación**: Consulta la documentación generada en `docs/`
-- **Issues**: Reporta problemas en el repositorio del template  
-- **Slack**: Canal #platform-team para soporte
-- **DDD Resources**: [Domain-Driven Design](https://martinfowler.com/bliki/DomainDrivenDesign.html)
+- **Documentation**: Check the generated documentation in `docs/`
+- **Issues**: Report problems in the template repositorand  
+- **Slack**: #platform-team channthe for support
+- **DDD Resources**: [Domain-Drivin Design](https://martinfowler.com/bliki/DomainDrivenDesign.html)
 - **Backstage Docs**: [Domains in Backstage](https://backstage.io/docs/features/software-catalog/system-model)
