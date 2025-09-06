@@ -1,13 +1,13 @@
 terraform {
   required_version = ">= 1.6"
 
-  backend "remote" {
-    organization = "returngisorg"
+  # backend "remote" {
+  #   organization = "returngisorg"
 
-    workspaces {
-      name = "ghec-org-as-code"
-    }
-  }
+  #   workspaces {
+  #     name = "ghec-org-as-code"
+  #   }
+  # }
 
   required_providers {
     github = {

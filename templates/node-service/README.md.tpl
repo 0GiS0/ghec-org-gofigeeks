@@ -1,5 +1,7 @@
 # Node.js Service Template
 
+[![Template CI/CD](https://github.com/${github_organization}/${repository_name}/actions/workflows/ci-template.yml/badge.svg)](https://github.com/${github_organization}/${repository_name}/actions/workflows/ci-template.yml)
+
 Este template permite crear un nuevo microservicio Node.js con TypeScript, Express y mejores prácticas de desarrollo.
 
 ## ¿Qué incluye este template?
@@ -102,3 +104,23 @@ my-service/
 - **Documentación**: Consulta la documentación generada en `docs/`
 - **Issues**: Reporta problemas en el repositorio del template
 - **Slack**: Canal #platform-team para soporte
+
+### Static Badges Regeneration
+
+El workflow `Generate Badges` actualiza los SVG en `badges/` cuando:
+
+- Se hace push a `main`
+- Se crea/edita/cierra/reabre/elimina un issue
+- Finaliza el workflow de CI `Template CI/CD`
+- Se ejecuta manualmente (workflow_dispatch)
+
+Si añades nuevos badges:
+1. Edita `.github/workflows/generate_badges.yml` y genera un nuevo archivo SVG (ej: `coverage.svg`).
+2. Añade la referencia en este README: `![Coverage](./badges/coverage.svg)`.
+3. Dispara el workflow manualmente para generarlo.
+
+Los badges existentes:
+- `ci-status.svg`: Última conclusión del workflow CI (success, failure, running...)
+- `issues-open.svg`: Número actual de issues abiertos (colores por umbrales)
+
+> Consejo: Evita enlazar a Shields.io directamente en repos privados; las peticiones externas pueden exponer metadatos o fallar tras autenticación.

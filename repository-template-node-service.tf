@@ -48,10 +48,7 @@ locals {
 
   # Explicit template-level (non-skeleton) regular files
   node_service_template_level_files = local.node_service_enabled ? {
-    "README.md" = {
-      source_file    = "${path.module}/templates/node-service/README.md"
-      commit_message = "Sync Node.js service template README"
-    }
+    # README now templated via templatefile (see node_service_template_files merge)
     "docs/index.md" = {
       source_file    = "${path.module}/templates/node-service/docs/index.md"
       commit_message = "Sync Node.js service template docs index"
@@ -87,6 +84,16 @@ locals {
         use_templatefile = true
         template_vars = {
           github_organization = var.github_organization
+        }
+      }
+
+      "README.md" = {
+        source_file      = "${path.module}/templates/node-service/README.md.tpl"
+        commit_message   = "Add templated Node.js service README with dynamic badges"
+        use_templatefile = true
+        template_vars = {
+          github_organization = var.github_organization
+          repository_name     = github_repository.templates[local.node_service_key].name
         }
       }
     },

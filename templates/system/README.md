@@ -1,5 +1,16 @@
 # System Template
 
+<!-- Badges -->
+<p align="left">
+   <a href="https://github.com/0GiS0/backstage-template-system/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/0GiS0/backstage-template-system/ci.yml?branch=main&label=CI&logo=github" /></a>
+   <a href="https://github.com/0GiS0/backstage-template-system/security/code-scanning"><img alt="CodeQL" src="https://img.shields.io/github/actions/workflow/status/0GiS0/backstage-template-system/codeql.yml?branch=main&label=CodeQL&logo=github" /></a>
+   <a href="https://github.com/0GiS0/backstage-template-system/issues"><img alt="Issues" src="https://img.shields.io/github/issues/0GiS0/backstage-template-system?logo=github" /></a>
+   <a href="https://github.com/0GiS0/backstage-template-system/pulls"><img alt="PRs" src="https://img.shields.io/github/issues-pr/0GiS0/backstage-template-system?logo=github" /></a>
+   <a href="https://github.com/0GiS0/backstage-template-system/commits/main"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/0GiS0/backstage-template-system?logo=github" /></a>
+   <a href="https://github.com/0GiS0/backstage-template-system/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/0GiS0/backstage-template-system" /></a>
+   <a href="https://github.com/0GiS0/backstage-template-system/network/dependencies"><img alt="Dependabot" src="https://img.shields.io/badge/Dependabot-enabled-success?logo=dependabot" /></a>
+</p>
+
 Este template permite crear una nueva entidad de tipo System en Backstage para organizar componentes y recursos relacionados.
 
 ## ¿Qué es un System en Backstage?

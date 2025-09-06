@@ -1,5 +1,16 @@
 # Domain Template
 
+<!-- Badges -->
+<p align="left">
+   <a href="https://github.com/0GiS0/backstage-template-domain/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/0GiS0/backstage-template-domain/ci.yml?branch=main&label=CI&logo=github" /></a>
+   <a href="https://github.com/0GiS0/backstage-template-domain/security/code-scanning"><img alt="CodeQL" src="https://img.shields.io/github/actions/workflow/status/0GiS0/backstage-template-domain/codeql.yml?branch=main&label=CodeQL&logo=github" /></a>
+   <a href="https://github.com/0GiS0/backstage-template-domain/issues"><img alt="Issues" src="https://img.shields.io/github/issues/0GiS0/backstage-template-domain?logo=github" /></a>
+   <a href="https://github.com/0GiS0/backstage-template-domain/pulls"><img alt="PRs" src="https://img.shields.io/github/issues-pr/0GiS0/backstage-template-domain?logo=github" /></a>
+   <a href="https://github.com/0GiS0/backstage-template-domain/commits/main"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/0GiS0/backstage-template-domain?logo=github" /></a>
+   <a href="https://github.com/0GiS0/backstage-template-domain/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/0GiS0/backstage-template-domain" /></a>
+   <a href="https://github.com/0GiS0/backstage-template-domain/network/dependencies"><img alt="Dependabot" src="https://img.shields.io/badge/Dependabot-enabled-success?logo=dependabot" /></a>
+</p>
+
 Este template permite crear una nueva entidad de tipo Domain en Backstage para agrupar sistemas y componentes relacionados por área de negocio.
 
 ## ¿Qué es un Domain en Backstage?

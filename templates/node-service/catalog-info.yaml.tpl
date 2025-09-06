@@ -120,82 +120,43 @@ spec:
           serviceTier: $${{ parameters.serviceTier }}
           teamOwner: $${{ parameters.teamOwner }}
           system: $${{ parameters.system }}
-
-    - id: Replace entity name in package.json
-      name: 🔄 Replace BACKSTAGE_ENTITY_NAME in package.json
+    - id: replace-placeholders
+      name: 🔄 Replace placeholders
       action: roadiehq:utils:fs:replace
       input:
         files:
+          # package.json
           - file: "./package.json"
             find: "BACKSTAGE_ENTITY_NAME"
             replaceWith: $${{ parameters.name | replace("-", "_") }}
-
-    - id: Replace entity name in package-lock.json
-      name: 🔄 Replace BACKSTAGE_ENTITY_NAME in package-lock.json
-      action: roadiehq:utils:fs:replace
-      input:
-        files:
-          - file: "./package-lock.json"
-            find: "BACKSTAGE_ENTITY_NAME"
-            replaceWith: $${{ parameters.name | replace("-", "_") }}
-
-
-    - id: Replace description in package.json
-      name: 🔄 Replace BACKSTAGE_ENTITY_DESCRIPTION in package.json
-      action: roadiehq:utils:fs:replace
-      input:
-        files:
           - file: "./package.json"
             find: "BACKSTAGE_ENTITY_DESCRIPTION"
             replaceWith: $${{ parameters.description }}
-
-    - id: Replace BACKSTAGE_AUTHOR in package.json
-      name: 🔄 Replace author in package.json
-      action: roadiehq:utils:fs:replace
-      input:
-        files:
           - file: "./package.json"
             find: "BACKSTAGE_AUTHOR"
             replaceWith: $${{ parameters.owner }}
-
-    - id: Replace BACKSTAGE_REPO_URL in package.json
-      name: 🔄 Replace URL in package.json
-      action: roadiehq:utils:fs:replace
-      input:
-        files:
           - file: "./package.json"
             find: "BACKSTAGE_REPO_URL"
             replaceWith: $${{ parameters.repoUrl }}
-
-    - id: Replace_indexjs
-      name: 🔄 Replace BACKSTAGE_ENTITY_NAME in index.js
-      action: roadiehq:utils:fs:replace
-      input:
-        files:
+          # package-lock.json
+          - file: "./package-lock.json"
+            find: "BACKSTAGE_ENTITY_NAME"
+            replaceWith: $${{ parameters.name | replace("-", "_") }}
+          # index.js
           - file: "./src/index.js"
             find: "BACKSTAGE_ENTITY_NAME"
             replaceWith: $${{ parameters.name }}
-
-    - id: Replace_mkdocs
-      name: 🔄 Replace BACKSTAGE_ENTITY_NAME in mkdocs.yml
-      action: roadiehq:utils:fs:replace
-      input:
-        files:
+          # mkdocs.yml
           - file: "./mkdocs.yml"
             find: "BACKSTAGE_ENTITY_NAME"
             replaceWith: $${{ parameters.name }}
           - file: "./mkdocs.yml"
             find: "BACKSTAGE_REPO_URL"
             replaceWith: $${{ parameters.repoUrl }}
-
-    - id: Replace_in_tests
-      name: 🔄 Replace BACKSTAGE_ENTITY_NAME in tests
-      action: roadiehq:utils:fs:replace
-      input:
-        files:
+          # tests
           - file: "./tests/**/*.js"
             find: "BACKSTAGE_ENTITY_NAME"
-            replaceWith: $${{ parameters.name }}    
+            replaceWith: $${{ parameters.name }}
 
     - id: publish
       name: 🚀 Publish to GitHub
