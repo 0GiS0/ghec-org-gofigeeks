@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using ${{values.name}}.Models;
+using BACKSTAGE_ENTITY_NAME.Models;
 
-namespace ${{values.name}}.Controllers;
+namespace BACKSTAGE_ENTITY_NAME.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -53,7 +53,7 @@ public class ExcursionsController : ControllerBase
     public ActionResult<Excursion> GetExcursionById(int id)
     {
         _logger.LogInformation("Getting excursion with id: {Id}", id);
-        
+
         var excursion = _excursions.FirstOrDefault(e => e.Id == id);
         if (excursion == null)
         {
@@ -108,7 +108,7 @@ public class ExcursionsController : ControllerBase
         };
 
         _excursions.Add(newExcursion);
-        
+
         _logger.LogInformation("Created excursion with id: {Id}", newExcursion.Id);
         return CreatedAtAction(nameof(GetExcursionById), new { id = newExcursion.Id }, newExcursion);
     }
@@ -175,7 +175,7 @@ public class ExcursionsController : ControllerBase
         }
 
         _excursions.Remove(excursion);
-        
+
         _logger.LogInformation("Deleted excursion with id: {Id}", id);
         return NoContent();
     }

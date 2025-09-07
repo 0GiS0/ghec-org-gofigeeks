@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using ${{values.name}}.Models;
+using BACKSTAGE_ENTITY_NAME.Models;
 
-namespace ${{values.name}}.Controllers;
+namespace BACKSTAGE_ENTITY_NAME.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -18,7 +18,7 @@ public class HelloController : ControllerBase
     public ActionResult<HelloResponse> Get()
     {
         _logger.LogInformation("Hello endpoint called");
-        
+
         return Ok(new HelloResponse
         {
             Message = "Hello from ${{values.name}}!",

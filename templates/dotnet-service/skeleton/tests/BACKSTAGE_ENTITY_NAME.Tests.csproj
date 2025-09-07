@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../src/${{values.name | replace("-", "_")}}.csproj" />
+    <ProjectReference Include="../src/BACKSTAGE_ENTITY_NAME.csproj" />
   </ItemGroup>
 
 </Project>

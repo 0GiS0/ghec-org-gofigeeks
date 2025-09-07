@@ -4,8 +4,9 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyName>${{values.name | replace("-", "_")}}</AssemblyName>
-    <RootNamespace>${{values.name | replace("-", "_")}}</RootNamespace>
+    <AssemblyName>BACKSTAGE_ENTITY_NAME</AssemblyName>
+    <RootNamespace>BACKSTAGE_ENTITY_NAME</RootNamespace>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,4 +1,4 @@
-namespace ${{values.name | replace("-", "_")}}.Models;
+namespace BACKSTAGE_ENTITY_NAME.Models;
 
 public class HealthResponse
 {

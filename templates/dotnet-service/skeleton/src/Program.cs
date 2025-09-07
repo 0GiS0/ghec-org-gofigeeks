@@ -7,9 +7,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo 
-    { 
-        Title = "${{values.name}}", 
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "${{values.name}}",
         Version = "v1",
         Description = "${{values.description}}"
     });
@@ -37,7 +37,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "$${{values.name}} v1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "BACKSTAGE_ENTITY_NAME v1");
         c.RoutePrefix = "docs";
     });
 }
@@ -53,10 +53,13 @@ app.MapHealthChecks("/health");
 // Root endpoint
 app.MapGet("/", () => new
 {
-    Service = "${{values.name}}",
-    Message = "Welcome to ${{values.name}} API",
+    Service = "BACKSTAGE_ENTITY_NAME",
+    Message = "Welcome to BACKSTAGE_ENTITY_NAME API",
     Docs = "/docs",
     Health = "/health"
 });
 
 app.Run();
+
+// Make the implicit Program class public so test projects can access it
+public partial class Program { }

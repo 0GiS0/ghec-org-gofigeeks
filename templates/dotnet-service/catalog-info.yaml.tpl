@@ -121,6 +121,62 @@ spec:
           teamOwner: $${{ parameters.teamOwner }}
           system: $${{ parameters.system }}
 
+    - id: replace-placeholders
+      name: 🔄 Replace placeholders in content
+      action: roadiehq:utils:fs:replace
+      input:
+        files:
+          # Solution file
+          - file: "./BACKSTAGE_ENTITY_NAME.sln"
+            find: "BACKSTAGE_ENTITY_NAME"
+            replaceWith: $${{ parameters.name | replace("-", "_") }}
+          # Main project file
+          - file: "./src/BACKSTAGE_ENTITY_NAME.csproj"
+            find: "BACKSTAGE_ENTITY_NAME"
+            replaceWith: $${{ parameters.name | replace("-", "_") }}
+          # Test project file
+          - file: "./tests/BACKSTAGE_ENTITY_NAME.Tests.csproj"
+            find: "BACKSTAGE_ENTITY_NAME"
+            replaceWith: $${{ parameters.name | replace("-", "_") }}
+          # Program.cs
+          - file: "./src/Program.cs"
+            find: "BACKSTAGE_ENTITY_NAME"
+            replaceWith: $${{ parameters.name | replace("-", "_") }}
+          # Controllers
+          - file: "./src/Controllers/*.cs"
+            find: "BACKSTAGE_ENTITY_NAME"
+            replaceWith: $${{ parameters.name | replace("-", "_") }}
+          # Models
+          - file: "./src/Models/*.cs"
+            find: "BACKSTAGE_ENTITY_NAME"
+            replaceWith: $${{ parameters.name | replace("-", "_") }}
+          # Test files
+          - file: "./tests/*.cs"
+            find: "BACKSTAGE_ENTITY_NAME"
+            replaceWith: $${{ parameters.name | replace("-", "_") }}
+          # DevContainer
+          - file: "./.devcontainer/devcontainer.json"
+            find: "BACKSTAGE_ENTITY_NAME"
+            replaceWith: $${{ parameters.name | replace("-", "_") }}
+          - file: "./README.md"
+            find: "BACKSTAGE_ENTITY_NAME"
+            replaceWith: $${{ parameters.name | replace("-", "_") }}
+
+    - id: rename-files
+      name: 📝 Rename template files
+      action: fs:rename
+      input:
+        files:
+          # Rename solution file
+          - from: ./BACKSTAGE_ENTITY_NAME.sln
+            to: ./$${{ parameters.name | replace("-", "_") }}.sln
+          # Rename main project file
+          - from: ./src/BACKSTAGE_ENTITY_NAME.csproj
+            to: ./src/$${{ parameters.name | replace("-", "_") }}.csproj
+          # Rename test project file
+          - from: ./tests/BACKSTAGE_ENTITY_NAME.Tests.csproj
+            to: ./tests/$${{ parameters.name | replace("-", "_") }}.Tests.csproj
+
     - id: publish
       name: 🚀 Publish to GitHub
       action: publish:github

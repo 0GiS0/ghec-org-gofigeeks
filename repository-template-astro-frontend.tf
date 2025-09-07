@@ -13,8 +13,8 @@ resource "github_repository_file" "astro_frontend_gitignore" {
   file                = "skeleton/.gitignore"
   content             = file("${path.module}/templates/astro-frontend/.gitignore.tpl")
   commit_message      = "Add Astro frontend skeleton .gitignore"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -32,8 +32,8 @@ resource "github_repository_file" "astro_frontend_package" {
   file                = "skeleton/package.json"
   content             = file("${path.module}/templates/astro-frontend/skeleton/package.json.tpl")
   commit_message      = "Add Astro frontend skeleton package.json"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -51,8 +51,8 @@ resource "github_repository_file" "astro_frontend_config" {
   file                = "skeleton/astro.config.mjs"
   content             = file("${path.module}/templates/astro-frontend/skeleton/astro.config.mjs.tpl")
   commit_message      = "Add Astro frontend skeleton configuration"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -70,8 +70,8 @@ resource "github_repository_file" "astro_frontend_readme" {
   file                = "skeleton/README.md"
   content             = file("${path.module}/templates/astro-frontend/skeleton/README.md.tpl")
   commit_message      = "Add Astro frontend skeleton README"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -89,8 +89,8 @@ resource "github_repository_file" "astro_frontend_api_tests" {
   file                = "skeleton/api-tests.http"
   content             = file("${path.module}/templates/astro-frontend/skeleton/api-tests.http.tpl")
   commit_message      = "Add Astro frontend skeleton API tests"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -108,8 +108,8 @@ resource "github_repository_file" "astro_frontend_devcontainer" {
   file                = "skeleton/.devcontainer/devcontainer.json"
   content             = file("${path.module}/templates/astro-frontend/skeleton/.devcontainer/devcontainer.json.tpl")
   commit_message      = "Add Astro Frontend devcontainer configuration"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -127,8 +127,8 @@ resource "github_repository_file" "astro_frontend_dependabot" {
   file                = ".github/dependabot.yml"
   content             = file("${path.module}/templates/astro-frontend/skeleton/.github/dependabot.yml")
   commit_message      = "Add Dependabot configuration for npm dependencies"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -151,8 +151,8 @@ resource "github_repository_file" "astro_frontend_template_catalog" {
     }
   )
   commit_message      = "Add Astro frontend template catalog-info.yaml for Backstage"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -170,8 +170,8 @@ resource "github_repository_file" "astro_frontend_skeleton_catalog" {
   file                = "skeleton/catalog-info.yaml"
   content             = file("${path.module}/templates/astro-frontend/skeleton/catalog-info.yaml")
   commit_message      = "Add Astro frontend skeleton catalog-info.yaml"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -189,8 +189,8 @@ resource "github_repository_file" "astro_frontend_template_readme" {
   file                = "README.md"
   content             = file("${path.module}/templates/astro-frontend/README.md")
   commit_message      = "Add Astro frontend template documentation"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -208,8 +208,8 @@ resource "github_repository_file" "astro_frontend_docs_index" {
   file                = "docs/index.md"
   content             = file("${path.module}/templates/astro-frontend/docs/index.md")
   commit_message      = "Add Astro frontend template documentation index"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -227,8 +227,8 @@ resource "github_repository_file" "astro_frontend_docs_usage" {
   file                = "docs/template-usage.md"
   content             = file("${path.module}/templates/astro-frontend/docs/template-usage.md")
   commit_message      = "Add Astro frontend template usage guide"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -246,8 +246,8 @@ resource "github_repository_file" "astro_frontend_mkdocs" {
   file                = "mkdocs.yml"
   content             = file("${path.module}/templates/astro-frontend/mkdocs.yml")
   commit_message      = "Add Astro frontend template mkdocs configuration"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]

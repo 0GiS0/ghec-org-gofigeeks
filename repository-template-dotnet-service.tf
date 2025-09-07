@@ -1,364 +1,128 @@
 # .NET Service Template Repository Files
 # This file contains all file resources specific to the .NET Service template
 
-# .gitignore file
-resource "github_repository_file" "dotnet_service_gitignore" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-dotnet-service"
-  }
+locals {
+  # Template-specific configuration
+  dotnet_service_key     = "backstage-template-dotnet-service"
+  dotnet_service_enabled = contains(keys(var.template_repositories), local.dotnet_service_key)
 
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/.gitignore"
-  content             = file("${path.module}/templates/dotnet-service/skeleton/.gitignore.tpl")
-  commit_message      = "Add .NET service skeleton .gitignore"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
-  overwrite_on_create = true
+  # Dynamically list all skeleton files (fileset returns files only)
+  dotnet_service_skeleton_all = local.dotnet_service_enabled ? fileset(path.module, "templates/dotnet-service/skeleton/**") : []
 
-  depends_on = [github_repository.templates]
-}
+  # Exclude unwanted directories (bin, obj, etc.) to avoid committing build artifacts
+  dotnet_service_skeleton_all_filtered = [
+    for f in local.dotnet_service_skeleton_all : f
+    if length(regexall("/bin/", f)) == 0
+    && length(regexall("/obj/", f)) == 0
+    && length(regexall("/\\.vs/", f)) == 0
+    && length(regexall("/Debug/", f)) == 0
+    && length(regexall("/Release/", f)) == 0
+    && !endswith(f, ".user")
+    && !endswith(f, ".suo")
+    && !endswith(f, ".cache")
+  ]
 
-# Main program file
-resource "github_repository_file" "dotnet_service_program" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-dotnet-service"
-  }
+  # Separate template (.tpl) files vs regular files (after filtering)
+  dotnet_service_skeleton_template_raw = [for f in local.dotnet_service_skeleton_all_filtered : f if endswith(f, ".tpl")]
+  dotnet_service_skeleton_regular_raw  = [for f in local.dotnet_service_skeleton_all_filtered : f if !endswith(f, ".tpl")]
 
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/src/Program.cs"
-  content             = file("${path.module}/templates/dotnet-service/skeleton/src/Program.cs.tpl")
-  commit_message      = "Add .NET service skeleton Program.cs"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Project file
-resource "github_repository_file" "dotnet_service_csproj" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-dotnet-service"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/src/Service.csproj"
-  content             = file("${path.module}/templates/dotnet-service/skeleton/src/Service.csproj.tpl")
-  commit_message      = "Add .NET service skeleton project file"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# README file
-resource "github_repository_file" "dotnet_service_readme" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-dotnet-service"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/README.md"
-  content             = file("${path.module}/templates/dotnet-service/skeleton/README.md.tpl")
-  commit_message      = "Add .NET service skeleton README"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Controllers
-resource "github_repository_file" "dotnet_service_hello_controller" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-dotnet-service"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/src/Controllers/HelloController.cs"
-  content             = file("${path.module}/templates/dotnet-service/skeleton/src/Controllers/HelloController.cs.tpl")
-  commit_message      = "Add .NET service skeleton Hello controller"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-resource "github_repository_file" "dotnet_service_status_controller" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-dotnet-service"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/src/Controllers/StatusController.cs"
-  content             = file("${path.module}/templates/dotnet-service/skeleton/src/Controllers/StatusController.cs.tpl")
-  commit_message      = "Add .NET service skeleton Status controller"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-resource "github_repository_file" "dotnet_service_excursions_controller" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-dotnet-service"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/src/Controllers/ExcursionsController.cs"
-  content             = file("${path.module}/templates/dotnet-service/skeleton/src/Controllers/ExcursionsController.cs.tpl")
-  commit_message      = "Add .NET service skeleton Excursions controller"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-resource "github_repository_file" "dotnet_service_health_controller" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-dotnet-service"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/src/Controllers/HealthController.cs"
-  content             = file("${path.module}/templates/dotnet-service/skeleton/src/Controllers/HealthController.cs.tpl")
-  commit_message      = "Add .NET service skeleton health controller"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Models
-resource "github_repository_file" "dotnet_service_models" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-dotnet-service"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/src/Models/ApiModels.cs"
-  content             = file("${path.module}/templates/dotnet-service/skeleton/src/Models/ApiModels.cs.tpl")
-  commit_message      = "Add .NET service skeleton API models"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# DevContainer configuration
-resource "github_repository_file" "dotnet_service_devcontainer" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-dotnet-service"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/.devcontainer/devcontainer.json"
-  content             = file("${path.module}/templates/dotnet-service/skeleton/.devcontainer/devcontainer.json.tpl")
-  commit_message      = "Add .NET service skeleton devcontainer configuration"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Test project
-resource "github_repository_file" "dotnet_service_test_project" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-dotnet-service"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/tests/Service.Tests.csproj"
-  content             = file("${path.module}/templates/dotnet-service/skeleton/tests/Service.Tests.csproj.tpl")
-  commit_message      = "Add .NET service skeleton test project file"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# API tests
-resource "github_repository_file" "dotnet_service_api_tests" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-dotnet-service"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/tests/ApiTests.cs"
-  content             = file("${path.module}/templates/dotnet-service/skeleton/tests/ApiTests.cs.tpl")
-  commit_message      = "Add .NET service skeleton API tests"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Dependabot configuration
-resource "github_repository_file" "dotnet_service_dependabot" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-dotnet-service"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = ".github/dependabot.yml"
-  content             = file("${path.module}/templates/dotnet-service/skeleton/.github/dependabot.yml")
-  commit_message      = "Add Dependabot configuration for NuGet dependencies"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Template catalog-info.yaml (for Backstage template itself)
-resource "github_repository_file" "dotnet_service_template_catalog" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-dotnet-service"
-  }
-
-  repository = github_repository.templates[each.key].name
-  branch     = "main"
-  file       = "catalog-info.yaml"
-  content = templatefile(
-    "${path.module}/templates/dotnet-service/catalog-info.yaml.tpl",
-    {
-      github_organization = var.github_organization
+  # Map for regular skeleton files (destination keeps skeleton/ prefix)
+  dotnet_service_skeleton_regular_map = { for f in local.dotnet_service_skeleton_regular_raw :
+    replace(f, "templates/dotnet-service/", "") => {
+      source_file    = "${path.module}/${f}"
+      commit_message = "Sync .NET skeleton file ${replace(f, "templates/dotnet-service/", "")}" # generic to avoid churn
     }
-  )
-  commit_message      = "Add .NET service template catalog-info.yaml for Backstage"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  }
+
+  # Map for templated skeleton files (.tpl) removing extension in destination
+  dotnet_service_skeleton_template_map = { for f in local.dotnet_service_skeleton_template_raw :
+    replace(replace(f, "templates/dotnet-service/", ""), ".tpl", "") => {
+      source_file      = "${path.module}/${f}"
+      commit_message   = "Add templated .NET skeleton file ${replace(replace(f, "templates/dotnet-service/", ""), ".tpl", "")}"
+      use_templatefile = true
+      template_vars = {
+        github_organization = var.github_organization
+      }
+    }
+  }
+
+  # Explicit template-level (non-skeleton) regular files
+  dotnet_service_template_level_files = local.dotnet_service_enabled ? {
+    # README now templated via templatefile (see dotnet_service_template_files merge)
+    "docs/index.md" = {
+      source_file    = "${path.module}/templates/dotnet-service/docs/index.md"
+      commit_message = "Sync .NET service template docs index"
+    }
+    "docs/template-usage.md" = {
+      source_file    = "${path.module}/templates/dotnet-service/docs/template-usage.md"
+      commit_message = "Sync .NET service template usage guide"
+    }
+    "mkdocs.yml" = {
+      source_file    = "${path.module}/templates/dotnet-service/mkdocs.yml"
+      commit_message = "Sync .NET service template mkdocs configuration"
+    }
+  } : {}
+
+  # Combine skeleton regular + template-level regular files
+  dotnet_service_files = local.dotnet_service_enabled ? merge(
+    local.dotnet_service_skeleton_regular_map,
+    local.dotnet_service_template_level_files
+  ) : {}
+
+  # Explicit non-.tpl skeleton files that still require template processing (none currently) + template-level templated files
+  dotnet_service_template_files = local.dotnet_service_enabled ? merge(
+    local.dotnet_service_skeleton_template_map,
+    {
+      # Backstage root catalog-info remains templated
+      "catalog-info.yaml" = {
+        source_file      = "${path.module}/templates/dotnet-service/catalog-info.yaml.tpl"
+        commit_message   = "Add .NET service template catalog-info.yaml for Backstage"
+        use_templatefile = true
+        template_vars = {
+          github_organization = var.github_organization
+        }
+      }
+
+      "README.md" = {
+        source_file      = "${path.module}/templates/dotnet-service/README.md"
+        commit_message   = "Add .NET service template README"
+        use_templatefile = false
+        template_vars    = {}
+      }
+    }
+  ) : {}
+}
+
+# Regular file resources (direct file content)
+resource "github_repository_file" "dotnet_service_files" {
+  for_each = local.dotnet_service_files
+
+  repository          = github_repository.templates[local.dotnet_service_key].name
+  branch              = "main"
+  file                = each.key
+  content             = file(each.value.source_file)
+  commit_message      = each.value.commit_message
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
 }
 
-# Skeleton catalog-info.yaml (for generated projects)
-resource "github_repository_file" "dotnet_service_skeleton_catalog" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-dotnet-service"
-  }
+# Template file resources (files that need template processing)
+resource "github_repository_file" "dotnet_service_template_files" {
+  for_each = local.dotnet_service_template_files
 
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/catalog-info.yaml"
-  content             = file("${path.module}/templates/dotnet-service/skeleton/catalog-info.yaml")
-  commit_message      = "Add .NET service skeleton catalog-info.yaml"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Template README (documentation)
-resource "github_repository_file" "dotnet_service_template_readme" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-dotnet-service"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "README.md"
-  content             = file("${path.module}/templates/dotnet-service/README.md")
-  commit_message      = "Add .NET service template documentation"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Template documentation - main index
-resource "github_repository_file" "dotnet_service_docs_index" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-dotnet-service"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "docs/index.md"
-  content             = file("${path.module}/templates/dotnet-service/docs/index.md")
-  commit_message      = "Add .NET service template documentation index"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Template documentation - usage guide
-resource "github_repository_file" "dotnet_service_docs_usage" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-dotnet-service"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "docs/template-usage.md"
-  content             = file("${path.module}/templates/dotnet-service/docs/template-usage.md")
-  commit_message      = "Add .NET service template usage guide"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Template mkdocs.yml configuration
-resource "github_repository_file" "dotnet_service_mkdocs" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-dotnet-service"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "mkdocs.yml"
-  content             = file("${path.module}/templates/dotnet-service/mkdocs.yml")
-  commit_message      = "Add .NET service template mkdocs configuration"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  repository = github_repository.templates[local.dotnet_service_key].name
+  branch     = "main"
+  file       = each.key
+  content = each.value.use_templatefile ? templatefile(
+    each.value.source_file,
+    each.value.template_vars
+  ) : file(each.value.source_file)
+  commit_message      = each.value.commit_message
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]

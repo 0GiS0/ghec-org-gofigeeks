@@ -15,8 +15,8 @@ resource "github_repository_file" "system_template_catalog" {
     github_organization = var.github_organization
   })
   commit_message      = "Add System template catalog-info.yaml for Backstage"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -34,8 +34,8 @@ resource "github_repository_file" "system_template_skeleton_catalog" {
   file                = "skeleton/catalog-info.yaml"
   content             = file("${path.module}/templates/system/skeleton/catalog-info.yaml")
   commit_message      = "Add System skeleton catalog-info.yaml"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -53,8 +53,8 @@ resource "github_repository_file" "system_template_readme" {
   file                = "README.md"
   content             = file("${path.module}/templates/system/README.md")
   commit_message      = "Add System template documentation"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -72,8 +72,8 @@ resource "github_repository_file" "system_template_skeleton_readme" {
   file                = "skeleton/README.md"
   content             = file("${path.module}/templates/system/skeleton/README.md")
   commit_message      = "Add System skeleton README"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -91,8 +91,8 @@ resource "github_repository_file" "system_template_skeleton_gitignore" {
   file                = "skeleton/.gitignore"
   content             = file("${path.module}/templates/system/skeleton/.gitignore")
   commit_message      = "Add System skeleton .gitignore"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -110,8 +110,8 @@ resource "github_repository_file" "system_docs_index" {
   file                = "docs/index.md"
   content             = file("${path.module}/templates/system/docs/index.md")
   commit_message      = "Add System template documentation index"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -129,8 +129,8 @@ resource "github_repository_file" "system_docs_usage" {
   file                = "docs/template-usage.md"
   content             = file("${path.module}/templates/system/docs/template-usage.md")
   commit_message      = "Add System template usage guide"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -148,8 +148,8 @@ resource "github_repository_file" "system_mkdocs" {
   file                = "mkdocs.yml"
   content             = file("${path.module}/templates/system/mkdocs.yml")
   commit_message      = "Add System template mkdocs configuration"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using ${{values.name | replace("-", "_")}}.Models;
+using BACKSTAGE_ENTITY_NAME.Models;
 
-namespace ${{values.name | replace("-", "_")}}.Controllers;
+namespace BACKSTAGE_ENTITY_NAME.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -19,10 +19,10 @@ public class StatusController : ControllerBase
     public ActionResult<StatusResponse> Get()
     {
         _logger.LogInformation("Status endpoint called");
-        
+
         return Ok(new StatusResponse
         {
-            Service = "${{values.name}}",
+            Service = "BACKSTAGE_ENTITY_NAME",
             Status = "running",
             Uptime = DateTime.UtcNow - StartTime,
             Environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development"

@@ -8,12 +8,6 @@ locals {
   # Check if the FastAPI service template is enabled
   fastapi_service_enabled = contains(keys(var.template_repositories), local.fastapi_service_key)
 
-  # Common commit configuration
-  fastapi_commit_config = {
-    commit_author = "Terraform"
-    commit_email  = "terraform@${var.github_organization}.com"
-  }
-
   # Template-specific file mappings
   fastapi_service_files = local.fastapi_service_enabled ? {
     # Dependabot configurations
@@ -164,8 +158,8 @@ resource "github_repository_file" "fastapi_service_files" {
   ) : file(each.value.source_file)
 
   commit_message      = each.value.commit_message
-  commit_author       = local.fastapi_commit_config.commit_author
-  commit_email        = local.fastapi_commit_config.commit_email
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]

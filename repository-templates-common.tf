@@ -1,6 +1,14 @@
 # Common Template Repository Files
 # This file contains common file resources for all Backstage template repositories
 
+# Shared commit configuration for all templates
+locals {
+  template_commit_config = {
+    commit_author = "Terraform"
+    commit_email  = "terraform@${var.github_organization}.com"
+  }
+}
+
 # CODEOWNERS file for each template repository
 resource "github_repository_file" "codeowners" {
   for_each = var.template_repositories
@@ -13,8 +21,8 @@ resource "github_repository_file" "codeowners" {
     template_approvers = "@${github_team.template_approvers.slug}"
   })
   commit_message      = "Add CODEOWNERS file for template protection"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -30,8 +38,8 @@ resource "github_repository_file" "backstage_codeowners" {
     template_approvers = "@${github_team.template_approvers.slug}"
   })
   commit_message      = "Add CODEOWNERS file for Backstage repository protection"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.backstage]
@@ -46,8 +54,8 @@ resource "github_repository_file" "backstage_readme" {
     organization = var.github_organization
   })
   commit_message      = "Add README with Backstage setup instructions"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.backstage]
@@ -60,8 +68,8 @@ resource "github_repository_file" "reusable_ci_workflow" {
   file                = ".github/workflows/ci-template.yml"
   content             = file("${path.module}/templates/reusable-ci-template.yml")
   commit_message      = "Add reusable CI/CD workflow for template validation"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.reusable_workflows]
@@ -76,8 +84,8 @@ resource "github_repository_file" "reusable_workflows_readme" {
     organization = var.github_organization
   })
   commit_message      = "Add README with reusable workflows documentation"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.reusable_workflows]
@@ -93,8 +101,8 @@ resource "github_repository_file" "reusable_workflows_codeowners" {
     template_approvers = "@${var.github_organization}/${github_team.template_approvers.slug}"
   })
   commit_message      = "Add CODEOWNERS file for workflow protection"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.reusable_workflows]
@@ -111,8 +119,8 @@ resource "github_repository_file" "template_ci" {
     organization = var.github_organization
   })
   commit_message      = "Add CI/CD workflow caller for template validation"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates, github_repository_file.reusable_ci_workflow]
@@ -136,8 +144,8 @@ resource "github_repository_file" "template_mkdocs" {
     repo_name            = "${var.github_organization}/${each.key}"
   })
   commit_message      = "Add TechDocs MkDocs configuration for template repository"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]

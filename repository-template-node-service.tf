@@ -6,12 +6,6 @@ locals {
   node_service_key     = "backstage-template-node-service"
   node_service_enabled = contains(keys(var.template_repositories), local.node_service_key)
 
-  # Common commit configuration
-  commit_config = {
-    commit_author = "Terraform"
-    commit_email  = "terraform@${var.github_organization}.com"
-  }
-
   # Dynamically list all skeleton files (fileset returns files only)
   node_service_skeleton_all = local.node_service_enabled ? fileset(path.module, "templates/node-service/skeleton/**") : []
 
@@ -112,8 +106,8 @@ resource "github_repository_file" "node_service_files" {
   file                = each.key
   content             = file(each.value.source_file)
   commit_message      = each.value.commit_message
-  commit_author       = local.commit_config.commit_author
-  commit_email        = local.commit_config.commit_email
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -131,8 +125,8 @@ resource "github_repository_file" "node_service_template_files" {
     each.value.template_vars
   ) : file(each.value.source_file)
   commit_message      = each.value.commit_message
-  commit_author       = local.commit_config.commit_author
-  commit_email        = local.commit_config.commit_email
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]

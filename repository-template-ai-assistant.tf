@@ -13,8 +13,8 @@ resource "github_repository_file" "ai_assistant_gitignore" {
   file                = "skeleton/.gitignore"
   content             = file("${path.module}/templates/ai-assistant/.gitignore.tpl")
   commit_message      = "Add AI assistant skeleton .gitignore"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -32,8 +32,8 @@ resource "github_repository_file" "ai_assistant_main" {
   file                = "skeleton/src/main.py"
   content             = file("${path.module}/templates/ai-assistant/skeleton/src/main.py.tpl")
   commit_message      = "Add AI assistant skeleton main file"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -51,8 +51,8 @@ resource "github_repository_file" "ai_assistant_requirements" {
   file                = "skeleton/requirements.txt"
   content             = file("${path.module}/templates/ai-assistant/skeleton/requirements.txt.tpl")
   commit_message      = "Add AI assistant skeleton requirements"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -70,8 +70,8 @@ resource "github_repository_file" "ai_assistant_readme" {
   file                = "skeleton/README.md"
   content             = file("${path.module}/templates/ai-assistant/skeleton/README.md.tpl")
   commit_message      = "Add AI assistant skeleton README"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -89,8 +89,8 @@ resource "github_repository_file" "ai_assistant_api_tests" {
   file                = "skeleton/api-tests.http"
   content             = file("${path.module}/templates/ai-assistant/skeleton/api-tests.http.tpl")
   commit_message      = "Add AI assistant skeleton API tests"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -108,8 +108,8 @@ resource "github_repository_file" "ai_assistant_devcontainer" {
   file                = "skeleton/.devcontainer/devcontainer.json"
   content             = file("${path.module}/templates/ai-assistant/skeleton/.devcontainer/devcontainer.json.tpl")
   commit_message      = "Add AI Assistant devcontainer configuration"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -127,8 +127,8 @@ resource "github_repository_file" "ai_assistant_dependabot" {
   file                = ".github/dependabot.yml"
   content             = file("${path.module}/templates/ai-assistant/skeleton/.github/dependabot.yml")
   commit_message      = "Add Dependabot configuration for pip dependencies"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -151,8 +151,8 @@ resource "github_repository_file" "ai_assistant_template_catalog" {
     }
   )
   commit_message      = "Add AI assistant template catalog-info.yaml for Backstage"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -170,8 +170,8 @@ resource "github_repository_file" "ai_assistant_skeleton_catalog" {
   file                = "skeleton/catalog-info.yaml"
   content             = file("${path.module}/templates/ai-assistant/skeleton/catalog-info.yaml")
   commit_message      = "Add AI assistant skeleton catalog-info.yaml"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -189,8 +189,8 @@ resource "github_repository_file" "ai_assistant_template_readme" {
   file                = "README.md"
   content             = file("${path.module}/templates/ai-assistant/README.md")
   commit_message      = "Add AI assistant template documentation"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -208,8 +208,8 @@ resource "github_repository_file" "ai_assistant_docs_index" {
   file                = "docs/index.md"
   content             = file("${path.module}/templates/ai-assistant/docs/index.md")
   commit_message      = "Add AI assistant template documentation index"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -227,8 +227,8 @@ resource "github_repository_file" "ai_assistant_docs_usage" {
   file                = "docs/template-usage.md"
   content             = file("${path.module}/templates/ai-assistant/docs/template-usage.md")
   commit_message      = "Add AI assistant template usage guide"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
@@ -246,8 +246,8 @@ resource "github_repository_file" "ai_assistant_mkdocs" {
   file                = "mkdocs.yml"
   content             = file("${path.module}/templates/ai-assistant/mkdocs.yml")
   commit_message      = "Add AI assistant template mkdocs configuration"
-  commit_author       = "Terraform"
-  commit_email        = "terraform@${var.github_organization}.com"
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]

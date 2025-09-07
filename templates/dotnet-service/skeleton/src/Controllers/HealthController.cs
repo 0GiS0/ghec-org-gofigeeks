@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using ${{values.name | replace("-", "_")}}.Models;
+using BACKSTAGE_ENTITY_NAME.Models;
 
-namespace ${{values.name | replace("-", "_")}}.Controllers;
+namespace BACKSTAGE_ENTITY_NAME.Controllers;
 
 [ApiController]
 [Route("[controller]")]
@@ -18,7 +18,7 @@ public class HealthController : ControllerBase
     public ActionResult<HealthResponse> Get()
     {
         _logger.LogInformation("Health check endpoint called");
-        
+
         return Ok(new HealthResponse
         {
             Status = "OK",

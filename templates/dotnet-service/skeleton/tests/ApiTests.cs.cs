@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.VisualStudio.TestPlatform.TestHost;
 using System.Net;
 using System.Text;
 using System.Text.Json;
 using Xunit;
 
-namespace ${{values.name | replace("-", "_")}}.Tests;
+namespace BACKSTAGE_ENTITY_NAME.Tests;
 
 public class ApiTests : IClassFixture<WebApplicationFactory<Program>>
 {
@@ -25,15 +26,19 @@ public class ApiTests : IClassFixture<WebApplicationFactory<Program>>
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        
+
         var content = await response.Content.ReadAsStringAsync();
         var json = JsonDocument.Parse(content);
-        
-        Assert.True(json.RootElement.TryGetProperty("Service", out var serviceProperty));
-        Assert.True(json.RootElement.TryGetProperty("Message", out var messageProperty));
-        Assert.True(json.RootElement.TryGetProperty("Docs", out var docsProperty));
-        Assert.True(json.RootElement.TryGetProperty("Health", out var healthProperty));
-        
+
+        // Use camelCase property names as they appear in the actual JSON
+        Assert.True(json.RootElement.TryGetProperty("service", out var serviceProperty));
+        Assert.True(json.RootElement.TryGetProperty("message", out var messageProperty));
+        Assert.True(json.RootElement.TryGetProperty("docs", out var docsProperty));
+        Assert.True(json.RootElement.TryGetProperty("health", out var healthProperty));
+
+        // Verify the values
+        Assert.Equal("BACKSTAGE_ENTITY_NAME", serviceProperty.GetString());
+        Assert.Equal("Welcome to BACKSTAGE_ENTITY_NAME API", messageProperty.GetString());
         Assert.Equal("/docs", docsProperty.GetString());
         Assert.Equal("/health", healthProperty.GetString());
     }
@@ -46,9 +51,12 @@ public class ApiTests : IClassFixture<WebApplicationFactory<Program>>
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        
+
         var content = await response.Content.ReadAsStringAsync();
-        Assert.Equal("Healthy", content);
+        var json = JsonDocument.Parse(content);
+
+        Assert.True(json.RootElement.TryGetProperty("status", out var statusProperty));
+        Assert.Equal("OK", statusProperty.GetString());
     }
 
     [Fact]
@@ -59,10 +67,10 @@ public class ApiTests : IClassFixture<WebApplicationFactory<Program>>
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        
+
         var content = await response.Content.ReadAsStringAsync();
         var json = JsonDocument.Parse(content);
-        
+
         Assert.True(json.RootElement.TryGetProperty("message", out var messageProperty));
         Assert.True(json.RootElement.TryGetProperty("timestamp", out var timestampProperty));
     }
@@ -75,15 +83,15 @@ public class ApiTests : IClassFixture<WebApplicationFactory<Program>>
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        
+
         var content = await response.Content.ReadAsStringAsync();
         var json = JsonDocument.Parse(content);
-        
+
         Assert.True(json.RootElement.TryGetProperty("service", out var serviceProperty));
         Assert.True(json.RootElement.TryGetProperty("status", out var statusProperty));
         Assert.True(json.RootElement.TryGetProperty("uptime", out var uptimeProperty));
         Assert.True(json.RootElement.TryGetProperty("environment", out var environmentProperty));
-        
+
         Assert.Equal("running", statusProperty.GetString());
     }
 
@@ -95,10 +103,10 @@ public class ApiTests : IClassFixture<WebApplicationFactory<Program>>
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        
+
         var content = await response.Content.ReadAsStringAsync();
         var json = JsonDocument.Parse(content);
-        
+
         Assert.True(json.RootElement.ValueKind == JsonValueKind.Array);
         Assert.True(json.RootElement.GetArrayLength() >= 2); // Should have at least 2 default excursions
     }
@@ -111,16 +119,16 @@ public class ApiTests : IClassFixture<WebApplicationFactory<Program>>
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        
+
         var content = await response.Content.ReadAsStringAsync();
         var json = JsonDocument.Parse(content);
-        
+
         Assert.True(json.RootElement.TryGetProperty("id", out var idProperty));
         Assert.True(json.RootElement.TryGetProperty("name", out var nameProperty));
         Assert.True(json.RootElement.TryGetProperty("description", out var descriptionProperty));
         Assert.True(json.RootElement.TryGetProperty("location", out var locationProperty));
         Assert.True(json.RootElement.TryGetProperty("price", out var priceProperty));
-        
+
         Assert.Equal(1, idProperty.GetInt32());
     }
 
@@ -156,10 +164,10 @@ public class ApiTests : IClassFixture<WebApplicationFactory<Program>>
 
         // Assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-        
+
         var responseContent = await response.Content.ReadAsStringAsync();
         var responseJson = JsonDocument.Parse(responseContent);
-        
+
         Assert.True(responseJson.RootElement.TryGetProperty("id", out var idProperty));
         Assert.True(responseJson.RootElement.TryGetProperty("name", out var nameProperty));
         Assert.Equal("Beach Walking Tour", nameProperty.GetString());
@@ -206,9 +214,9 @@ public class ApiTests : IClassFixture<WebApplicationFactory<Program>>
         var json = JsonSerializer.Serialize(newExcursion);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var createResponse = await _client.PostAsync("/api/excursions", content);
-        
+
         Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
-        
+
         var createContent = await createResponse.Content.ReadAsStringAsync();
         var createJson = JsonDocument.Parse(createContent);
         var excursionId = createJson.RootElement.GetProperty("id").GetInt32();
@@ -218,7 +226,7 @@ public class ApiTests : IClassFixture<WebApplicationFactory<Program>>
 
         // Assert
         Assert.Equal(HttpStatusCode.NoContent, deleteResponse.StatusCode);
-        
+
         // Verify it's actually deleted
         var getResponse = await _client.GetAsync($"/api/excursions/{excursionId}");
         Assert.Equal(HttpStatusCode.NotFound, getResponse.StatusCode);
