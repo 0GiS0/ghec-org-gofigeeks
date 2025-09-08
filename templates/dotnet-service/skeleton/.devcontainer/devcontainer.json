@@ -15,10 +15,12 @@
         "github.copilot-chat",
         "humao.rest-client",
         "ms-dotnettools.csdevkit",
-        "DavidAnson.vscode-markdownlint"
+        "DavidAnson.vscode-markdownlint",
+        "johnpapa.winteriscoming"
       ],
       "settings": {
-        "dotnet.defaultSolution": "src/BACKSTAGE_ENTITY_NAME.csproj"
+        "dotnet.defaultSolution": "src/BACKSTAGE_ENTITY_NAME.csproj",
+        "workbench.colorTheme": "Winter is Coming (Dark Blue)"
       }
     }
   },
