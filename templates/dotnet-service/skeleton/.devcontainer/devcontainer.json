@@ -16,11 +16,13 @@
         "humao.rest-client",
         "ms-dotnettools.csdevkit",
         "DavidAnson.vscode-markdownlint",
-        "johnpapa.winteriscoming"
+        "johnpapa.winteriscoming",
+        "Catppuccin.catppuccin-vsc-icons"
       ],
       "settings": {
         "dotnet.defaultSolution": "src/BACKSTAGE_ENTITY_NAME.csproj",
-        "workbench.colorTheme": "Winter is Coming (Dark Blue)"
+        "workbench.colorTheme": "Winter is Coming (Dark Blue)",
+        "workbench.iconTheme": "catppuccin-mocha"
       }
     }
   },
