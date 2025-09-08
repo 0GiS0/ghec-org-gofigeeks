@@ -1,6 +1,6 @@
 # BACKSTAGE_ENTITY_NAME
 
-[![CI](https://github.com/${{values.destination.owner}}/${{values.destination.repo}}/actions/workflows/ci.yml/badge.svg)](https://github.com/${{values.destination.owner}}/${{values.destination.repo}}/actions/workflows/ci.yml)
+[![🚀 CI](https://github.com/${{values.destination.owner}}/${{values.destination.repo}}/actions/workflows/ci.yml/badge.svg)](https://github.com/${{values.destination.owner}}/${{values.destination.repo}}/actions/workflows/ci.yml)
 
 A modern ASP.NET Core Web API template featuring excursions management, built with .NET 9.0 and comprehensive testing.
 
