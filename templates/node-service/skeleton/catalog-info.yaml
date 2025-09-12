@@ -18,8 +18,8 @@ spec:
   system: ${{values.system}}
   providesApis:
     - excursions-api
-  dependsOn:
-    - resource:database
+  # dependsOn:
+  #   - resource:database
 ---
 apiVersion: backstage.io/v1alpha1
 kind: API

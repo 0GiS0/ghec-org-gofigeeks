@@ -11,17 +11,10 @@ metadata:
     - python
     - api
     - microservice
-  links:
-    - url: https://${{values.owner}}.github.io/${{values.name}}
-      title: Documentation
-      icon: docs
-    - url: https://github.com/${{values.owner}}/${{values.name}}/blob/main/README.md
-      title: README
-      icon: github
 spec:
   type: service
   lifecycle: experimental
   owner: ${{values.owner}}
   system: ${{values.system | default("platform")}}
-  providesApis:
-    - ${{values.name}}-api
+  # providesApis:
+  #   - ${{values.name}}-api

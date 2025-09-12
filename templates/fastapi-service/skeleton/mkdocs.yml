@@ -1,10 +1,10 @@
 site_name: ${{values.name}}
 site_description: ${{values.description}}
 site_author: ${{values.owner}}
-site_url: https://${{values.owner}}.github.io/${{values.name}}
+site_url: https://github.com/${{values.destination.owner}}/${{values.destination.repo}}
 
-repo_name: ${{values.owner}}/${{values.name}}
-repo_url: https://github.com/${{values.owner}}/${{values.name}}
+repo_name: ${{values.destination.owner}}/${{values.destination.repo}}
+repo_url: https://github.com/${{values.destination.owner}}/${{values.destination.repo}}
 
 nav:
   - Home: index.md
@@ -79,13 +79,6 @@ markdown_extensions:
 
 plugins:
   - search
-  - mkdocstrings:
-      handlers:
-        python:
-          options:
-            docstring_style: google
-            show_source: true
-  - autorefs
 
 extra:
   social:
