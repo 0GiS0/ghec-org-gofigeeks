@@ -1,7 +1,7 @@
 site_name: "BACKSTAGE_ENTITY_NAME"
 site_description: "Service documentation for BACKSTAGE_ENTITY_NAME"
-site_url: "https://${{ values.}}"
-repo_url: "https://BACKSTAGE_REPO_URL"
+site_url: "https://github.com/${{values.destination.owner}}/${{values.name}}"
+repo_url: "https://github.com/${{values.destination.owner}}/${{values.name}}"
 repo_name: "BACKSTAGE_ENTITY_NAME"
 
 nav:
