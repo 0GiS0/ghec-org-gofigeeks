@@ -30,7 +30,7 @@
       }
     }
   },
-  "postCreateCommand": "pip install -r requirements.txt -r requirements-dev.txt",
+  "postCreateCommand": "pip install -r requirements.txt",
   "remoteUser": "vscode",
   "forwardPorts": [8000],
   "portsAttributes": {

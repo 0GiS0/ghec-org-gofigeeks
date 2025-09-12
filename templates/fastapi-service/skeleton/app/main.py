@@ -2,11 +2,12 @@ import os
 import time
 from datetime import datetime
 
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from app.models.excursion import HealthResponse, HelloResponse, StatusResponse
 from app.routers import excursions
-from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()

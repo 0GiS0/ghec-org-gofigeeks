@@ -28,67 +28,67 @@ locals {
 
     # Development configuration
     "skeleton/.gitignore" = {
-      source_file    = "${path.module}/templates/fastapi-service/skeleton/.gitignore.tpl"
+      source_file    = "${path.module}/templates/fastapi-service/skeleton/.gitignore"
       commit_message = "Add FastAPI service skeleton .gitignore"
     }
     "skeleton/.devcontainer/devcontainer.json" = {
-      source_file    = "${path.module}/templates/fastapi-service/skeleton/.devcontainer/devcontainer.json.tpl"
+      source_file    = "${path.module}/templates/fastapi-service/skeleton/.devcontainer/devcontainer.json"
       commit_message = "Add FastAPI service devcontainer configuration"
     }
 
     # Application files
     "skeleton/requirements.txt" = {
-      source_file    = "${path.module}/templates/fastapi-service/skeleton/requirements.txt.tpl"
+      source_file    = "${path.module}/templates/fastapi-service/skeleton/requirements.txt"
       commit_message = "Add FastAPI service skeleton requirements"
     }
     "skeleton/requirements-dev.txt" = {
-      source_file    = "${path.module}/templates/fastapi-service/skeleton/requirements-dev.txt.tpl"
+      source_file    = "${path.module}/templates/fastapi-service/skeleton/requirements-dev.txt"
       commit_message = "Add FastAPI service skeleton dev requirements"
     }
     "skeleton/.env.example" = {
-      source_file    = "${path.module}/templates/fastapi-service/skeleton/.env.example.tpl"
+      source_file    = "${path.module}/templates/fastapi-service/skeleton/.env.example"
       commit_message = "Add FastAPI service skeleton environment example"
     }
     "skeleton/app/main.py" = {
-      source_file    = "${path.module}/templates/fastapi-service/skeleton/app/main.py.tpl"
+      source_file    = "${path.module}/templates/fastapi-service/skeleton/app/main.py"
       commit_message = "Add FastAPI service skeleton main application"
     }
     "skeleton/app/__init__.py" = {
-      source_file    = "${path.module}/templates/fastapi-service/skeleton/app/__init__.py.tpl"
+      source_file    = "${path.module}/templates/fastapi-service/skeleton/app/__init__.py"
       commit_message = "Add FastAPI service skeleton app __init__.py"
     }
     "skeleton/app/models/__init__.py" = {
-      source_file    = "${path.module}/templates/fastapi-service/skeleton/app/models/__init__.py.tpl"
+      source_file    = "${path.module}/templates/fastapi-service/skeleton/app/models/__init__.py"
       commit_message = "Add FastAPI service skeleton models __init__.py"
     }
     "skeleton/app/models/excursion.py" = {
-      source_file    = "${path.module}/templates/fastapi-service/skeleton/app/models/excursion.py.tpl"
+      source_file    = "${path.module}/templates/fastapi-service/skeleton/app/models/excursion.py"
       commit_message = "Add FastAPI service skeleton excursion model"
     }
     "skeleton/app/routers/__init__.py" = {
-      source_file    = "${path.module}/templates/fastapi-service/skeleton/app/routers/__init__.py.tpl"
+      source_file    = "${path.module}/templates/fastapi-service/skeleton/app/routers/__init__.py"
       commit_message = "Add FastAPI service skeleton routers __init__.py"
     }
     "skeleton/app/routers/excursions.py" = {
-      source_file    = "${path.module}/templates/fastapi-service/skeleton/app/routers/excursions.py.tpl"
+      source_file    = "${path.module}/templates/fastapi-service/skeleton/app/routers/excursions.py"
       commit_message = "Add FastAPI service skeleton excursions router"
     }
     "skeleton/tests/test_api.py" = {
-      source_file    = "${path.module}/templates/fastapi-service/skeleton/tests/test_api.py.tpl"
+      source_file    = "${path.module}/templates/fastapi-service/skeleton/tests/test_api.py"
       commit_message = "Add FastAPI service skeleton API tests"
     }
 
     # Documentation and metadata
     "skeleton/README.md" = {
-      source_file    = "${path.module}/templates/fastapi-service/skeleton/README.md.tpl"
+      source_file    = "${path.module}/templates/fastapi-service/skeleton/README.md"
       commit_message = "Add FastAPI service skeleton README"
     }
     "skeleton/api.http" = {
-      source_file    = "${path.module}/templates/fastapi-service/skeleton/api.http.tpl"
+      source_file    = "${path.module}/templates/fastapi-service/skeleton/api.http"
       commit_message = "Add FastAPI service skeleton API tests"
     }
     "skeleton/AGENTS.md" = {
-      source_file    = "${path.module}/templates/fastapi-service/skeleton/AGENTS.md.tpl"
+      source_file    = "${path.module}/templates/fastapi-service/skeleton/AGENTS.md"
       commit_message = "Add FastAPI service skeleton AI agents documentation"
     }
     "skeleton/catalog-info.yaml" = {
@@ -96,21 +96,21 @@ locals {
       commit_message = "Add FastAPI service skeleton Backstage catalog info"
     }
     "skeleton/mkdocs.yml" = {
-      source_file    = "${path.module}/templates/fastapi-service/skeleton/mkdocs.yml.tpl"
+      source_file    = "${path.module}/templates/fastapi-service/skeleton/mkdocs.yml"
       commit_message = "Add FastAPI service skeleton MkDocs configuration"
     }
 
     # Documentation files
     "skeleton/docs/index.md" = {
-      source_file    = "${path.module}/templates/fastapi-service/skeleton/docs/index.md.tpl"
+      source_file    = "${path.module}/templates/fastapi-service/skeleton/docs/index.md"
       commit_message = "Add FastAPI service skeleton documentation index"
     }
     "skeleton/docs/api-reference.md" = {
-      source_file    = "${path.module}/templates/fastapi-service/skeleton/docs/api-reference.md.tpl"
+      source_file    = "${path.module}/templates/fastapi-service/skeleton/docs/api-reference.md"
       commit_message = "Add FastAPI service skeleton API reference documentation"
     }
     "skeleton/docs/getting-started.md" = {
-      source_file    = "${path.module}/templates/fastapi-service/skeleton/docs/getting-started.md.tpl"
+      source_file    = "${path.module}/templates/fastapi-service/skeleton/docs/getting-started.md"
       commit_message = "Add FastAPI service skeleton getting started documentation"
     }
 
@@ -154,6 +154,7 @@ resource "github_repository_file" "fastapi_service_files" {
     each.value.source_file,
     {
       github_organization = var.github_organization
+      github_repository   = local.fastapi_service_key
     }
   ) : file(each.value.source_file)
 

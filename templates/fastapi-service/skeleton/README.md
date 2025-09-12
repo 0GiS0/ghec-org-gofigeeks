@@ -1,17 +1,14 @@
 # ${{values.name}}
 
-<!-- Badges (dynamic using Backstage template variables) -->
-<p align="left">
-      <a href="https://github.com/0GiS0/${{values.name}}/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/0GiS0/${{values.name}}/ci.yml?branch=main&label=CI&logo=github" /></a>
-      <a href="https://github.com/0GiS0/${{values.name}}/security/code-scanning"><img alt="CodeQL" src="https://img.shields.io/github/actions/workflow/status/0GiS0/${{values.name}}/codeql.yml?branch=main&label=CodeQL&logo=github" /></a>
-      <a href="https://github.com/0GiS0/${{values.name}}/issues"><img alt="Issues" src="https://img.shields.io/github/issues/0GiS0/${{values.name}}?logo=github" /></a>
-      <a href="https://github.com/0GiS0/${{values.name}}/pulls"><img alt="PRs" src="https://img.shields.io/github/issues-pr/0GiS0/${{values.name}}?logo=github" /></a>
-      <a href="https://github.com/0GiS0/${{values.name}}/commits/main"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/0GiS0/${{values.name}}?logo=github" /></a>
-      <a href="https://github.com/0GiS0/${{values.name}}/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/0GiS0/${{values.name}}" /></a>
-      <a href="https://github.com/0GiS0/${{values.name}}/network/dependencies"><img alt="Dependabot" src="https://img.shields.io/badge/Dependabot-enabled-success?logo=dependabot" /></a>
-</p>
+[![Template CI/CD](https://github.com/${github_organization}/${repository_name}/actions/workflows/ci-template.yml/badge.svg)](https://github.com/${github_organization}/${repository_name}/actions/workflows/ci-template.yml)
 
-${{values.description}}
+This is a starter template for building FastAPI services with Python. It includes:
+- FastAPI web framework
+- Pydantic for data validation
+- CORS middleware
+- Environment variable configuration
+- Health check endpoints
+
 
 ## 🚀 Quick Start
 
@@ -24,7 +21,7 @@ ${{values.description}}
 
 1. **Install dependencies:**
    ```bash
-   pip install -r requirements.txt -r requirements-dev.txt
+   pip install -r requirements.txt
    ```
 
 2. **Start development server:**

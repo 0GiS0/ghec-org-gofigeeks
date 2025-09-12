@@ -7,6 +7,7 @@ metadata:
   description: Create a new Node.js microservice with TypeScript, Express, and best practices
   annotations:
     backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: ${github_organization}/${github_repository}
   tags:
     - nodejs
     - typescript

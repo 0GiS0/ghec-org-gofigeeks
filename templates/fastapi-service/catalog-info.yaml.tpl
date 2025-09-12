@@ -5,8 +5,13 @@ metadata:
   name: fastapi-service
   title: ⚡ FastAPI Service
   description: Create a new FastAPI microservice with Python, async support, and best practices
+  links:
+    - url: https://fastapi.tiangolo.com/
+      title: FastAPI Documentation
+      icon: book
   annotations:
     backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: ${github_organization}/${github_repository}
   tags:
     - python
     - fastapi
@@ -112,9 +117,9 @@ spec:
         copyWithoutTemplating:
           - .github/workflows/*
         values:
-          name: $${parameters.name}
-          owner: $${parameters.owner}
-          description: $${parameters.description}
+          name: $${{parameters.name}}
+          owner: $${{parameters.owner}}
+          description: $${{parameters.description}}
           destination: $${{ parameters.repoUrl | parseRepoUrl }}
           repoUrl: $${{ parameters.repoUrl }}
           serviceTier: $${{ parameters.serviceTier }}

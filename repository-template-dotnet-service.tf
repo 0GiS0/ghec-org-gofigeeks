@@ -80,6 +80,7 @@ locals {
         use_templatefile = true
         template_vars = {
           github_organization = var.github_organization
+          github_repository   = local.dotnet_service_key
         }
       }
 

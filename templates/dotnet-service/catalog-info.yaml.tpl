@@ -7,6 +7,7 @@ metadata:
   description: Create a new .NET microservice with ASP.NET Core, C#, and best practices
   annotations:
     backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: ${github_organization}/${github_repository}
   tags:
     - dotnet
     - csharp
