@@ -55,6 +55,7 @@ locals {
     "backstage-template-fastapi-service" = "service"
     "backstage-template-dotnet-service"  = "service"
     "backstage-template-ai-assistant"    = "service"
+    "backstage-template-mcp-server-node" = "service"
     "backstage-template-astro-frontend"  = "website"
   }
 
@@ -72,6 +73,7 @@ locals {
     "backstage-template-fastapi-service" = "⚡ FastAPI Service"
     "backstage-template-dotnet-service"  = "🟣 .NET Service"
     "backstage-template-ai-assistant"    = "🤖 AI Assistant Service"
+    "backstage-template-mcp-server-node" = "🔨 MCP Server (Node.js)"
     "backstage-template-astro-frontend"  = "☄️ Astro Frontend"
   }
 }

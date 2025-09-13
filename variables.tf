@@ -146,6 +146,11 @@ variable "template_repositories" {
       topics      = ["backstage", "template", "ai", "assistant", "service"]
       type        = "service"
     }
+    "backstage-template-mcp-server-node" = {
+      description = "Backstage template for MCP Server in Node.js"
+      topics      = ["backstage", "template", "nodejs", "mcp", "service"]
+      type        = "service"
+    }
     "backstage-template-astro-frontend" = {
       description = "Backstage template for Astro frontend applications"
       topics      = ["backstage", "template", "astro", "frontend"]
@@ -349,6 +354,10 @@ variable "template_repository_custom_properties" {
       team_owner   = "platform-team"
     }
     "backstage-template-ai-assistant" = {
+      service_tier = "tier-3"
+      team_owner   = "platform-team"
+    }
+    "backstage-template-mcp-server-node" = {
       service_tier = "tier-3"
       team_owner   = "platform-team"
     }
