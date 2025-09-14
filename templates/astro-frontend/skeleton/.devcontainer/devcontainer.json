@@ -11,5 +11,9 @@
 	"forwardPorts": [
 		4321
 	],
+	"features": {
+		"ghcr.io/devcontainers/features/python:1": {},
+		"ghcr.io/devcontainers-extra/features/uv:1": {}
+	},
 	"postCreateCommand": "npm install"
 }

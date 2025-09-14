@@ -75,9 +75,9 @@ resource "github_repository" "backstage" {
   }
 
   # Prevent delete
-  lifecycle {
-    prevent_destroy = true
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 }
 
 # Reusable Workflows Repository
