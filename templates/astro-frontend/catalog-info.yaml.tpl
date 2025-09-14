@@ -122,6 +122,20 @@ spec:
           teamOwner: $${{ parameters.teamOwner }}
           system: $${{ parameters.system }}
 
+    - id: replace-placeholders
+      name: 🔄 Replace placeholders
+      action: roadiehq:utils:fs:replace
+      input:
+        files:
+          # package.json
+          - file: "./package.json"
+            find: "BACKSTAGE_ENTITY_NAME"
+            replaceWith: $${{ parameters.name | replace("-", "_") }}
+          # package-lock.json
+          - file: "./package-lock.json"
+            find: "BACKSTAGE_ENTITY_NAME"
+            replaceWith: $${{ parameters.name | replace("-", "_") }}
+
     - id: publish
       name: 🚀 Publish to GitHub
       action: publish:github
@@ -132,8 +146,8 @@ spec:
           [
             "backstage-include",
             "${github_organization}",
-            "python",
-            "fastapi",
+            "astro",
+            "frontend",
           ]
         defaultBranch: main
         gitCommitMessage: Create Astro frontend from template

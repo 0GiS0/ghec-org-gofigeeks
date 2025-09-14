@@ -1,156 +1,113 @@
 # Astro Frontend Template Repository Files
-# This file contains all file resources specific to the Astro Frontend template
+# Dynamic file syncing for Astro frontend template, modeled after node-service
 
-# .gitignore file
-resource "github_repository_file" "astro_frontend_gitignore" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-astro-frontend"
-  }
+locals {
+  astro_frontend_key     = "backstage-template-astro-frontend"
+  astro_frontend_enabled = contains(keys(var.template_repositories), local.astro_frontend_key)
 
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/.gitignore"
-  content             = file("${path.module}/templates/astro-frontend/.gitignore.tpl")
-  commit_message      = "Add Astro frontend skeleton .gitignore"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
+  # All files under skeleton/
+  astro_frontend_skeleton_all = local.astro_frontend_enabled ? fileset(path.module, "templates/astro-frontend/skeleton/**") : []
 
-  depends_on = [github_repository.templates]
-}
+  # Exclude unwanted directories (node_modules, coverage)
+  astro_frontend_skeleton_all_filtered = [
+    for f in local.astro_frontend_skeleton_all : f
+    if length(regexall("/node_modules/", f)) == 0
+    && length(regexall("/coverage/", f)) == 0
+  ]
 
-# Package.json file
-resource "github_repository_file" "astro_frontend_package" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-astro-frontend"
-  }
+  # Split into templated (.tpl) and regular files
+  astro_frontend_skeleton_template_raw = [for f in local.astro_frontend_skeleton_all_filtered : f if endswith(f, ".tpl")]
+  astro_frontend_skeleton_regular_raw  = [for f in local.astro_frontend_skeleton_all_filtered : f if !endswith(f, ".tpl")]
 
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/package.json"
-  content             = file("${path.module}/templates/astro-frontend/skeleton/package.json.tpl")
-  commit_message      = "Add Astro frontend skeleton package.json"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Astro configuration
-resource "github_repository_file" "astro_frontend_config" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-astro-frontend"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/astro.config.mjs"
-  content             = file("${path.module}/templates/astro-frontend/skeleton/astro.config.mjs.tpl")
-  commit_message      = "Add Astro frontend skeleton configuration"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# README file
-resource "github_repository_file" "astro_frontend_readme" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-astro-frontend"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/README.md"
-  content             = file("${path.module}/templates/astro-frontend/skeleton/README.md.tpl")
-  commit_message      = "Add Astro frontend skeleton README"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# API tests file
-resource "github_repository_file" "astro_frontend_api_tests" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-astro-frontend"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/api-tests.http"
-  content             = file("${path.module}/templates/astro-frontend/skeleton/api-tests.http.tpl")
-  commit_message      = "Add Astro frontend skeleton API tests"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# DevContainer configuration
-resource "github_repository_file" "astro_frontend_devcontainer" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-astro-frontend"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/.devcontainer/devcontainer.json"
-  content             = file("${path.module}/templates/astro-frontend/skeleton/.devcontainer/devcontainer.json.tpl")
-  commit_message      = "Add Astro Frontend devcontainer configuration"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Dependabot configuration
-resource "github_repository_file" "astro_frontend_dependabot" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-astro-frontend"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = ".github/dependabot.yml"
-  content             = file("${path.module}/templates/astro-frontend/skeleton/.github/dependabot.yml")
-  commit_message      = "Add Dependabot configuration for npm dependencies"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Template catalog-info.yaml (for Backstage template itself)
-resource "github_repository_file" "astro_frontend_template_catalog" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-astro-frontend"
-  }
-
-  repository = github_repository.templates[each.key].name
-  branch     = "main"
-  file       = "catalog-info.yaml"
-  content = templatefile(
-    "${path.module}/templates/astro-frontend/catalog-info.yaml.tpl",
-    {
-      github_organization = var.github_organization
+  # Map regular skeleton files (destination keeps skeleton/ prefix)
+  astro_frontend_skeleton_regular_map = { for f in local.astro_frontend_skeleton_regular_raw :
+    replace(f, "templates/astro-frontend/", "") => {
+      source_file    = "${path.module}/${f}"
+      commit_message = "Sync Astro skeleton file ${replace(f, "templates/astro-frontend/", "")}"
     }
-  )
-  commit_message      = "Add Astro frontend template catalog-info.yaml for Backstage"
+  }
+
+  # Map templated skeleton files (.tpl) removing extension in destination
+  astro_frontend_skeleton_template_map = { for f in local.astro_frontend_skeleton_template_raw :
+    replace(replace(f, "templates/astro-frontend/", ""), ".tpl", "") => {
+      source_file      = "${path.module}/${f}"
+      commit_message   = "Add templated Astro skeleton file ${replace(replace(f, "templates/astro-frontend/", ""), ".tpl", "")}"
+      use_templatefile = true
+      template_vars = {
+        github_organization = var.github_organization
+      }
+    }
+  }
+
+  # Explicit template-level (non-skeleton) regular files
+  astro_frontend_template_level_files = local.astro_frontend_enabled ? {
+    "README.md" = {
+      source_file    = "${path.module}/templates/astro-frontend/README.md"
+      commit_message = "Sync Astro frontend template README"
+    }
+    "docs/index.md" = {
+      source_file    = "${path.module}/templates/astro-frontend/docs/index.md"
+      commit_message = "Sync Astro frontend template docs index"
+    }
+    "docs/template-usage.md" = {
+      source_file    = "${path.module}/templates/astro-frontend/docs/template-usage.md"
+      commit_message = "Sync Astro frontend template usage guide"
+    }
+    "mkdocs.yml" = {
+      source_file    = "${path.module}/templates/astro-frontend/mkdocs.yml"
+      commit_message = "Sync Astro frontend template mkdocs configuration"
+    }
+    ".github/dependabot.yml" = {
+      source_file    = "${path.module}/templates/astro-frontend/.github/dependabot.yml"
+      commit_message = "Sync Astro frontend dependabot configuration"
+    }
+    ".devcontainer/devcontainer.json" = {
+      source_file    = "${path.module}/templates/astro-frontend/.devcontainer/devcontainer.json"
+      commit_message = "Sync Astro frontend devcontainer configuration"
+    }
+  } : {}
+
+  # Combine skeleton regular + template-level regular files
+  astro_frontend_files = local.astro_frontend_enabled ? merge(
+    local.astro_frontend_skeleton_regular_map,
+    local.astro_frontend_template_level_files
+  ) : {}
+
+  # Template (.tpl) files including the Backstage catalog-info at repo root
+  astro_frontend_template_files = local.astro_frontend_enabled ? merge(
+    local.astro_frontend_skeleton_template_map,
+    {
+      "catalog-info.yaml" = {
+        source_file      = "${path.module}/templates/astro-frontend/catalog-info.yaml.tpl"
+        commit_message   = "Add Astro frontend template catalog-info.yaml for Backstage"
+        use_templatefile = true
+        template_vars = {
+          github_organization = var.github_organization
+          github_repository   = local.astro_frontend_key
+        }
+      }
+      # Root .gitignore for skeleton gets rendered from .gitignore.tpl into skeleton/.gitignore
+      "skeleton/.gitignore" = {
+        source_file      = "${path.module}/templates/astro-frontend/.gitignore.tpl"
+        commit_message   = "Add Astro frontend skeleton .gitignore"
+        use_templatefile = true
+        template_vars = {
+          github_organization = var.github_organization
+        }
+      }
+    }
+  ) : {}
+}
+
+# Regular file resources
+resource "github_repository_file" "astro_frontend_files" {
+  for_each = local.astro_frontend_files
+
+  repository          = github_repository.templates[local.astro_frontend_key].name
+  branch              = "main"
+  file                = each.key
+  content             = file(each.value.source_file)
+  commit_message      = each.value.commit_message
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
@@ -158,94 +115,18 @@ resource "github_repository_file" "astro_frontend_template_catalog" {
   depends_on = [github_repository.templates]
 }
 
-# Skeleton catalog-info.yaml (for generated projects)
-resource "github_repository_file" "astro_frontend_skeleton_catalog" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-astro-frontend"
-  }
+# Template-rendered file resources
+resource "github_repository_file" "astro_frontend_template_files" {
+  for_each = local.astro_frontend_template_files
 
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/catalog-info.yaml"
-  content             = file("${path.module}/templates/astro-frontend/skeleton/catalog-info.yaml")
-  commit_message      = "Add Astro frontend skeleton catalog-info.yaml"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Template README (documentation)
-resource "github_repository_file" "astro_frontend_template_readme" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-astro-frontend"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "README.md"
-  content             = file("${path.module}/templates/astro-frontend/README.md")
-  commit_message      = "Add Astro frontend template documentation"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Template documentation - main index
-resource "github_repository_file" "astro_frontend_docs_index" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-astro-frontend"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "docs/index.md"
-  content             = file("${path.module}/templates/astro-frontend/docs/index.md")
-  commit_message      = "Add Astro frontend template documentation index"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Template documentation - usage guide
-resource "github_repository_file" "astro_frontend_docs_usage" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-astro-frontend"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "docs/template-usage.md"
-  content             = file("${path.module}/templates/astro-frontend/docs/template-usage.md")
-  commit_message      = "Add Astro frontend template usage guide"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Template mkdocs.yml configuration
-resource "github_repository_file" "astro_frontend_mkdocs" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-astro-frontend"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "mkdocs.yml"
-  content             = file("${path.module}/templates/astro-frontend/mkdocs.yml")
-  commit_message      = "Add Astro frontend template mkdocs configuration"
+  repository = github_repository.templates[local.astro_frontend_key].name
+  branch     = "main"
+  file       = each.key
+  content = each.value.use_templatefile ? templatefile(
+    each.value.source_file,
+    each.value.template_vars
+  ) : file(each.value.source_file)
+  commit_message      = each.value.commit_message
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
