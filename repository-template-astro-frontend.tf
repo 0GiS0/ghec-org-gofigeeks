@@ -8,11 +8,13 @@ locals {
   # All files under skeleton/
   astro_frontend_skeleton_all = local.astro_frontend_enabled ? fileset(path.module, "templates/astro-frontend/skeleton/**") : []
 
-  # Exclude unwanted directories (node_modules, coverage)
+  # Exclude unwanted directories (node_modules, coverage, dist)
   astro_frontend_skeleton_all_filtered = [
     for f in local.astro_frontend_skeleton_all : f
     if length(regexall("/node_modules/", f)) == 0
     && length(regexall("/coverage/", f)) == 0
+    && length(regexall("/dist/", f)) == 0
+    && length(regexall("/specs/", f)) == 0
   ]
 
   # Split into templated (.tpl) and regular files

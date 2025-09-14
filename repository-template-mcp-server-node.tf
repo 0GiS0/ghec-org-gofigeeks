@@ -9,11 +9,12 @@ locals {
   # Dynamically list all skeleton files (fileset returns files only)
   mcp_server_node_skeleton_all = local.mcp_server_node_enabled ? fileset(path.module, "templates/mcp-server-node/skeleton/**") : []
 
-  # Exclude unwanted directories to avoid committing generated artifacts or dependencies
+  # Exclude unwanted directories to avoid committing generated artifacts or dependencies (node_modules, coverage, dist)
   mcp_server_node_skeleton_all_filtered = [
     for f in local.mcp_server_node_skeleton_all : f
     if length(regexall("/node_modules/", f)) == 0
     && length(regexall("/coverage/", f)) == 0
+    && length(regexall("/dist/", f)) == 0
   ]
 
   # Separate template (.tpl) files vs regular files (after filtering)

@@ -9,11 +9,12 @@ locals {
   # Dynamically list all skeleton files (fileset returns files only)
   node_service_skeleton_all = local.node_service_enabled ? fileset(path.module, "templates/node-service/skeleton/**") : []
 
-  # Exclude unwanted directories (node_modules) to avoid committing dependencies
+  # Exclude unwanted directories (node_modules, coverage, dist) to avoid committing dependencies or build output
   node_service_skeleton_all_filtered = [
     for f in local.node_service_skeleton_all : f
     if length(regexall("/node_modules/", f)) == 0
     && length(regexall("/coverage/", f)) == 0
+    && length(regexall("/dist/", f)) == 0
   ]
 
   # Separate template (.tpl) files vs regular files (after filtering)
