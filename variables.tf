@@ -11,6 +11,12 @@ variable "github_app_id" {
   sensitive   = true
 }
 
+variable "backstage_app_id" {
+  description = "Backstage GitHub App ID for authentication"
+  type        = string
+  sensitive   = true
+}
+
 variable "github_app_installation_id" {
   description = "GitHub App Installation ID for the organization"
   type        = string

@@ -28,6 +28,12 @@ resource "github_organization_ruleset" "dependecy_check_in_every_pr" {
     bypass_mode = "always"
   }
 
+  bypass_actors {
+    actor_id    = var.backstage_app_id
+    actor_type  = "Integration"
+    bypass_mode = "always"
+  }
+
   rules {
     deletion                = true
     required_linear_history = true
@@ -69,6 +75,12 @@ resource "github_organization_ruleset" "dotnet_ci_workflow" {
 
   bypass_actors {
     actor_id    = var.github_app_id
+    actor_type  = "Integration"
+    bypass_mode = "always"
+  }
+
+  bypass_actors {
+    actor_id    = var.backstage_app_id
     actor_type  = "Integration"
     bypass_mode = "always"
   }

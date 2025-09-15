@@ -10,6 +10,7 @@ github_organization_billing_email = "billing@your-org.example"
 
 # Autenticación con GitHub App (todas son strings en variables.tf)
 github_app_id              = "123456"    # ID de la GitHub App
+backstage_app_id           = "123548"    # ID de la Backstage App 
 github_app_installation_id = "987654321" # Installation ID de la App en la organización
 
 # Clave privada de la GitHub App (NO insertar la real en un commit)
