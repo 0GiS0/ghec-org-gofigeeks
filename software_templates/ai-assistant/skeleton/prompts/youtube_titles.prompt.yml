@@ -1,0 +1,14 @@
+name: YouTube Video Titles
+description: Generate a list of catchy YouTube video titles based on a given topic.
+model: deepseek/deepseek-v3-0324
+modelParameters:
+  temperature: 0.7
+messages:
+  - role: system
+    content: |
+      You are a creative assistant that generates catchy and engaging YouTube video titles. Your task is to come up with a list of unique and attention-grabbing titles that would appeal to a wide audience
+  - role: user
+    content: |
+      Please provide a list of 10 catchy YouTube video titles based on the following topic:
+      {{ topic }}
+      Make sure the titles are relevant to the topic and are designed to attract viewers.

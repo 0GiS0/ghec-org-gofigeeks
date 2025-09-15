@@ -1,156 +1,61 @@
+
 # AI Assistant Template Repository Files
 # This file contains all file resources specific to the AI Assistant template
 
-# .gitignore file
-resource "github_repository_file" "ai_assistant_gitignore" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-ai-assistant"
-  }
+locals {
+  ai_assistant_key     = "backstage-template-ai-assistant"
+  ai_assistant_enabled = contains(keys(var.template_repositories), local.ai_assistant_key)
 
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/.gitignore"
-  content             = file("${path.module}/software_templates/ai-assistant/.gitignore.tpl")
-  commit_message      = "Add AI assistant skeleton .gitignore"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
+  # List all files in ai-assistant template
+  ai_assistant_all = local.ai_assistant_enabled ? fileset(path.module, "software_templates/ai-assistant/**") : []
 
-  depends_on = [github_repository.templates]
-}
+  # Exclude unwanted directories (none for now, but pattern for future)
+  ai_assistant_all_filtered = [
+    for f in local.ai_assistant_all : f
+    if length(regexall("/bin/", f)) == 0
+    && length(regexall("/obj/", f)) == 0
+    && length(regexall("/\\.vs/", f)) == 0
+    && length(regexall("/Debug/", f)) == 0
+    && length(regexall("/Release/", f)) == 0
+    && !endswith(f, ".user")
+    && !endswith(f, ".suo")
+    && !endswith(f, ".cache")
+  ]
 
-# Main application file
-resource "github_repository_file" "ai_assistant_main" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-ai-assistant"
-  }
+  # Separate template (.tpl) files vs regular files
+  ai_assistant_template_raw = [for f in local.ai_assistant_all_filtered : f if endswith(f, ".tpl")]
+  ai_assistant_regular_raw  = [for f in local.ai_assistant_all_filtered : f if !endswith(f, ".tpl")]
 
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/src/main.py"
-  content             = file("${path.module}/software_templates/ai-assistant/skeleton/src/main.py.tpl")
-  commit_message      = "Add AI assistant skeleton main file"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Requirements file
-resource "github_repository_file" "ai_assistant_requirements" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-ai-assistant"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/requirements.txt"
-  content             = file("${path.module}/software_templates/ai-assistant/skeleton/requirements.txt.tpl")
-  commit_message      = "Add AI assistant skeleton requirements"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# README file
-resource "github_repository_file" "ai_assistant_readme" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-ai-assistant"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/README.md"
-  content             = file("${path.module}/software_templates/ai-assistant/skeleton/README.md.tpl")
-  commit_message      = "Add AI assistant skeleton README"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# API tests file
-resource "github_repository_file" "ai_assistant_api_tests" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-ai-assistant"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/api-tests.http"
-  content             = file("${path.module}/software_templates/ai-assistant/skeleton/api-tests.http.tpl")
-  commit_message      = "Add AI assistant skeleton API tests"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# DevContainer configuration
-resource "github_repository_file" "ai_assistant_devcontainer" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-ai-assistant"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/.devcontainer/devcontainer.json"
-  content             = file("${path.module}/software_templates/ai-assistant/skeleton/.devcontainer/devcontainer.json.tpl")
-  commit_message      = "Add AI Assistant devcontainer configuration"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Dependabot configuration
-resource "github_repository_file" "ai_assistant_dependabot" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-ai-assistant"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = ".github/dependabot.yml"
-  content             = file("${path.module}/software_templates/ai-assistant/skeleton/.github/dependabot.yml")
-  commit_message      = "Add Dependabot configuration for pip dependencies"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Template catalog-info.yaml (for Backstage template itself)
-resource "github_repository_file" "ai_assistant_template_catalog" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-ai-assistant"
-  }
-
-  repository = github_repository.templates[each.key].name
-  branch     = "main"
-  file       = "catalog-info.yaml"
-  content = templatefile(
-    "${path.module}/software_templates/ai-assistant/catalog-info.yaml.tpl",
-    {
-      github_organization = var.github_organization
+  # Map for regular files (destination keeps ai-assistant/ prefix)
+  ai_assistant_regular_map = { for f in local.ai_assistant_regular_raw :
+    replace(f, "software_templates/ai-assistant/", "") => {
+      source_file    = "${path.module}/${f}"
+      commit_message = "Sync AI assistant file ${replace(f, "software_templates/ai-assistant/", "")}"
     }
-  )
-  commit_message      = "Add AI assistant template catalog-info.yaml for Backstage"
+  }
+
+  # Map for templated files (.tpl) removing extension in destination
+  ai_assistant_template_map = { for f in local.ai_assistant_template_raw :
+    replace(replace(f, "software_templates/ai-assistant/", ""), ".tpl", "") => {
+      source_file      = "${path.module}/${f}"
+      commit_message   = "Add templated AI assistant file ${replace(replace(f, "software_templates/ai-assistant/", ""), ".tpl", "")}"
+      use_templatefile = true
+      template_vars = {
+        github_organization = var.github_organization
+      }
+    }
+  }
+}
+
+# Regular file resources (direct file content)
+resource "github_repository_file" "ai_assistant_files" {
+  for_each = local.ai_assistant_regular_map
+
+  repository          = github_repository.templates[local.ai_assistant_key].name
+  branch              = "main"
+  file                = each.key
+  content             = file(each.value.source_file)
+  commit_message      = each.value.commit_message
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true
@@ -158,94 +63,18 @@ resource "github_repository_file" "ai_assistant_template_catalog" {
   depends_on = [github_repository.templates]
 }
 
-# Skeleton catalog-info.yaml (for generated projects)
-resource "github_repository_file" "ai_assistant_skeleton_catalog" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-ai-assistant"
-  }
+# Template file resources (files that need template processing)
+resource "github_repository_file" "ai_assistant_template_files" {
+  for_each = local.ai_assistant_template_map
 
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "skeleton/catalog-info.yaml"
-  content             = file("${path.module}/software_templates/ai-assistant/skeleton/catalog-info.yaml")
-  commit_message      = "Add AI assistant skeleton catalog-info.yaml"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Template README (documentation)
-resource "github_repository_file" "ai_assistant_template_readme" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-ai-assistant"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "README.md"
-  content             = file("${path.module}/software_templates/ai-assistant/README.md")
-  commit_message      = "Add AI assistant template documentation"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Template documentation - main index
-resource "github_repository_file" "ai_assistant_docs_index" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-ai-assistant"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "docs/index.md"
-  content             = file("${path.module}/software_templates/ai-assistant/docs/index.md")
-  commit_message      = "Add AI assistant template documentation index"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Template documentation - usage guide
-resource "github_repository_file" "ai_assistant_docs_usage" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-ai-assistant"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "docs/template-usage.md"
-  content             = file("${path.module}/software_templates/ai-assistant/docs/template-usage.md")
-  commit_message      = "Add AI assistant template usage guide"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
-
-  depends_on = [github_repository.templates]
-}
-
-# Template mkdocs.yml configuration
-resource "github_repository_file" "ai_assistant_mkdocs" {
-  for_each = {
-    for key, value in var.template_repositories : key => value
-    if key == "backstage-template-ai-assistant"
-  }
-
-  repository          = github_repository.templates[each.key].name
-  branch              = "main"
-  file                = "mkdocs.yml"
-  content             = file("${path.module}/software_templates/ai-assistant/mkdocs.yml")
-  commit_message      = "Add AI assistant template mkdocs configuration"
+  repository = github_repository.templates[local.ai_assistant_key].name
+  branch     = "main"
+  file       = each.key
+  content = each.value.use_templatefile ? templatefile(
+    each.value.source_file,
+    each.value.template_vars
+  ) : file(each.value.source_file)
+  commit_message      = each.value.commit_message
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email
   overwrite_on_create = true

@@ -6,57 +6,121 @@ on:
 jobs:
   continuous_integration:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
     steps:
-      - uses: actions/checkout@v4
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
 
-      - name: Get the name of the file with extension .csproj
-        id: csproj-file-name
+      - name: 🔍 Detect .csproj files
+        id: detect-csproj
         run: |
-          file_name=$(find . -type f -name "*.csproj")
-          echo "Found it: $file_name"
-          echo "csproj_file=$file_name" >> $GITHUB_OUTPUT
+          set -euo pipefail
+          mapfile -t matches < <(find . -type f -name '*.csproj' -not -path '*/bin/*' -not -path '*/obj/*' | sort)
+          if [ ${#matches[@]} -eq 0 ]; then
+            echo "ERROR: No .csproj files found" >&2
+            exit 1
+          fi
+          printf 'Found %s project files:\n' "${#matches[@]}"
+          printf ' - %s\n' "${matches[@]}"
+          # Export first project for version detection (heuristic: prefer one under src/ if exists)
+          chosen="${matches[0]}"
+          for f in "${matches[@]}"; do
+            if [[ "$f" == */src/* ]]; then chosen="$f"; break; fi
+          done
+          echo "Using project file: $chosen"
+          # Join all project paths by space (safe for simple names); ensure no newlines
+          joined=$(printf '%s ' "${matches[@]}" | sed 's/ *$//')
+          echo "primary_csproj=$chosen" >> "$GITHUB_OUTPUT"
+          echo "all_csproj=$joined" >> "$GITHUB_OUTPUT"
 
-      - name: Install xmllint
-        run: sudo apt-get install libxml2-utils
+      - name: 🧰 Install xmllint
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y --no-install-recommends libxml2-utils
 
-      - name: Get the version of .NET for this project
+      - name: 🧪 Extract TargetFramework version
         id: get-version
         run: |
-          # csproj file
-          xml_file="${{ steps.csproj-file-name.outputs.csproj_file }}"
+          set -euo pipefail
+          xml_file="${{ steps.detect-csproj.outputs.primary_csproj }}"
+          if [ ! -f "$xml_file" ]; then
+            echo "ERROR: Primary project file not found: $xml_file" >&2
+            exit 1
+          fi
+          # Try TargetFramework first
+            tfm=$(xmllint --xpath 'string(//Project/PropertyGroup/TargetFramework)' "$xml_file" 2>/dev/null || true)
+          if [ -z "$tfm" ]; then
+            # Fallback to first in TargetFrameworks (semicolon separated)
+            multi=$(xmllint --xpath 'string(//Project/PropertyGroup/TargetFrameworks)' "$xml_file" 2>/dev/null || true)
+            if [ -n "$multi" ]; then
+              tfm=${multi%%;*}
+              echo "Detected multiple frameworks ($multi); using first: $tfm"
+            fi
+          else
+            echo "Detected single framework: $tfm"
+          fi
+          if [ -z "$tfm" ]; then
+            echo "ERROR: Could not detect TargetFramework(s) in $xml_file" >&2
+            exit 1
+          fi
+          version=$(echo "$tfm" | sed 's/[^0-9\.]//g')
+          if [ -z "$version" ]; then
+            echo "ERROR: Could not extract numeric version from $tfm" >&2
+            exit 1
+          fi
+          echo "Using .NET SDK version: $version (from $tfm)"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
 
-          # Tag we are looking for
-          tag="TargetFramework"
+      - name: 📢 Display detected SDK version
+        run: |
+          echo "Detected .NET version: ${{ steps.get-version.outputs.version }}"
 
-          # Extrac the value
-          tag_value=$(xmllint --xpath "string(//$tag)" "$xml_file")
-
-          # Show the value
-          echo "The value of the tag <$tag> is: $tag_value"
-
-          # Keep just the version, but not net
-          clean_result=$(echo "$tag_value" | sed 's/[^0-9.]//g')
-
-          echo "The result with 'net' would be: $clean_result"
-
-          # Put the value in an output
-          echo "version=$clean_result" >> $GITHUB_OUTPUT
-
-      - run: echo "${{steps.get-version.outputs.version}}"
-
-      - name: Setup dotnet ${{ steps.get-version.outputs.version }}
-        uses: actions/setup-dotnet@v4
+      - name: 🛠️ Setup .NET SDK
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ steps.get-version.outputs.version }}
+          # cache: true
 
-      - name: Display dotnet version
-        run: dotnet --version
+      - name: 🧾 Print dotnet info
+        run: |
+          dotnet --version
+          dotnet --info | sed -n '1,40p'
 
-      - name: Restore dependencies
-        run: dotnet restore
+      - name: 📦 Restore (all projects)
+        run: |
+          set -euo pipefail
+          for proj in ${{ steps.detect-csproj.outputs.all_csproj }}; do
+            echo "Restoring $proj"
+            dotnet restore "$proj"
+          done
 
-      - name: Build
-        run: dotnet build
+      - name: 🏗️ Build (Release)
+        run: |
+          set -euo pipefail
+          for proj in ${{ steps.detect-csproj.outputs.all_csproj }}; do
+            echo "Building $proj"
+            dotnet build "$proj" --no-restore --configuration Release
+          done
 
-      - name: Test
-        run: dotnet test
+      - name: ✅ Test projects
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          test_projects=($(find . -type f -name '*[Tt]ests.csproj' -not -path '*/bin/*' -not -path '*/obj/*'))
+          if [ ${#test_projects[@]} -eq 0 ]; then
+            echo "No test projects found. (OK if none yet)"
+            exit 0
+          fi
+          for t in "${test_projects[@]}"; do
+            echo "Testing $t"
+            dotnet test "$t" --no-build --configuration Release --verbosity normal
+          done
+
+      - name: 📊 Summary
+        if: always()
+        run: |
+          echo "Primary project: ${{ steps.detect-csproj.outputs.primary_csproj }}" >> $GITHUB_STEP_SUMMARY
+          echo "All projects: ${{ steps.detect-csproj.outputs.all_csproj }}" >> $GITHUB_STEP_SUMMARY
+          echo "SDK version: ${{ steps.get-version.outputs.version }}" >> $GITHUB_STEP_SUMMARY

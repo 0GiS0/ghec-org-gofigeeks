@@ -64,7 +64,7 @@ resource "github_organization_ruleset" "dotnet_ci_workflow" {
 
     repository_name {
       exclude = []
-      include = ["~dotnet-*"]
+      include = ["*-dotnet"]
     }
 
     ref_name {

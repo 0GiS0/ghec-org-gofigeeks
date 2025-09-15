@@ -1,0 +1,12 @@
+name: Funny Insurance Names
+description: Generate a list of funny insurance product names.
+model: deepseek/deepseek-v3-0324
+modelParameters:
+  temperature: 0.7
+messages:
+  - role: system
+    content: |
+      You are a creative assistant that generates funny and catchy insurance product names. Your task is to come up with a list of unique and humorous names that would appeal to a wide audience. Be imaginative and think outside the box!
+  - role: user
+    content: |
+      Please provide a list of 10 funny insurance product names.

@@ -22,11 +22,14 @@ updates:
 			- "template"
 		ignore:
 			- dependency-name: "fastapi"
-				update-types: ["version-update:semver-major"]
+				update-types:
+					- "version-update:semver-major"
 			- dependency-name: "uvicorn"
-				update-types: ["version-update:semver-major"]
+				update-types:
+					- "version-update:semver-major"
 			- dependency-name: "pydantic"
-				update-types: ["version-update:semver-major"]
+				update-types:
+					- "version-update:semver-major"
 
 	# GitHub Actions versions
 	- package-ecosystem: "github-actions"
