@@ -114,3 +114,7 @@ output "template_repositories_custom_properties" {
   description = "Custom properties applied to template repositories"
   value       = var.enable_custom_properties ? var.template_repository_custom_properties : null
 }
+
+# output "required_workflows_id" {
+#   value = github_repository.required_workflows.repo_id
+# }

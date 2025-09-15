@@ -80,6 +80,13 @@ resource "github_actions_repository_access_level" "reusable_workflows" {
   access_level = "organization"
 }
 
+# Enable organization-wide access for required-workflows so its reusable workflows
+# can be referenced by other repositories (prevents 'actions sharing disabled' errors)
+resource "github_actions_repository_access_level" "required_workflows" {
+  repository   = github_repository.required_workflows.name
+  access_level = "organization"
+}
+
 # Repository collaborators - Team permissions
 resource "github_team_repository" "platform_admin" {
   for_each = var.template_repositories
@@ -220,6 +227,7 @@ resource "github_repository" "required_workflows" {
   has_wiki               = false
   has_downloads          = false
   vulnerability_alerts   = true
+
 
   # Security settings
   security_and_analysis {

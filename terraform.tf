@@ -19,15 +19,6 @@ terraform {
 
   }
 
-  # Backend configuration for remote state
-  # This should be configured based on your infrastructure
-  # Example for Azure Storage backend:
-  # backend "azurerm" {
-  #   resource_group_name  = "your-terraform-rg"
-  #   storage_account_name = "yourtfstatestorage"
-  #   container_name       = "tfstate"
-  #   key                  = "ghec-org-as-code.terraform.tfstate"
-  # }
 }
 
 # Configure the GitHub Provider with GitHub App authentication
@@ -41,7 +32,4 @@ provider "github" {
 
   # Organization to manage
   owner = var.github_organization
-
-  # Optional: Set base URL for GitHub Enterprise Server
-  # base_url = "https://github.yourcompany.com/api/v3/"
 }
