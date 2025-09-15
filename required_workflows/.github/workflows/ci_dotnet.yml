@@ -1,0 +1,62 @@
+name: 🔴⚙️ .NET Continuous Integration
+
+on:
+  pull_request:
+
+jobs:
+  continuous_integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get the name of the file with extension .csproj
+        id: csproj-file-name
+        run: |
+          file_name=$(find . -type f -name "*.csproj")
+          echo "Found it: $file_name"
+          echo "csproj_file=$file_name" >> $GITHUB_OUTPUT
+
+      - name: Install xmllint
+        run: sudo apt-get install libxml2-utils
+
+      - name: Get the version of .NET for this project
+        id: get-version
+        run: |
+          # csproj file
+          xml_file="${{ steps.csproj-file-name.outputs.csproj_file }}"
+
+          # Tag we are looking for
+          tag="TargetFramework"
+
+          # Extrac the value
+          tag_value=$(xmllint --xpath "string(//$tag)" "$xml_file")
+
+          # Show the value
+          echo "The value of the tag <$tag> is: $tag_value"
+
+          # Keep just the version, but not net
+          clean_result=$(echo "$tag_value" | sed 's/[^0-9.]//g')
+
+          echo "The result with 'net' would be: $clean_result"
+
+          # Put the value in an output
+          echo "version=$clean_result" >> $GITHUB_OUTPUT
+
+      - run: echo "${{steps.get-version.outputs.version}}"
+
+      - name: Setup dotnet ${{ steps.get-version.outputs.version }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ steps.get-version.outputs.version }}
+
+      - name: Display dotnet version
+        run: dotnet --version
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build
+
+      - name: Test
+        run: dotnet test

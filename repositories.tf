@@ -1,5 +1,4 @@
 # Repository Definitions
-# This file contains common repository configurations for Backstage (templates and main IDP)
 
 # Template repositories
 resource "github_repository" "templates" {
@@ -197,4 +196,41 @@ resource "github_branch_protection" "reusable_workflows_main" {
   # Block force pushes
   allows_force_pushes = false
   allows_deletions    = false
+}
+
+
+
+# Required Workflows Repository
+resource "github_repository" "required_workflows" {
+  name        = var.required_workflows_repository.name
+  description = var.required_workflows_repository.description
+  visibility  = "private"
+  auto_init   = true
+
+  # Repository topics
+  topics = concat(var.required_workflows_repository.topics, local.common_topics)
+
+  # Repository settings
+  allow_merge_commit     = false
+  allow_squash_merge     = true
+  allow_rebase_merge     = false
+  delete_branch_on_merge = true
+  has_issues             = true
+  has_projects           = false
+  has_wiki               = false
+  has_downloads          = false
+  vulnerability_alerts   = true
+
+  # Security settings
+  security_and_analysis {
+    secret_scanning {
+      status = "enabled"
+    }
+    secret_scanning_push_protection {
+      status = "enabled"
+    }
+    advanced_security {
+      status = "enabled"
+    }
+  }
 }

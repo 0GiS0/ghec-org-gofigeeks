@@ -3,6 +3,9 @@
 
 # Shared commit configuration for all templates
 locals {
+
+  required_wf_files = fileset(path.module, "required_workflows/**")
+
   template_commit_config = {
     commit_author = "Terraform"
     commit_email  = "terraform@${var.github_organization}.com"
@@ -117,4 +120,20 @@ resource "github_repository_file" "template_mkdocs" {
   overwrite_on_create = true
 
   depends_on = [github_repository.templates]
+}
+
+
+# The folder required_workflow should be replicated inside the required_workflows repo
+resource "github_repository_file" "required_wf_files" {
+  for_each   = { for f in local.required_wf_files : f => f } # map file_path -> file_path
+  repository = github_repository.required_workflows.name
+
+  # destino en el repo: quitar el prefijo local "required_workflows/"
+  file = replace(each.value, "required_workflows/", "")
+
+  # contenido leído del archivo local
+  content = file("${path.module}/${each.value}")
+
+  branch         = "main"
+  commit_message = "chore: add required workflow ${replace(each.value, "required_workflows/", "")}"
 }

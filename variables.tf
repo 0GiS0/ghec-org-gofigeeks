@@ -159,18 +159,18 @@ variable "template_repositories" {
   }
 }
 
-# Backstage IDP Repository Configuration
-variable "backstage_repository" {
-  description = "Configuration for the main Backstage IDP repository"
+# Required workflows Configuration
+variable "required_workflows_repository" {
+  description = "Centralized repository for required GitHub Actions workflows"
   type = object({
     name        = string
     description = string
     topics      = list(string)
   })
   default = {
-    name        = "backstage"
-    description = "Organization's Internal Developer Platform (IDP) powered by Backstage"
-    topics      = ["backstage", "idp", "developer-platform", "portal"]
+    name        = "required-workflows"
+    description = "Centralized repository for required GitHub Actions workflows"
+    topics      = ["github-actions", "workflows", "ci-cd", "required"]
   }
 }
 
