@@ -96,7 +96,7 @@ LOG_FILE="/tmp/mi-formato.log" ./scripts/repo-tools/format-python.sh
 ## Configuración
 
 ### Black Configuration
-Las plantillas Python utilizan una configuración personalizada definida en `templates/pyproject.toml`:
+Las plantillas Python utilizan una configuración personalizada definida en `software_templates/pyproject.toml`:
 
 ```toml
 [tool.black]
@@ -216,7 +216,7 @@ Estos scripts están diseñados para integrarse con GitHub Actions. El flujo tí
 cd /workspaces/ghec-org-as-code
 
 # 1. Crear nueva plantilla
-echo 'print("${{values.name}}")' > templates/skeletons/new-service/main.py.tpl
+echo 'print("${{values.name}}")' > software_templates/skeletons/new-service/main.py.tpl
 
 # 2. Formatear
 ./scripts/repo-tools/format-python.sh

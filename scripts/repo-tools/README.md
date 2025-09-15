@@ -96,7 +96,7 @@ LOG_FILE="/tmp/mi-formato.log" ./scripts/repo-tools/format-python.sh
 ## Configuración
 
 ### Black Configuration
-Las plantillas Python utilizan una configuración personalizada definida en `templates/pyproject.toml`:
+Las plantillas Python utilizan una configuración personalizada definida en `software_templates/pyproject.toml`:
 
 ```toml
 [tool.black]

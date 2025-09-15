@@ -11,7 +11,7 @@ resource "github_repository_file" "ai_assistant_gitignore" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.gitignore"
-  content             = file("${path.module}/templates/ai-assistant/.gitignore.tpl")
+  content             = file("${path.module}/software_templates/ai-assistant/.gitignore.tpl")
   commit_message      = "Add AI assistant skeleton .gitignore"
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email
@@ -30,7 +30,7 @@ resource "github_repository_file" "ai_assistant_main" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/src/main.py"
-  content             = file("${path.module}/templates/ai-assistant/skeleton/src/main.py.tpl")
+  content             = file("${path.module}/software_templates/ai-assistant/skeleton/src/main.py.tpl")
   commit_message      = "Add AI assistant skeleton main file"
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email
@@ -49,7 +49,7 @@ resource "github_repository_file" "ai_assistant_requirements" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/requirements.txt"
-  content             = file("${path.module}/templates/ai-assistant/skeleton/requirements.txt.tpl")
+  content             = file("${path.module}/software_templates/ai-assistant/skeleton/requirements.txt.tpl")
   commit_message      = "Add AI assistant skeleton requirements"
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email
@@ -68,7 +68,7 @@ resource "github_repository_file" "ai_assistant_readme" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/README.md"
-  content             = file("${path.module}/templates/ai-assistant/skeleton/README.md.tpl")
+  content             = file("${path.module}/software_templates/ai-assistant/skeleton/README.md.tpl")
   commit_message      = "Add AI assistant skeleton README"
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email
@@ -87,7 +87,7 @@ resource "github_repository_file" "ai_assistant_api_tests" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/api-tests.http"
-  content             = file("${path.module}/templates/ai-assistant/skeleton/api-tests.http.tpl")
+  content             = file("${path.module}/software_templates/ai-assistant/skeleton/api-tests.http.tpl")
   commit_message      = "Add AI assistant skeleton API tests"
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email
@@ -106,7 +106,7 @@ resource "github_repository_file" "ai_assistant_devcontainer" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.devcontainer/devcontainer.json"
-  content             = file("${path.module}/templates/ai-assistant/skeleton/.devcontainer/devcontainer.json.tpl")
+  content             = file("${path.module}/software_templates/ai-assistant/skeleton/.devcontainer/devcontainer.json.tpl")
   commit_message      = "Add AI Assistant devcontainer configuration"
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email
@@ -125,7 +125,7 @@ resource "github_repository_file" "ai_assistant_dependabot" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = ".github/dependabot.yml"
-  content             = file("${path.module}/templates/ai-assistant/skeleton/.github/dependabot.yml")
+  content             = file("${path.module}/software_templates/ai-assistant/skeleton/.github/dependabot.yml")
   commit_message      = "Add Dependabot configuration for pip dependencies"
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email
@@ -145,7 +145,7 @@ resource "github_repository_file" "ai_assistant_template_catalog" {
   branch     = "main"
   file       = "catalog-info.yaml"
   content = templatefile(
-    "${path.module}/templates/ai-assistant/catalog-info.yaml.tpl",
+    "${path.module}/software_templates/ai-assistant/catalog-info.yaml.tpl",
     {
       github_organization = var.github_organization
     }
@@ -168,7 +168,7 @@ resource "github_repository_file" "ai_assistant_skeleton_catalog" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/catalog-info.yaml"
-  content             = file("${path.module}/templates/ai-assistant/skeleton/catalog-info.yaml")
+  content             = file("${path.module}/software_templates/ai-assistant/skeleton/catalog-info.yaml")
   commit_message      = "Add AI assistant skeleton catalog-info.yaml"
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email
@@ -187,7 +187,7 @@ resource "github_repository_file" "ai_assistant_template_readme" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "README.md"
-  content             = file("${path.module}/templates/ai-assistant/README.md")
+  content             = file("${path.module}/software_templates/ai-assistant/README.md")
   commit_message      = "Add AI assistant template documentation"
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email
@@ -206,7 +206,7 @@ resource "github_repository_file" "ai_assistant_docs_index" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "docs/index.md"
-  content             = file("${path.module}/templates/ai-assistant/docs/index.md")
+  content             = file("${path.module}/software_templates/ai-assistant/docs/index.md")
   commit_message      = "Add AI assistant template documentation index"
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email
@@ -225,7 +225,7 @@ resource "github_repository_file" "ai_assistant_docs_usage" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "docs/template-usage.md"
-  content             = file("${path.module}/templates/ai-assistant/docs/template-usage.md")
+  content             = file("${path.module}/software_templates/ai-assistant/docs/template-usage.md")
   commit_message      = "Add AI assistant template usage guide"
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email
@@ -244,7 +244,7 @@ resource "github_repository_file" "ai_assistant_mkdocs" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "mkdocs.yml"
-  content             = file("${path.module}/templates/ai-assistant/mkdocs.yml")
+  content             = file("${path.module}/software_templates/ai-assistant/mkdocs.yml")
   commit_message      = "Add AI assistant template mkdocs configuration"
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email

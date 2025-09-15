@@ -1,3 +1,16 @@
-# Copied from templates/dependabot/basic.yml.tpl
-# Basic dependabot configuration
-# ...existing content...
+version: 2
+
+# Common Docs Template Dependabot
+# Solo monitorea GitHub Actions ya que la documentación generada puede usar acciones de build.
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "07:30"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    open-pull-requests-limit: 5
+    labels: ["dependencies", "github-actions", "docs"]

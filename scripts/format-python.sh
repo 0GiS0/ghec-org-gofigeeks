@@ -46,14 +46,14 @@ echo "$(date -Is) INICIO búsqueda archivos .py.tpl" >> "$LOG_FILE"
 # Buscar y formatear todos los archivos .py.tpl
 while IFS= read -r -d '' file; do
     format_python_template "$file"
-done < <(find templates/ -name "*.py.tpl" -type f -print0 2>/dev/null || true)
+done < <(find software_templates/ -name "*.py.tpl" -type f -print0 2>/dev/null || true)
 
 # Verificar si encontramos archivos
-PYTHON_FILES_COUNT=$(find templates/ -name "*.py.tpl" -type f | wc -l)
+PYTHON_FILES_COUNT=$(find software_templates/ -name "*.py.tpl" -type f | wc -l)
 echo "$(date -Is) PROCESADOS $PYTHON_FILES_COUNT archivos Python" >> "$LOG_FILE"
 
 if [ "$PYTHON_FILES_COUNT" -eq 0 ]; then
-    echo "No se encontraron archivos Python (.py.tpl) en templates/"
+    echo "No se encontraron archivos Python (.py.tpl) en software_templates/"
     echo "$(date -Is) WARNING no hay archivos Python para formatear" >> "$LOG_FILE"
 else
     echo "Procesados $PYTHON_FILES_COUNT archivos Python"

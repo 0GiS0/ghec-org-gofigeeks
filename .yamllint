@@ -8,10 +8,10 @@ rules:
   document-start:
     present: true
   truthy:
-    allowed-values: ['true', 'false', 'on', 'off']
+    allowed-values: ["true", "false", "on", "off"]
 
 ignore: |
   # Ignore files with complex templating syntax that yamllint cannot parse
-  templates/catalog-info.yaml.tpl
-  templates/skeletons/helm-base/templates/deployment.yaml.tpl
-  templates/skeletons/helm-base/templates/_helpers.tpl.tpl
+  software_templates/catalog-info.yaml.tpl
+  software_templates/skeletons/helm-base/templates/deployment.yaml.tpl
+  software_templates/skeletons/helm-base/templates/_helpers.tpl.tpl

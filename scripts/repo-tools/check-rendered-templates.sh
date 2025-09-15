@@ -29,10 +29,10 @@ find templates -name "*.py.tpl" | while read -r template; do
         "$template" > "$rendered_file"
     
     # Verificar con black usando configuración de templates
-    if ! black --config templates/pyproject.toml --check --quiet "$rendered_file" 2>/dev/null; then
+    if ! black --config software_templates/pyproject.toml --check --quiet "$rendered_file" 2>/dev/null; then
         echo "    ❌ FALLA: $template genera código que no pasa black --check"
         echo "    📄 Archivo renderizado: $rendered_file"
-        echo "    🔧 Ejecute: black --config templates/pyproject.toml --diff $rendered_file"
+    echo "    🔧 Ejecute: black --config software_templates/pyproject.toml --diff $rendered_file"
         exit 1
     else
         echo "    ✅ OK: $template"

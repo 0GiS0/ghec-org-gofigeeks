@@ -1,6 +1,9 @@
+---
 version: 2
 
-# FastAPI Service Template Dependabot configuration (root repo template)
+# AI Assistant Template Dependabot configuration
+# Mantiene dependencias Python del esqueleto, GitHub Actions y opcionalmente
+# devcontainers
 
 updates:
   - package-ecosystem: "pip"
@@ -8,13 +11,13 @@ updates:
     schedule:
       interval: weekly
       day: monday
-      time: "06:00"
+      time: "06:30"
     open-pull-requests-limit: 8
     commit-message:
       prefix: "deps"
       prefix-development: "deps-dev"
       include: "scope"
-    labels: ["dependencies", "python", "fastapi"]
+    labels: ["dependencies", "python", "ai-assistant"]
     ignore:
       - dependency-name: "fastapi"
         update-types: ["version-update:semver-major"]
@@ -28,7 +31,7 @@ updates:
     schedule:
       interval: weekly
       day: monday
-      time: "06:10"
+      time: "06:40"
     open-pull-requests-limit: 5
     commit-message:
       prefix: "ci"

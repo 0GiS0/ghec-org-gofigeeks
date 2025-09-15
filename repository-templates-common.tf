@@ -16,7 +16,7 @@ resource "github_repository_file" "codeowners" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = ".github/CODEOWNERS"
-  content = templatefile("${path.module}/templates/CODEOWNERS.tpl", {
+  content = templatefile("${path.module}/software_templates/CODEOWNERS.tpl", {
     platform_team      = "@${github_team.platform.slug}"
     template_approvers = "@${github_team.template_approvers.slug}"
   })
@@ -33,7 +33,7 @@ resource "github_repository_file" "backstage_codeowners" {
   repository = github_repository.backstage.name
   branch     = "main"
   file       = ".github/CODEOWNERS"
-  content = templatefile("${path.module}/templates/CODEOWNERS-backstage.tpl", {
+  content = templatefile("${path.module}/software_templates/CODEOWNERS-backstage.tpl", {
     platform_team      = "@${github_team.platform.slug}"
     template_approvers = "@${github_team.template_approvers.slug}"
   })
@@ -50,7 +50,7 @@ resource "github_repository_file" "backstage_readme" {
   repository = github_repository.backstage.name
   branch     = "main"
   file       = "README.md"
-  content = templatefile("${path.module}/templates/backstage-README.md.tpl", {
+  content = templatefile("${path.module}/software_templates/backstage-README.md.tpl", {
     organization = var.github_organization
   })
   commit_message      = "Add README with Backstage setup instructions"
@@ -66,7 +66,7 @@ resource "github_repository_file" "reusable_ci_workflow" {
   repository          = github_repository.reusable_workflows.name
   branch              = "main"
   file                = ".github/workflows/ci-template.yml"
-  content             = file("${path.module}/templates/reusable-ci-template.yml")
+  content             = file("${path.module}/software_templates/reusable-ci-template.yml")
   commit_message      = "Add reusable CI/CD workflow for template validation"
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email
@@ -80,7 +80,7 @@ resource "github_repository_file" "reusable_workflows_readme" {
   repository = github_repository.reusable_workflows.name
   branch     = "main"
   file       = "README.md"
-  content = templatefile("${path.module}/templates/reusable-workflows-README.md.tpl", {
+  content = templatefile("${path.module}/software_templates/reusable-workflows-README.md.tpl", {
     organization = var.github_organization
   })
   commit_message      = "Add README with reusable workflows documentation"
@@ -96,7 +96,7 @@ resource "github_repository_file" "reusable_workflows_codeowners" {
   repository = github_repository.reusable_workflows.name
   branch     = "main"
   file       = ".github/CODEOWNERS"
-  content = templatefile("${path.module}/templates/CODEOWNERS.tpl", {
+  content = templatefile("${path.module}/software_templates/CODEOWNERS.tpl", {
     platform_team      = "@${github_team.platform.slug}"
     template_approvers = "@${var.github_organization}/${github_team.template_approvers.slug}"
   })
@@ -115,7 +115,7 @@ resource "github_repository_file" "template_ci" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = ".github/workflows/ci-template.yml"
-  content = templatefile("${path.module}/templates/ci-template-caller.yml", {
+  content = templatefile("${path.module}/software_templates/ci-template-caller.yml", {
     organization = var.github_organization
   })
   commit_message      = "Add CI/CD workflow caller for template validation"
@@ -135,7 +135,7 @@ resource "github_repository_file" "template_mkdocs" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "mkdocs.yml"
-  content = templatefile("${path.module}/templates/mkdocs.yml.tpl", {
+  content = templatefile("${path.module}/software_templates/mkdocs.yml.tpl", {
     template_name        = each.key
     template_title       = each.value.description
     template_description = each.value.description

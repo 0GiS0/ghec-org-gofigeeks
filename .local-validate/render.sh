@@ -32,7 +32,7 @@ locals {
     organization         = var.organization
   }
 
-  rendered = templatefile("${path.module}/../templates/catalog-info.yaml.tpl", local.data)
+  rendered = templatefile("${path.module}/../software_templates/catalog-info.yaml.tpl", local.data)
 }
 
 variable "template_name" { type = string }

@@ -7,7 +7,7 @@ locals {
   mcp_server_node_enabled = contains(keys(var.template_repositories), local.mcp_server_node_key)
 
   # Dynamically list all skeleton files (fileset returns files only)
-  mcp_server_node_skeleton_all = local.mcp_server_node_enabled ? fileset(path.module, "templates/mcp-server-node/skeleton/**") : []
+  mcp_server_node_skeleton_all = local.mcp_server_node_enabled ? fileset(path.module, "software_templates/mcp-server-node/skeleton/**") : []
 
   # Exclude unwanted directories to avoid committing generated artifacts or dependencies (node_modules, coverage, dist)
   mcp_server_node_skeleton_all_filtered = [
@@ -23,17 +23,17 @@ locals {
 
   # Map for regular skeleton files (destination keeps skeleton/ prefix)
   mcp_server_node_skeleton_regular_map = { for f in local.mcp_server_node_skeleton_regular_raw :
-    replace(f, "templates/mcp-server-node/", "") => {
+    replace(f, "software_templates/mcp-server-node/", "") => {
       source_file    = "${path.module}/${f}"
-      commit_message = "Sync MCP Server Node skeleton file ${replace(f, "templates/mcp-server-node/", "")}"
+      commit_message = "Sync MCP Server Node skeleton file ${replace(f, "software_templates/mcp-server-node/", "")}"
     }
   }
 
   # Map for templated skeleton files (.tpl) removing extension in destination (none currently, but keep logic for future)
   mcp_server_node_skeleton_template_map = { for f in local.mcp_server_node_skeleton_template_raw :
-    replace(replace(f, "templates/mcp-server-node/", ""), ".tpl", "") => {
+    replace(replace(f, "software_templates/mcp-server-node/", ""), ".tpl", "") => {
       source_file      = "${path.module}/${f}"
-      commit_message   = "Add templated MCP Server Node skeleton file ${replace(replace(f, "templates/mcp-server-node/", ""), ".tpl", "")}"
+      commit_message   = "Add templated MCP Server Node skeleton file ${replace(replace(f, "software_templates/mcp-server-node/", ""), ".tpl", "")}"
       use_templatefile = true
       template_vars = {
         github_organization = var.github_organization
@@ -45,14 +45,14 @@ locals {
   mcp_server_node_template_level_files = local.mcp_server_node_enabled ? merge({
     # Top-level README for the template (documentation)
     "README.md" = {
-      source_file    = "${path.module}/templates/mcp-server-node/README.md"
+      source_file    = "${path.module}/software_templates/mcp-server-node/README.md"
       commit_message = "Add MCP Server Node.js template README"
     }
     }, {
-    for f in fileset(path.module, "templates/mcp-server-node/docs/**") :
-    replace(f, "templates/mcp-server-node/", "") => {
+    for f in fileset(path.module, "software_templates/mcp-server-node/docs/**") :
+    replace(f, "software_templates/mcp-server-node/", "") => {
       source_file    = "${path.module}/${f}"
-      commit_message = "Add MCP Server Node.js template docs file ${replace(f, "templates/mcp-server-node/", "")}"
+      commit_message = "Add MCP Server Node.js template docs file ${replace(f, "software_templates/mcp-server-node/", "")}"
     }
   }) : {}
 
@@ -69,7 +69,7 @@ locals {
       # Backstage root catalog-info remains templated
       # Note: source filename in template folder is intentionally "catelog-info.yaml.tpl" (typo retained in source path)
       "catalog-info.yaml" = {
-        source_file      = "${path.module}/templates/mcp-server-node/catelog-info.yaml.tpl"
+        source_file      = "${path.module}/software_templates/mcp-server-node/catelog-info.yaml.tpl"
         commit_message   = "Add MCP Server Node.js template catalog-info.yaml for Backstage"
         use_templatefile = true
         template_vars = {

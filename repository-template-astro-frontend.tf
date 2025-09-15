@@ -6,7 +6,7 @@ locals {
   astro_frontend_enabled = contains(keys(var.template_repositories), local.astro_frontend_key)
 
   # All files under skeleton/
-  astro_frontend_skeleton_all = local.astro_frontend_enabled ? fileset(path.module, "templates/astro-frontend/skeleton/**") : []
+  astro_frontend_skeleton_all = local.astro_frontend_enabled ? fileset(path.module, "software_templates/astro-frontend/skeleton/**") : []
 
   # Exclude unwanted directories (node_modules, coverage, dist)
   astro_frontend_skeleton_all_filtered = [
@@ -23,7 +23,7 @@ locals {
 
   # Map regular skeleton files (destination keeps skeleton/ prefix)
   astro_frontend_skeleton_regular_map = { for f in local.astro_frontend_skeleton_regular_raw :
-    replace(f, "templates/astro-frontend/", "") => {
+    replace(f, "software_templates/astro-frontend/", "") => {
       source_file    = "${path.module}/${f}"
       commit_message = "Sync Astro skeleton file ${replace(f, "templates/astro-frontend/", "")}"
     }
@@ -31,7 +31,7 @@ locals {
 
   # Map templated skeleton files (.tpl) removing extension in destination
   astro_frontend_skeleton_template_map = { for f in local.astro_frontend_skeleton_template_raw :
-    replace(replace(f, "templates/astro-frontend/", ""), ".tpl", "") => {
+    replace(replace(f, "software_templates/astro-frontend/", ""), ".tpl", "") => {
       source_file      = "${path.module}/${f}"
       commit_message   = "Add templated Astro skeleton file ${replace(replace(f, "templates/astro-frontend/", ""), ".tpl", "")}"
       use_templatefile = true
@@ -44,27 +44,27 @@ locals {
   # Explicit template-level (non-skeleton) regular files
   astro_frontend_template_level_files = local.astro_frontend_enabled ? {
     "README.md" = {
-      source_file    = "${path.module}/templates/astro-frontend/README.md"
+      source_file    = "${path.module}/software_templates/astro-frontend/README.md"
       commit_message = "Sync Astro frontend template README"
     }
     "docs/index.md" = {
-      source_file    = "${path.module}/templates/astro-frontend/docs/index.md"
+      source_file    = "${path.module}/software_templates/astro-frontend/docs/index.md"
       commit_message = "Sync Astro frontend template docs index"
     }
     "docs/template-usage.md" = {
-      source_file    = "${path.module}/templates/astro-frontend/docs/template-usage.md"
+      source_file    = "${path.module}/software_templates/astro-frontend/docs/template-usage.md"
       commit_message = "Sync Astro frontend template usage guide"
     }
     "mkdocs.yml" = {
-      source_file    = "${path.module}/templates/astro-frontend/mkdocs.yml"
+      source_file    = "${path.module}/software_templates/astro-frontend/mkdocs.yml"
       commit_message = "Sync Astro frontend template mkdocs configuration"
     }
     ".github/dependabot.yml" = {
-      source_file    = "${path.module}/templates/astro-frontend/.github/dependabot.yml"
+      source_file    = "${path.module}/software_templates/astro-frontend/.github/dependabot.yml"
       commit_message = "Sync Astro frontend dependabot configuration"
     }
     ".devcontainer/devcontainer.json" = {
-      source_file    = "${path.module}/templates/astro-frontend/.devcontainer/devcontainer.json"
+      source_file    = "${path.module}/software_templates/astro-frontend/.devcontainer/devcontainer.json"
       commit_message = "Sync Astro frontend devcontainer configuration"
     }
   } : {}
@@ -80,7 +80,7 @@ locals {
     local.astro_frontend_skeleton_template_map,
     {
       "catalog-info.yaml" = {
-        source_file      = "${path.module}/templates/astro-frontend/catalog-info.yaml.tpl"
+        source_file      = "${path.module}/software_templates/astro-frontend/catalog-info.yaml.tpl"
         commit_message   = "Add Astro frontend template catalog-info.yaml for Backstage"
         use_templatefile = true
         template_vars = {
@@ -90,7 +90,7 @@ locals {
       }
       # Root .gitignore for skeleton gets rendered from .gitignore.tpl into skeleton/.gitignore
       "skeleton/.gitignore" = {
-        source_file      = "${path.module}/templates/astro-frontend/.gitignore.tpl"
+        source_file      = "${path.module}/software_templates/astro-frontend/.gitignore.tpl"
         commit_message   = "Add Astro frontend skeleton .gitignore"
         use_templatefile = true
         template_vars = {

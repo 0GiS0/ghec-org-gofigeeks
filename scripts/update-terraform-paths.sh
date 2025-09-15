@@ -33,11 +33,11 @@ for tf_file in "${TERRAFORM_FILES[@]}"; do
         
         # Actualizar rutas de archivos que van en skeleton/
         # Cambiar rutas como "templates/fastapi-service/app/" a "templates/fastapi-service/skeleton/app/"
-        sed -i "s|templates/$template_name/\([^\"]*\)|templates/$template_name/skeleton/\1|g" "$tf_file"
+    sed -i "s|software_templates/$template_name/\([^"]*\)|software_templates/$template_name/skeleton/\1|g" "$tf_file"
         
         # Pero revertir para archivos que NO van en skeleton (como el catalog-info.yaml del template)
         # Estos archivos están directamente en la raíz del template
-        sed -i "s|templates/$template_name/skeleton/skeleton/|templates/$template_name/skeleton/|g" "$tf_file"
+    sed -i "s|software_templates/$template_name/skeleton/skeleton/|software_templates/$template_name/skeleton/|g" "$tf_file"
         
         echo "✅ $tf_file actualizado"
     else

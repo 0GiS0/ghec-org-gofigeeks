@@ -1,26 +1,22 @@
+---
 version: 2
 
-# FastAPI Service Template Dependabot configuration (root repo template)
+# .NET Service Template Dependabot configuration
 
 updates:
-  - package-ecosystem: "pip"
+  - package-ecosystem: "nuget"
     directory: "/skeleton"
     schedule:
       interval: weekly
       day: monday
-      time: "06:00"
+      time: "07:30"
     open-pull-requests-limit: 8
     commit-message:
-      prefix: "deps"
-      prefix-development: "deps-dev"
+      prefix: "nuget"
       include: "scope"
-    labels: ["dependencies", "python", "fastapi"]
+    labels: ["dependencies", "dotnet", "nuget"]
     ignore:
-      - dependency-name: "fastapi"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "uvicorn"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "pydantic"
+      - dependency-name: "Microsoft.Extensions.*"
         update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
@@ -28,7 +24,7 @@ updates:
     schedule:
       interval: weekly
       day: monday
-      time: "06:10"
+      time: "07:40"
     open-pull-requests-limit: 5
     commit-message:
       prefix: "ci"

@@ -25,7 +25,7 @@ Este repositorio gestiona la configuración de una organización de GitHub Enter
 - `custom_properties.tf` - Gestión de custom properties organizacionales
 - `scripts/terraform-integration/` - Scripts para integraciones avanzadas con GitHub API
 - `scripts/repo-tools/` - Herramientas de mantenimiento y validación del repositorio
-- `templates/` - Plantillas para repositorios y workflows
+- `software_templates/` - Plantillas para repositorios y workflows
 - `terraform.tfvars.example` - Archivo de ejemplo para variables
 
 ## Estilo de código
@@ -163,7 +163,7 @@ LOG_FILE="/tmp/mi-verificacion.log" ./scripts/repo-tools/check-python-format.sh
 ```
 
 **Características:**
-- Detecta automáticamente todos los archivos `.py.tpl` en `templates/`
+- Detecta automáticamente todos los archivos `.py.tpl` en `software_templates/`
 - Genera logs detallados con timestamps
 - Código de salida 0 si todo está correcto, 1 si hay errores
 - Proporciona comandos para corregir errores
@@ -256,12 +256,12 @@ cat /tmp/custom-properties-service-tier.log
    ```
 
 Los archivos Python verificados incluyen:
-- `templates/skeletons/ai-assistant/src/main.py.tpl`
-- `templates/skeletons/fastapi-service/app/**/*.py.tpl`
-- `templates/skeletons/fastapi-service/tests/**/*.py.tpl`
-- `templates/skeletons/env-live/validate_config.py.tpl`
+- `software_templates/skeletons/ai-assistant/src/main.py.tpl`
+- `software_templates/skeletons/fastapi-service/app/**/*.py.tpl`
+- `software_templates/skeletons/fastapi-service/tests/**/*.py.tpl`
+- `software_templates/skeletons/env-live/validate_config.py.tpl`
 
-**Nota**: Los scripts automáticamente detectan todos los archivos `.py.tpl` en el directorio `templates/`
+**Nota**: Los scripts automáticamente detectan todos los archivos `.py.tpl` en el directorio `software_templates/`
 
 ### Testing de Custom Properties
 
@@ -394,14 +394,14 @@ Al modificar archivos `.py.tpl`, verificar:
 
 ## Plantillas y workflows
 
-- Las plantillas están en `templates/` y se usan para crear repositorios
+- Las plantillas están en `software_templates/` y se usan para crear repositorios
 - Los workflows de CI/CD se generan automáticamente
 - Modificar plantillas requiere actualizar la configuración de repositorios
 - Verificar que `manage_workflow_files` esté configurado correctamente
 
 ### Plantillas para Backstage
 
-Las plantillas en el directorio `templates/` están diseñadas para ser utilizadas por **Backstage** como templates de software. Backstage es una plataforma de desarrollador que permite crear nuevos proyectos desde plantillas predefinidas.
+Las plantillas en el directorio `software_templates/` están diseñadas para ser utilizadas por **Backstage** como templates de software. Backstage es una plataforma de desarrollador que permite crear nuevos proyectos desde plantillas predefinidas.
 
 #### Manejo de placeholders mixtos (Terraform + Backstage)
 

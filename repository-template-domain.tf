@@ -11,7 +11,7 @@ resource "github_repository_file" "domain_template_catalog" {
   repository = github_repository.templates[each.key].name
   branch     = "main"
   file       = "catalog-info.yaml"
-  content = templatefile("${path.module}/templates/domain/catalog-info.yaml.tpl", {
+  content = templatefile("${path.module}/software_templates/domain/catalog-info.yaml.tpl", {
     github_organization = var.github_organization
   })
   commit_message      = "Add Domain template catalog-info.yaml for Backstage"
@@ -32,7 +32,7 @@ resource "github_repository_file" "domain_template_skeleton_catalog" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/catalog-info.yaml"
-  content             = file("${path.module}/templates/domain/skeleton/catalog-info.yaml")
+  content             = file("${path.module}/software_templates/domain/skeleton/catalog-info.yaml")
   commit_message      = "Add Domain skeleton catalog-info.yaml"
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email
@@ -51,7 +51,7 @@ resource "github_repository_file" "domain_template_readme" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "README.md"
-  content             = file("${path.module}/templates/domain/README.md")
+  content             = file("${path.module}/software_templates/domain/README.md")
   commit_message      = "Add Domain template documentation"
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email
@@ -70,7 +70,7 @@ resource "github_repository_file" "domain_template_skeleton_readme" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/README.md"
-  content             = file("${path.module}/templates/domain/skeleton/README.md")
+  content             = file("${path.module}/software_templates/domain/skeleton/README.md")
   commit_message      = "Add Domain skeleton README"
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email
@@ -89,7 +89,7 @@ resource "github_repository_file" "domain_template_skeleton_gitignore" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.gitignore"
-  content             = file("${path.module}/templates/domain/skeleton/.gitignore")
+  content             = file("${path.module}/software_templates/domain/skeleton/.gitignore")
   commit_message      = "Add Domain skeleton .gitignore"
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email
@@ -108,7 +108,7 @@ resource "github_repository_file" "domain_docs_index" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "docs/index.md"
-  content             = file("${path.module}/templates/domain/docs/index.md")
+  content             = file("${path.module}/software_templates/domain/docs/index.md")
   commit_message      = "Add Domain template documentation index"
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email
@@ -127,7 +127,7 @@ resource "github_repository_file" "domain_docs_usage" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "docs/template-usage.md"
-  content             = file("${path.module}/templates/domain/docs/template-usage.md")
+  content             = file("${path.module}/software_templates/domain/docs/template-usage.md")
   commit_message      = "Add Domain template usage guide"
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email
@@ -146,7 +146,7 @@ resource "github_repository_file" "domain_mkdocs" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "mkdocs.yml"
-  content             = file("${path.module}/templates/domain/mkdocs.yml")
+  content             = file("${path.module}/software_templates/domain/mkdocs.yml")
   commit_message      = "Add Domain template mkdocs configuration"
   commit_author       = local.template_commit_config.commit_author
   commit_email        = local.template_commit_config.commit_email

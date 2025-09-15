@@ -20,7 +20,7 @@ check_python_template() {
     cp "$template_file" "$temp_file"
     
     # Ejecutar black --check en el archivo temporal usando configuración personalizada
-    if black --config templates/pyproject.toml --check --diff "$temp_file" >> "$LOG_FILE" 2>&1; then
+    if black --config software_templates/pyproject.toml --check --diff "$temp_file" >> "$LOG_FILE" 2>&1; then
         echo "$(date -Is) OK $template_file formato correcto" >> "$LOG_FILE"
     else
         echo "$(date -Is) ERROR $template_file formato incorrecto" >> "$LOG_FILE"
@@ -45,14 +45,14 @@ echo "$(date -Is) INICIO búsqueda archivos .py.tpl" >> "$LOG_FILE"
 # Buscar y verificar todos los archivos .py.tpl
 while IFS= read -r -d '' file; do
     check_python_template "$file"
-done < <(find templates/ -name "*.py.tpl" -type f -print0 2>/dev/null || true)
+done < <(find software_templates/ -name "*.py.tpl" -type f -print0 2>/dev/null || true)
 
 # Verificar si encontramos archivos
-PYTHON_FILES_COUNT=$(find templates/ -name "*.py.tpl" -type f | wc -l)
+PYTHON_FILES_COUNT=$(find software_templates/ -name "*.py.tpl" -type f | wc -l)
 echo "$(date -Is) ENCONTRADOS $PYTHON_FILES_COUNT archivos Python" >> "$LOG_FILE"
 
 if [ "$PYTHON_FILES_COUNT" -eq 0 ]; then
-    echo "No se encontraron archivos Python (.py.tpl) en templates/"
+    echo "No se encontraron archivos Python (.py.tpl) en software_templates/"
     echo "$(date -Is) WARNING no hay archivos Python para verificar" >> "$LOG_FILE"
 else
     echo "Verificados $PYTHON_FILES_COUNT archivos Python"
@@ -65,7 +65,7 @@ else
     echo "$(date -Is) FAILURE algunos archivos tienen formato incorrecto" >> "$LOG_FILE"
     echo "❌ Algunos archivos Python no tienen el formato correcto"
     echo "Revisar el log en: $LOG_FILE"
-    echo "Para corregir automáticamente, ejecutar: black templates/**/*.py.tpl"
+    echo "Para corregir automáticamente, ejecutar: black software_templates/**/*.py.tpl"
 fi
 
 exit $EXIT_CODE

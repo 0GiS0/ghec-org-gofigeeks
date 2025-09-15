@@ -1,34 +1,29 @@
 ---
 version: 2
 
+# Node Service Template Dependabot configuration
+
 updates:
-  # Node.js/npm dependencies
   - package-ecosystem: "npm"
     directory: "/skeleton"
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
+      interval: weekly
+      day: monday
+      time: "08:00"
     open-pull-requests-limit: 5
     commit-message:
       prefix: "npm"
       include: "scope"
-    labels:
-      - "dependencies"
-      - "npm"
+    labels: ["dependencies", "npm", "node"]
 
-  # GitHub Actions dependencies
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
+      interval: weekly
+      day: monday
+      time: "08:05"
     open-pull-requests-limit: 3
     commit-message:
-      prefix: "github-actions"
+      prefix: "ci"
       include: "scope"
-    labels:
-      - "dependencies"
-      - "github-actions"
-      - "template"
+    labels: ["dependencies", "github-actions", "ci"]

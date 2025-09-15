@@ -7,7 +7,7 @@ locals {
   dotnet_service_enabled = contains(keys(var.template_repositories), local.dotnet_service_key)
 
   # Dynamically list all skeleton files (fileset returns files only)
-  dotnet_service_skeleton_all = local.dotnet_service_enabled ? fileset(path.module, "templates/dotnet-service/skeleton/**") : []
+  dotnet_service_skeleton_all = local.dotnet_service_enabled ? fileset(path.module, "software_templates/dotnet-service/skeleton/**") : []
 
   # Exclude unwanted directories (bin, obj, etc.) to avoid committing build artifacts
   dotnet_service_skeleton_all_filtered = [
@@ -28,17 +28,17 @@ locals {
 
   # Map for regular skeleton files (destination keeps skeleton/ prefix)
   dotnet_service_skeleton_regular_map = { for f in local.dotnet_service_skeleton_regular_raw :
-    replace(f, "templates/dotnet-service/", "") => {
+    replace(f, "software_templates/dotnet-service/", "") => {
       source_file    = "${path.module}/${f}"
-      commit_message = "Sync .NET skeleton file ${replace(f, "templates/dotnet-service/", "")}" # generic to avoid churn
+      commit_message = "Sync .NET skeleton file ${replace(f, "software_templates/dotnet-service/", "")}" # generic to avoid churn
     }
   }
 
   # Map for templated skeleton files (.tpl) removing extension in destination
   dotnet_service_skeleton_template_map = { for f in local.dotnet_service_skeleton_template_raw :
-    replace(replace(f, "templates/dotnet-service/", ""), ".tpl", "") => {
+    replace(replace(f, "software_templates/dotnet-service/", ""), ".tpl", "") => {
       source_file      = "${path.module}/${f}"
-      commit_message   = "Add templated .NET skeleton file ${replace(replace(f, "templates/dotnet-service/", ""), ".tpl", "")}"
+      commit_message   = "Add templated .NET skeleton file ${replace(replace(f, "software_templates/dotnet-service/", ""), ".tpl", "")}"
       use_templatefile = true
       template_vars = {
         github_organization = var.github_organization
@@ -50,15 +50,15 @@ locals {
   dotnet_service_template_level_files = local.dotnet_service_enabled ? {
     # README now templated via templatefile (see dotnet_service_template_files merge)
     "docs/index.md" = {
-      source_file    = "${path.module}/templates/dotnet-service/docs/index.md"
+      source_file    = "${path.module}/software_templates/dotnet-service/docs/index.md"
       commit_message = "Sync .NET service template docs index"
     }
     "docs/template-usage.md" = {
-      source_file    = "${path.module}/templates/dotnet-service/docs/template-usage.md"
+      source_file    = "${path.module}/software_templates/dotnet-service/docs/template-usage.md"
       commit_message = "Sync .NET service template usage guide"
     }
     "mkdocs.yml" = {
-      source_file    = "${path.module}/templates/dotnet-service/mkdocs.yml"
+      source_file    = "${path.module}/software_templates/dotnet-service/mkdocs.yml"
       commit_message = "Sync .NET service template mkdocs configuration"
     }
   } : {}
@@ -75,7 +75,7 @@ locals {
     {
       # Backstage root catalog-info remains templated
       "catalog-info.yaml" = {
-        source_file      = "${path.module}/templates/dotnet-service/catalog-info.yaml.tpl"
+        source_file      = "${path.module}/software_templates/dotnet-service/catalog-info.yaml.tpl"
         commit_message   = "Add .NET service template catalog-info.yaml for Backstage"
         use_templatefile = true
         template_vars = {
@@ -85,7 +85,7 @@ locals {
       }
 
       "README.md" = {
-        source_file      = "${path.module}/templates/dotnet-service/README.md"
+        source_file      = "${path.module}/software_templates/dotnet-service/README.md"
         commit_message   = "Add .NET service template README"
         use_templatefile = false
         template_vars    = {}

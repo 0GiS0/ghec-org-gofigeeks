@@ -11,7 +11,7 @@ resource "github_repository_file" "generic_template_codeowners" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/.github/CODEOWNERS"
-  content             = file("${path.module}/templates/common/CODEOWNERS.tpl")
+  content             = file("${path.module}/software_templates/common/CODEOWNERS.tpl")
   commit_message      = "Add generic skeleton CODEOWNERS"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -30,7 +30,7 @@ resource "github_repository_file" "generic_template_mkdocs" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/mkdocs.yml"
-  content             = file("${path.module}/templates/common/mkdocs.yml.tpl")
+  content             = file("${path.module}/software_templates/common/mkdocs.yml.tpl")
   commit_message      = "Add generic skeleton MkDocs configuration"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -49,7 +49,7 @@ resource "github_repository_file" "generic_template_docs_index" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/docs/index.md"
-  content             = file("${path.module}/templates/common/docs/index.md.tpl")
+  content             = file("${path.module}/software_templates/common/docs/index.md.tpl")
   commit_message      = "Add generic skeleton documentation index"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -67,7 +67,7 @@ resource "github_repository_file" "generic_template_docs_architecture" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/docs/architecture.md"
-  content             = file("${path.module}/templates/common/docs/architecture.md.tpl")
+  content             = file("${path.module}/software_templates/common/docs/architecture.md.tpl")
   commit_message      = "Add generic skeleton architecture documentation"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -85,7 +85,7 @@ resource "github_repository_file" "generic_template_docs_contributing" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = "skeleton/docs/contributing.md"
-  content             = file("${path.module}/templates/common/docs/contributing.md.tpl")
+  content             = file("${path.module}/software_templates/common/docs/contributing.md.tpl")
   commit_message      = "Add generic skeleton contributing documentation"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
@@ -104,7 +104,7 @@ resource "github_repository_file" "generic_template_dependabot" {
   repository          = github_repository.templates[each.key].name
   branch              = "main"
   file                = ".github/dependabot.yml"
-  content             = file("${path.module}/templates/common/docs/.github/dependabot.yml")
+  content             = file("${path.module}/software_templates/common/docs/.github/dependabot.yml")
   commit_message      = "Add Dependabot configuration for GitHub Actions dependencies"
   commit_author       = "Terraform"
   commit_email        = "terraform@${var.github_organization}.com"
