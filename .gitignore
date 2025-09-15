@@ -10,6 +10,7 @@
 *.tfstate
 *.tfstate.*
 terraform.tfvars
+terraform.auto.tfvars
 .terraform.tfstate.lock.info
 
 # Terraform plan files

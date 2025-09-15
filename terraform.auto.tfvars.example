@@ -1,0 +1,58 @@
+############################################################
+# Ejemplo de archivo terraform.tfvars
+# Copia este archivo a `terraform.tfvars` y reemplaza los valores
+# Basado en las variables actualmente usadas en el proyecto.
+############################################################
+
+# Organización de GitHub
+github_organization               = "your-github-org"
+github_organization_billing_email = "billing@your-org.example"
+
+# Autenticación con GitHub App (todas son strings en variables.tf)
+github_app_id              = "123456"    # ID de la GitHub App
+github_app_installation_id = "987654321" # Installation ID de la App en la organización
+
+# Clave privada de la GitHub App (NO insertar la real en un commit)
+# Puedes exportar TF_VAR_github_app_private_key en lugar de ponerla aquí.
+github_app_private_key = <<-EOT
+-----BEGIN RSA PRIVATE KEY-----
+PON_AQUI_TU_CLAVE_PRIVADA_DE_LA_GITHUB_APP
+-----END RSA PRIVATE KEY-----
+EOT
+
+# Configuración de seguridad por defecto
+default_security_configuration_name  = "GitHub recommended"
+default_security_configuration_scope = "all" # opciones válidas: all | none | public | private_and_internal
+
+# Flags / Toggles
+manage_workflow_files           = true  # Gestionar workflows en repos plantillas
+enable_codespaces_org_access    = true  # Gestionar acceso global a Codespaces
+custom_properties_non_fatal_404 = false # false = falla en 404; true = solo warning
+
+# Equipos (solo los definidos actualmente en el tfvars real)
+parent_team_name = "canary-trips"
+
+platform_team_maintainers = [
+  "platform-lead",
+  "infra-admin"
+]
+
+template_approvers_maintainers = [
+  "template-approver-lead",
+  "senior-developer"
+]
+
+security_team_members = [
+  "security-engineer-1",
+  "security-lead"
+]
+
+read_only_team_members = [
+  "auditor-1",
+  "stakeholder-1"
+]
+
+developers_team_maintainers = [
+  "dev-lead",
+  "tech-lead"
+]
