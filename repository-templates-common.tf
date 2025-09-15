@@ -128,12 +128,27 @@ resource "github_repository_file" "required_wf_files" {
   for_each   = { for f in local.required_wf_files : f => f } # map file_path -> file_path
   repository = github_repository.required_workflows.name
 
-  # destino en el repo: quitar el prefijo local "required_workflows/"
-  file = replace(each.value, "required_workflows/", "")
+  # destino en el repo: quitar el prefijo local "required_workflows/" y si el archivo
+  # termina en .tpl, remover la extensión para subir el archivo renderizado (README.md)
+  file = (
+    endswith(replace(each.value, "required_workflows/", ""), ".tpl") ?
+    replace(replace(each.value, "required_workflows/", ""), ".tpl", "") :
+    replace(each.value, "required_workflows/", "")
+  )
 
-  # contenido leído del archivo local
-  content = file("${path.module}/${each.value}")
+  # Si el archivo fuente termina en .tpl renderizamos con templatefile() pasando la org,
+  # si no, subimos el contenido literal con file().
+  content = (
+    endswith(each.value, ".tpl") ?
+    templatefile("${path.module}/${each.value}", { github_organization = var.github_organization }) :
+    file("${path.module}/${each.value}")
+  )
 
-  branch         = "main"
-  commit_message = "chore: add required workflow ${replace(each.value, "required_workflows/", "")}"
+  branch              = "main"
+  commit_message      = format("chore: add required workflow %s", replace(each.value, "required_workflows/", ""))
+  commit_author       = local.template_commit_config.commit_author
+  commit_email        = local.template_commit_config.commit_email
+  overwrite_on_create = true
+
+  depends_on = [github_repository.required_workflows]
 }
