@@ -116,34 +116,6 @@ resource "github_repository_custom_property" "template_team_owner" {
   ]
 }
 
-# Apply custom properties to main repositories (Backstage and reusable-workflows)
-resource "github_repository_custom_property" "backstage_service_tier" {
-  count = (var.enable_custom_properties && !var.custom_properties_non_fatal_404) ? 1 : 0
-
-  repository     = github_repository.backstage.name
-  property_name  = "service-tier"
-  property_type  = "single_select"
-  property_value = ["tier-1"]
-
-  depends_on = [
-    github_repository.backstage,
-    null_resource.wait_org_custom_properties
-  ]
-}
-
-resource "github_repository_custom_property" "backstage_team_owner" {
-  count = (var.enable_custom_properties && !var.custom_properties_non_fatal_404) ? 1 : 0
-
-  repository     = github_repository.backstage.name
-  property_name  = "team-owner"
-  property_type  = "string"
-  property_value = ["platform-team"]
-
-  depends_on = [
-    github_repository.backstage,
-    null_resource.wait_org_custom_properties
-  ]
-}
 
 resource "github_repository_custom_property" "reusable_workflows_service_tier" {
   count = (var.enable_custom_properties && !var.custom_properties_non_fatal_404) ? 1 : 0

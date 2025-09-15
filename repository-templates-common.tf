@@ -28,38 +28,6 @@ resource "github_repository_file" "codeowners" {
   depends_on = [github_repository.templates]
 }
 
-# CODEOWNERS file for Backstage repository
-resource "github_repository_file" "backstage_codeowners" {
-  repository = github_repository.backstage.name
-  branch     = "main"
-  file       = ".github/CODEOWNERS"
-  content = templatefile("${path.module}/software_templates/CODEOWNERS-backstage.tpl", {
-    platform_team      = "@${github_team.platform.slug}"
-    template_approvers = "@${github_team.template_approvers.slug}"
-  })
-  commit_message      = "Add CODEOWNERS file for Backstage repository protection"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
-
-  depends_on = [github_repository.backstage]
-}
-
-# README file for Backstage repository with setup instructions
-resource "github_repository_file" "backstage_readme" {
-  repository = github_repository.backstage.name
-  branch     = "main"
-  file       = "README.md"
-  content = templatefile("${path.module}/software_templates/backstage-README.md.tpl", {
-    organization = var.github_organization
-  })
-  commit_message      = "Add README with Backstage setup instructions"
-  commit_author       = local.template_commit_config.commit_author
-  commit_email        = local.template_commit_config.commit_email
-  overwrite_on_create = true
-
-  depends_on = [github_repository.backstage]
-}
 
 # Reusable workflow file in the reusable-workflows repository
 resource "github_repository_file" "reusable_ci_workflow" {

@@ -39,46 +39,6 @@ resource "github_repository" "templates" {
   }
 }
 
-# Main Backstage IDP Repository
-resource "github_repository" "backstage" {
-  name        = var.backstage_repository.name
-  description = var.backstage_repository.description
-  visibility  = "private"
-  auto_init   = true
-
-  # Repository topics
-  topics = concat(var.backstage_repository.topics, local.common_topics)
-
-  # Regular repository settings (NOT a template)
-  is_template            = false
-  allow_merge_commit     = false
-  allow_squash_merge     = true
-  allow_rebase_merge     = false
-  delete_branch_on_merge = true
-  has_issues             = true
-  has_projects           = false
-  has_wiki               = false
-  has_downloads          = false
-  vulnerability_alerts   = true
-
-  # Security settings
-  security_and_analysis {
-    secret_scanning {
-      status = "enabled"
-    }
-    secret_scanning_push_protection {
-      status = "enabled"
-    }
-    advanced_security {
-      status = "enabled"
-    }
-  }
-
-  # Prevent delete
-  # lifecycle {
-  #   prevent_destroy = true
-  # }
-}
 
 # Reusable Workflows Repository
 resource "github_repository" "reusable_workflows" {
@@ -154,31 +114,6 @@ resource "github_team_repository" "read_only_pull" {
   permission = local.repository_permissions.read_only
 }
 
-# Backstage IDP Repository - Team permissions
-resource "github_team_repository" "backstage_platform_admin" {
-  team_id    = github_team.platform.id
-  repository = github_repository.backstage.name
-  permission = local.repository_permissions.platform_team
-}
-
-resource "github_team_repository" "backstage_template_approvers_maintain" {
-  team_id    = github_team.template_approvers.id
-  repository = github_repository.backstage.name
-  permission = local.repository_permissions.template_approvers
-}
-
-resource "github_team_repository" "backstage_security_pull" {
-  team_id    = github_team.security.id
-  repository = github_repository.backstage.name
-  permission = local.repository_permissions.security
-}
-
-resource "github_team_repository" "backstage_read_only_pull" {
-  team_id    = github_team.read_only.id
-  repository = github_repository.backstage.name
-  permission = local.repository_permissions.read_only
-}
-
 # Reusable Workflows Repository - Team permissions
 resource "github_team_repository" "reusable_workflows_platform_admin" {
   team_id    = github_team.platform.id
@@ -227,35 +162,6 @@ resource "github_branch_protection" "main" {
     dismiss_stale_reviews           = true
     require_code_owner_reviews      = true
     required_approving_review_count = 1
-    restrict_dismissals             = false
-  }
-
-  # Block force pushes
-  allows_force_pushes = false
-  allows_deletions    = false
-}
-
-# Branch protection rules for Backstage repository main branch
-resource "github_branch_protection" "backstage_main" {
-  repository_id  = github_repository.backstage.name
-  pattern        = "main"
-  enforce_admins = false
-
-  # Ensure CODEOWNERS/README are created before protection
-  depends_on = [
-    github_repository_file.backstage_codeowners,
-    github_repository_file.backstage_readme
-  ]
-
-  required_status_checks {
-    strict   = true
-    contexts = ["ci", "lint", "docs-build", "codeql"]
-  }
-
-  required_pull_request_reviews {
-    dismiss_stale_reviews           = true
-    require_code_owner_reviews      = true
-    required_approving_review_count = 2
     restrict_dismissals             = false
   }
 

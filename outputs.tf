@@ -87,21 +87,6 @@ output "team_memberships_summary" {
   }
 }
 
-# Backstage IDP repository information
-output "backstage_repository" {
-  description = "Backstage IDP repository information"
-  value = {
-    id          = github_repository.backstage.id
-    name        = github_repository.backstage.name
-    full_name   = github_repository.backstage.full_name
-    description = github_repository.backstage.description
-    url         = github_repository.backstage.html_url
-    clone_url   = github_repository.backstage.http_clone_url
-    ssh_url     = github_repository.backstage.ssh_clone_url
-    topics      = github_repository.backstage.topics
-    visibility  = github_repository.backstage.visibility
-  }
-}
 
 # Organization security settings
 output "organization_security_settings" {
