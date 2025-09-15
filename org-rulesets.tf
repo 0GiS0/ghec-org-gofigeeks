@@ -58,17 +58,7 @@ resource "github_organization_ruleset" "dotnet_ci_workflow" {
 
     repository_name {
       exclude = []
-      include = [
-        jsonencode(
-          {
-            name = "language"
-            property_values = [
-              "C#",
-            ]
-            source = "system"
-          }
-        ),
-      ]
+      include = ["~dotnet-*"]
     }
 
     ref_name {
