@@ -1,51 +1,132 @@
 ## 🚀 Quickstart: GHEC Org as Code
 
+<!-- Badges -->
+<p align="left">
+   <a href="https://terraform.io/"><img alt="Terraform" src="https://img.shields.io/badge/Terraform-%3E%3D1.6-623CE4?logo=terraform" /></a>
+   <a href="https://registry.terraform.io/providers/integrations/github/latest"><img alt="GitHub Provider" src="https://img.shields.io/badge/GitHub%20Provider-%3E%3D6.0-181717?logo=github" /></a>
+   <a href="https://github.com/0GiS0/ghec-org-as-code/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/0GiS0/ghec-org-as-code" /></a>
+   <a href="https://github.com/0GiS0/ghec-org-as-code/commits/main"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/0GiS0/ghec-org-as-code?logo=github" /></a>
+   <a href="https://github.com/0GiS0/ghec-org-as-code/network/dependencies"><img alt="Dependabot" src="https://img.shields.io/badge/Dependabot-enabled-success?logo=dependabot" /></a>
+</p>
+
 Configura tu organización de GitHub Enterprise Cloud con Terraform en minutos. Este repo crea equipos, repositorios plantilla y protecciones de rama.
+
+## 🏗️ Arquitectura del Sistema
+
+```mermaid
+graph TB
+    subgraph "🔧 Terraform Core"
+        TF[Terraform Engine]
+        TF --> GH[GitHub Provider]
+        TF --> NULL[null_resource Scripts]
+    end
+    
+    subgraph "🏢 GitHub Enterprise Cloud"
+        ORG[Organization Settings]
+        TEAMS[Teams Management]
+        REPOS[Template Repositories]
+        SECURITY[Security & Rulesets]
+        CODESPACES[Codespaces Access]
+        CUSTOM[Custom Properties]
+    end
+    
+    subgraph "🧪 Backstage Integration"
+        BACKSTAGE[Template Catalog]
+        SKELETONS[Project Skeletons]
+    end
+    
+    subgraph "🛠️ Custom Scripts"
+        SCRIPTS[Bash Scripts]
+        API[GitHub REST API]
+    end
+    
+    GH --> ORG
+    GH --> TEAMS
+    GH --> REPOS
+    GH --> SECURITY
+    
+    NULL --> SCRIPTS
+    SCRIPTS --> API
+    API --> CUSTOM
+    API --> CODESPACES
+    
+    BACKSTAGE --> REPOS
+    SKELETONS --> REPOS
+    
+    style TF fill:#623CE4,stroke:#333,stroke-width:2px,color:#fff
+    style GH fill:#181717,stroke:#333,stroke-width:2px,color:#fff
+    style ORG fill:#2ea043,stroke:#333,stroke-width:1px
+    style TEAMS fill:#2ea043,stroke:#333,stroke-width:1px
+    style REPOS fill:#2ea043,stroke:#333,stroke-width:1px
+    style SECURITY fill:#da3633,stroke:#333,stroke-width:1px
+    style BACKSTAGE fill:#9d4edd,stroke:#333,stroke-width:1px
+```
 
 ---
 
-## 🚀 Configuración Rápida
+## 🚀 Configuración Rápida (5 minutos)
 
-### 1. Script de configuración automática
+### ⚡ Opción 1: Setup Automático (Recomendado)
 
 ```bash
-# Ejecutar configuración inicial (recomendado)
+# 1. Clonar el repositorio
+git clone https://github.com/0GiS0/ghec-org-as-code.git
+cd ghec-org-as-code
+
+# 2. Ejecutar configuración guiada
 ./scripts/setup.sh
+
+# 3. Aplicar cambios a tu organización
+terraform plan    # 👀 Revisar cambios
+terraform apply   # ✅ Aplicar a GHEC
 ```
 
-### 2. Backend de Azure Storage (Recomendado para producción)
+### 🏢 Opción 2: Backend Azure (Producción)
+
+### 🏢 Opción 2: Backend Azure (Producción)
 
 ```bash
 # Configurar backend remoto con Azure Storage
 ./scripts/azure-backend.sh init
-
-# Ejecutar plan y aplicar cambios
 ./scripts/azure-backend.sh plan
 ./scripts/azure-backend.sh apply
 
-# Ver ayuda completa de comandos
+# Ver ayuda completa
 ./scripts/azure-backend.sh help
 ```
 
-### 3. Configuración manual (backend local)
+### ⚙️ Opción 3: Configuración Manual
+
+### ⚙️ Opción 3: Configuración Manual
 
 ```bash
-# 1. Copiar variables de entorno
+# 1. Configurar variables de entorno
 cp .env.sample .env
+nano .env  # Editar con tus credenciales
 
-# 2. Editar con tus credenciales
-nano .env
-
-# 3. Cargar variables
+# 2. Cargar variables e inicializar
 source scripts/load-env.sh
-
-# 4. Inicializar Terraform
 terraform init 
+
+# 3. Planificar y aplicar
 terraform plan
 terraform apply
 ```
 
-📚 **¿Primera vez?** Consulta la [Guía de Configuración Completa](docs/SETUP.md)
+> 📚 **¿Primera vez?** Consulta la [Guía de Configuración Completa](docs/SETUP.md)
+
+## 📋 Componentes del Proyecto
+
+| 🎯 Componente | 📝 Propósito | 📁 Archivos Clave |
+|---------------|--------------|-------------------|
+| 🏢 **Organización** | Configuración GHEC y seguridad | `main.tf`, `github-security-config.tf` |
+| 👥 **Equipos** | Gestión de teams y permisos | `teams.tf` |
+| 📦 **Repositorios** | Template repositories | `repository-template-*.tf` |
+| 🛡️ **Seguridad** | Rulesets y protecciones | `org-rulesets.tf` |
+| 🏷️ **Custom Properties** | Metadatos de repositorios | `custom_properties.tf` |
+| 💻 **Codespaces** | Acceso a dev environments | `codespaces.tf` |
+| 🧪 **Plantillas Backstage** | Esqueletos de proyectos | `software_templates/` |
+| 🛠️ **Scripts** | Integraciones personalizadas | `scripts/terraform-integration/` |
 
 ---
 

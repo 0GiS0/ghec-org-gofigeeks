@@ -9,7 +9,6 @@ resource "null_resource" "github_default_security_config" {
     organization  = var.github_organization
     config_name   = var.default_security_configuration_name
     config_scope  = var.default_security_configuration_scope
-    run_timestamp = timestamp()
   }
 
   provisioner "local-exec" {
@@ -41,6 +40,7 @@ output "github_default_security_config" {
     organization        = var.github_organization
     configuration_name  = var.default_security_configuration_name
     configuration_scope = var.default_security_configuration_scope
-    last_updated        = null_resource.github_default_security_config.triggers.run_timestamp
+    last_updated        = null
   }
 }
+
