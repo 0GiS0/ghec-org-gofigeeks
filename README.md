@@ -3,6 +3,7 @@
 <!-- Badges -->
 <p align="left">
    <a href="https://terraform.io/"><img alt="Terraform" src="https://img.shields.io/badge/Terraform-%3E%3D1.6-623CE4?logo=terraform" /></a>
+   <a href="https://app.terraform.io/"><img alt="Terraform Cloud" src="https://img.shields.io/badge/Terraform%20Cloud-Remote%20State-623CE4?logo=terraform" /></a>
    <a href="https://registry.terraform.io/providers/integrations/github/latest"><img alt="GitHub Provider" src="https://img.shields.io/badge/GitHub%20Provider-%3E%3D6.0-181717?logo=github" /></a>
    <a href="https://github.com/0GiS0/ghec-org-as-code/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/0GiS0/ghec-org-as-code" /></a>
    <a href="https://github.com/0GiS0/ghec-org-as-code/commits/main"><img alt="Last Commit" src="https://img.shields.io/github/last-commit/0GiS0/ghec-org-as-code?logo=github" /></a>
@@ -81,31 +82,24 @@ terraform plan    # 👀 Revisar cambios
 terraform apply   # ✅ Aplicar a GHEC
 ```
 
-### 🏢 Opción 2: Backend Azure (Producción)
-
-### 🏢 Opción 2: Backend Azure (Producción)
-
-```bash
-# Configurar backend remoto con Azure Storage
-./scripts/azure-backend.sh init
-./scripts/azure-backend.sh plan
-./scripts/azure-backend.sh apply
-
-# Ver ayuda completa
-./scripts/azure-backend.sh help
-```
-
-### ⚙️ Opción 3: Configuración Manual
-
-### ⚙️ Opción 3: Configuración Manual
+### ⚙️ Opción 2: Configuración Manual
 
 ```bash
 # 1. Configurar variables de entorno
 cp .env.sample .env
 nano .env  # Editar con tus credenciales
 
-# 2. Cargar variables e inicializar
+# 2. Cargar variables e inicializar (con Terraform Cloud)
 source scripts/load-env.sh
+terraform init 
+
+# 3. Planificar y aplicar
+terraform plan
+terraform apply
+```
+
+> 📚 **¿Primera vez?** Consulta la [Guía de Configuración Completa](docs/SETUP.md)  
+> ☁️ **Estado remoto**: Este proyecto usa **Terraform Cloud** para gestionar el estado de forma segura
 terraform init 
 
 # 3. Planificar y aplicar
@@ -289,7 +283,7 @@ terraform apply
 
 Durante el `apply`, se realiza una llamada a la API de GitHub para configurar el acceso a Codespaces de la organización usando un token de instalación de la App. Los logs de diagnóstico se escriben en `/tmp/codespaces-org-access.log`.
 
-> Consejo: si usas backend remoto (Azure, S3, etc.), configura el bloque `backend` en `terraform.tf` antes de `init`.
+> ☁️ **Terraform Cloud**: Este proyecto está configurado para usar Terraform Cloud como backend remoto para gestionar el estado de forma segura.
 
 ---
 
