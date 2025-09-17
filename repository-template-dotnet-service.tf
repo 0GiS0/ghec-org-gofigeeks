@@ -41,7 +41,10 @@ locals {
       commit_message   = "Add templated .NET skeleton file ${replace(replace(f, "software_templates/dotnet-service/", ""), ".tpl", "")}"
       use_templatefile = true
       template_vars = {
-        github_organization = var.github_organization
+        github_organization           = var.github_organization
+        reusable_workflows_repository = var.reusable_workflows_repository.name
+        platform_team                 = github_team.platform.slug
+        template_approvers            = github_team.template_approvers.slug
       }
     }
   }

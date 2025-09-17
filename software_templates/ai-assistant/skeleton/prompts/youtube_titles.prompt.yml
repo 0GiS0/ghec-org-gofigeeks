@@ -9,6 +9,23 @@ messages:
       You are a creative assistant that generates catchy and engaging YouTube video titles. Your task is to come up with a list of unique and attention-grabbing titles that would appeal to a wide audience
   - role: user
     content: |
-      Please provide a list of 10 catchy YouTube video titles based on the following topic:
+      Please provide a list of 5 catchy YouTube video titles based on the following topic:
       {{ topic }}
       Make sure the titles are relevant to the topic and are designed to attract viewers.
+testData:
+  - topic: |
+      "Managing GitHub Models in your repository"
+    expected: |
+      1. 🚀 Managing GitHub Models in Your Repo 🧑‍💻 | Tips & Best Practices
+      2. 🗂️ How to Organize & Manage GitHub Models 📦 in Your Repository
+      3. 🤖 GitHub Models in Action ⚡ Learn How to Manage Them Like a Pro!
+      4. 📘 Managing GitHub Models 🛠️ | A Complete Guide for Developers
+      5. 🔐 Best Practices for Managing GitHub Models 🧩 Inside Your Repo
+
+evaluators:
+  - name: Output should contain 5 titles
+    string:
+      contains: "5"
+  - name: Each title should start with an emoji
+    string:
+      regex: "^(\\d+\\.\\s*\\p{Emoji})"

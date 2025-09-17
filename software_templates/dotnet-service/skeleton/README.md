@@ -1,8 +1,11 @@
 # BACKSTAGE_ENTITY_NAME
 
 [![🚀 CI](https://github.com/${{values.destination.owner}}/${{values.destination.repo}}/actions/workflows/ci.yml/badge.svg)](https://github.com/${{values.destination.owner}}/${{values.destination.repo}}/actions/workflows/ci.yml)
+[![🔎 Docker Image Analysis](https://github.com/${{values.destination.owner}}/${{values.destination.repo}}/actions/workflows/docker-analyze.yml/badge.svg)](https://github.com/${{values.destination.owner}}/${{values.destination.repo}}/actions/workflows/docker-analyze.yml)
 
 A modern ASP.NET Core Web API template featuring excursions management, built with .NET 9.0 and comprehensive testing.
+
+> ℹ️ Security Learning Aid: This template intentionally includes an insecure `Dockerfile` (single-stage, root user, hard‑coded secret, latest tags, no healthcheck) so the automated Docker Image Analysis workflow can surface findings. Treat it as a training artifact—do **not** deploy it to production. See “Hardening the Docker Image” below for remediation guidance.
 
 ## 🚀 Quick Start
 
@@ -56,6 +59,23 @@ This project includes a dev container configuration for consistent development e
 1. Open the project in Visual Studio Code
 2. Install the "Dev Containers" extension
 3. Run "Dev Containers: Reopen in Container"
+
+### 🔒 Docker Image Analysis & Hardening
+
+An automated workflow (`docker-analyze.yml`) builds the provided insecure image and scans it with Trivy plus SBOM generation. It is configured to **not fail the build** initially (`exit_on_findings: false`) so you can review issues first.
+
+Common issues intentionally present:
+
+| Category | Insecure Pattern | Why it's bad | How to fix |
+|----------|------------------|--------------|------------|
+| Base image | `mcr.microsoft.com/dotnet/sdk:latest` single-stage | Large attack surface & mutable tag | Use multi-stage: sdk for build, aspnet runtime for final. Pin digest or minor version. |
+| Privilege | Runs as root | Increases impact of compromise | Add a non-root user and `USER` instruction. |
+| Secrets | `ARG FAKE_API_KEY` baked into image | Exposed in layers/history | Use runtime secrets / env injection (not in image). |
+| Health | No `HEALTHCHECK` | Orchestrator can't detect failure | Add a lightweight `/health` probe. |
+| Build context | `COPY . /app` | Copies unnecessary files | Use a `.dockerignore` and copy only needed project files. |
+| Startup | `dotnet watch run` | Dev tool in prod image | Publish (`dotnet publish`) and run compiled DLL. |
+
+To harden, create a new `Dockerfile.secure` (multi-stage) and update the workflow input `dockerfile: Dockerfile.secure`, then set `exit_on_findings: true` once clean.
 
 ## 📋 API Endpoints
 

@@ -1,0 +1,190 @@
+name: 🔎🐛🐳 Analyze Docker Images
+
+on:
+  workflow_call:
+    inputs:
+      dockerfile:
+        description: Path to the Dockerfile (e.g. Dockerfile or dir/Dockerfile)
+        required: true
+        type: string
+      context:
+        description: Build context directory
+        required: false
+        default: .
+        type: string
+      image_name:
+        description: Local image tag to build and scan
+        required: false
+        default: image-to-analyze
+        type: string
+      severity:
+        description: Severities to evaluate (comma separated)
+        required: false
+        default: CRITICAL,HIGH,MEDIUM,LOW
+        type: string
+      vuln_types:
+        description: Vulnerability types to scan (os,library)
+        required: false
+        default: os,library
+        type: string
+      ignore_unfixed:
+        description: Ignore vulnerabilities without a fix
+        required: false
+        default: true
+        type: boolean
+      exit_on_findings:
+        description: Fail if findings of selected severities are present
+        required: false
+        default: true
+        type: boolean
+      generate_sbom:
+        description: Generate CycloneDX SBOM
+        required: false
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+  security-events: write
+
+concurrency:
+  group: analyze-docker-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  analyze:
+    name: 🔍 Analyze Image
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: ${{ inputs.image_name }}
+      TRIVY_CACHE_DIR: .trivycache
+      TRIVY_SEVERITY: ${{ inputs.severity }}
+      TRIVY_VULN_TYPES: ${{ inputs.vuln_types }}
+      IGNORE_UNFIXED: ${{ inputs.ignore_unfixed }}
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: ✅ Validate Dockerfile exists
+        shell: bash
+        run: |
+          if [ ! -f "${{ inputs.dockerfile }}" ]; then
+            echo "ERROR: Dockerfile not found: ${{ inputs.dockerfile }}" >&2
+            exit 1
+          fi
+
+      - name: 🧱 Setup Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: ♻️ Cache build layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: buildx-${{ runner.os }}-${{ hashFiles(inputs.dockerfile) }}
+          restore-keys: |
+            buildx-${{ runner.os }}-
+
+      - name: 🏗️ Build image (cached)
+        shell: bash
+        run: |
+          docker buildx build \
+            --progress plain \
+            --cache-from type=local,src=/tmp/.buildx-cache \
+            --cache-to type=local,dest=/tmp/.buildx-cache-new,mode=max \
+            -f "${{ inputs.dockerfile }}" \
+            -t "${IMAGE_NAME}" \
+            --label org.opencontainers.image.source=${{ github.repository }} \
+            --label org.opencontainers.image.revision=${{ github.sha }} \
+            "${{ inputs.context }}"
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+      - name: 📏 Image size & layers
+        shell: bash
+        run: |
+          docker image inspect "${IMAGE_NAME}" --format='Size (bytes): {{.Size}}'
+          echo "Layers:"
+          docker history --no-trunc "${IMAGE_NAME}"
+
+      - name: 🗃️ Cache Trivy DB
+        uses: actions/cache@v4
+        with:
+          path: .trivycache
+          key: trivy-${{ runner.os }}-${{ hashFiles(inputs.dockerfile) }}
+          restore-keys: |
+            trivy-${{ runner.os }}-
+
+      - name: 🔧 Determine exit code
+        id: exitcode
+        shell: bash
+        run: |
+          if [ "${{ inputs.exit_on_findings }}" = "true" ]; then
+            echo "code=1" >> "$GITHUB_OUTPUT"
+          else
+            echo "code=0" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 🔎 Trivy scan (table)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: "${{ env.IMAGE_NAME }}"
+          format: table
+          exit-code: "${{ steps.exitcode.outputs.code }}"
+          ignore-unfixed: ${{ env.IGNORE_UNFIXED }}
+          vuln-type: "${{ env.TRIVY_VULN_TYPES }}"
+          severity: "${{ env.TRIVY_SEVERITY }}"
+
+      - name: 📄 Trivy scan (SARIF)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: "${{ env.IMAGE_NAME }}"
+          format: sarif
+          output: trivy-results.sarif
+          exit-code: "0"
+          ignore-unfixed: ${{ env.IGNORE_UNFIXED }}
+          vuln-type: "${{ env.TRIVY_VULN_TYPES }}"
+          severity: "${{ env.TRIVY_SEVERITY }}"
+
+      - name: 📤 Upload SARIF
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-results.sarif
+
+      - name: 🧬 Generate SBOM (CycloneDX)
+        if: ${{ inputs.generate_sbom == true }}
+        shell: bash
+        run: |
+          docker run --rm \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            anchore/syft:latest "${IMAGE_NAME}" -o cyclonedx-json > sbom-cdx.json
+          echo "Generated SBOM: sbom-cdx.json"
+          ls -lh sbom-cdx.json
+
+      - name: 📦 Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-artifacts
+          path: |
+            trivy-results.sarif
+            sbom-cdx.json
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: 🧾 Summary
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "### Docker Image Analysis Report 🚀"
+            echo "* Image: ${IMAGE_NAME}"
+            echo "* Dockerfile: ${{ inputs.dockerfile }}"
+            echo "* Severities: ${{ inputs.severity }}"
+            echo "* Ignore unfixed: ${{ inputs.ignore_unfixed }}"
+            if [ -f sbom-cdx.json ]; then
+              echo "* SBOM: generated (CycloneDX)"
+            else
+              echo "* SBOM: not generated"
+            fi
+            echo ""
+            echo "Artifacts contain full scan details."
+          } >> "$GITHUB_STEP_SUMMARY"
