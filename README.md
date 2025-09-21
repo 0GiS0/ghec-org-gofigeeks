@@ -103,6 +103,10 @@ terraform apply
 terraform init 
 
 # 3. Planificar y aplicar
+
+Para poder planificar y aplicar los cambios en Terraform solamente tienes que lanzar estos dos comandos:
+
+```
 terraform plan
 terraform apply
 ```
